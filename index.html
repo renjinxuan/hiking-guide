@@ -1,0 +1,3694 @@
+<!DOCTYPE html>
+<html data-page-node-id="FVDavA1iHzZDSsZflsfUcs" lang="zh-CN">
+<head data-page-node-id="bhw8QadNqhD1Y9Ze3zYsJs">
+<meta data-page-node-id="AZPKMmOOlL843g84lxvkZV" charset="UTF-8">
+<meta data-page-node-id="sIjDRvyerff1fmeEqxqN7W" content="width=device-width, initial-scale=1.0" name="viewport">
+<title data-page-node-id="IV5tfAIagU69xuSsz22TRN" data-pnid-children="0K6bKpRcRWsf2fu2vMM5Mh">徒步图鉴 · 交互原型</title>
+<style data-page-node-id="2hL3IBtINETEQjaLBR4dRw" data-pnid-children="pkDIG5B71TgGI1RmJzd7kV">
+:root{
+  --bg:#F7F8F5; --card:#FFFFFF; --ink:#16301F; --ink2:#3D4A41;
+  --gray:#86928B; --gray2:#A8B2AC;
+  --green:#22A06B; --green2:#1D9E75; --deep:#0F6E56;
+  --cardgreen1:#1E5C41; --cardgreen2:#2E7D5B;
+  --gold:#B8860B; --gold2:#D8A95A;
+  --line:#E7E5DE; --shadow:0 8px 28px rgba(22,48,31,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%}
+body{
+  font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  background:#EDECE6; color:var(--ink);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+.caption{font-size:12px;color:#9aa39d;letter-spacing:.12em}
+.caption b{color:#6f7a73;letter-spacing:.05em}
+
+/* ============ 手机框 ============ */
+.phone{
+  width:390px;height:844px;background:var(--bg);border-radius:52px;position:relative;
+  box-shadow:0 24px 70px rgba(22,48,31,.28),0 0 0 10px #1c1f1d,0 0 0 12px #3a3f3b;
+  overflow:hidden;
+}
+.screen{position:absolute;inset:0;overflow:hidden}
+.statusbar{
+  position:absolute;top:0;left:0;right:0;height:52px;z-index:50;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:0 26px 6px;pointer-events:none;
+}
+.statusbar .time{font-size:15px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+.statusbar .icons{display:flex;align-items:center;gap:5px}
+.sb-i{display:inline-block}
+.page{
+  position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;
+  transition:transform .38s cubic-bezier(.32,.72,.24,1),opacity .38s;
+}
+.page.off-left{transform:translateX(-100%)}
+.page.off-right{transform:translateX(100%)}
+.page.behind-left{transform:translateX(-26%) scale(.96);opacity:.6}
+.page.hidden{display:none}
+
+/* ============ 通用 ============ */
+.btn-green{
+  background:linear-gradient(135deg,#2AAE74,#1D9E75);color:#fff;border:none;cursor:pointer;
+  border-radius:16px;font-size:17px;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 10px 22px rgba(29,158,117,.32);transition:transform .12s, box-shadow .12s;
+  display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;
+}
+.btn-green:active{transform:scale(.965);box-shadow:0 4px 10px rgba(29,158,117,.3)}
+.btn-ghost{
+  background:transparent;border:1.5px solid var(--line);color:var(--ink2);border-radius:14px;
+  font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .12s;
+}
+.btn-ghost:active{transform:scale(.96)}
+.chip{
+  display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:8px;
+  background:#F1F3EE;color:var(--ink2);font-weight:500;
+}
+.chip.green{background:#E3F2EA;color:var(--deep)}
+.chip.gold{background:#F8EFDB;color:var(--gold)}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;
+  box-shadow:0 2px 8px rgba(22,48,31,.06);transition:transform .12s;
+}
+.back-btn:active{transform:scale(.9)}
+
+/* ============ 开屏 / 登录 ============ */
+#page-splash{background:var(--bg);padding:0 26px;display:flex;flex-direction:column;z-index:40}
+.splash-top{display:flex;align-items:center;gap:12px;margin-top:78px}
+.logo-badge{
+  width:52px;height:52px;border-radius:15px;background:linear-gradient(140deg,#2AAE74,#178A5C);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(34,160,107,.35);
+}
+.brand-name{font-size:21px;font-weight:700;letter-spacing:.06em;line-height:1.15}
+.brand-en{font-size:10px;letter-spacing:.34em;color:var(--gray);font-weight:600}
+.splash-mid{margin-top:44px;flex:1;display:flex;flex-direction:column}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--green2);font-size:14px;font-weight:600;letter-spacing:.04em}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--green2)}
+.splash-title{font-size:41px;font-weight:800;line-height:1.24;letter-spacing:.01em;margin-top:16px}
+.splash-sub{color:var(--gray);font-size:15px;margin-top:12px;letter-spacing:.02em}
+.splash-art{margin-top:auto;height:330px;position:relative}
+.splash-art svg{width:100%;height:100%}
+.art-cloud{position:absolute;border-radius:50%;background:#fff;opacity:.7;filter:blur(1px)}
+.splash-bottom{padding:18px 0 30px}
+.btn-wechat{height:56px;font-size:17px;border-radius:18px;width:100%}
+.btn-wechat .wx{width:26px;height:26px}
+.guest-link{
+  text-align:center;margin-top:16px;font-size:14.5px;color:var(--ink2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:5px;font-weight:500;
+}
+.guest-link .arr{transition:transform .2s}
+.guest-link:hover .arr{transform:translateX(4px)}
+.legal{text-align:center;margin-top:14px;font-size:11px;color:var(--gray2)}
+.legal span{color:var(--green2)}
+.fade-up{opacity:0;transform:translateY(22px);animation:fadeUp .7s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ============ 主框架 / TabBar ============ */
+.tabbar{
+  position:absolute;bottom:0;left:0;right:0;height:86px;z-index:30;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  display:flex;align-items:flex-start;justify-content:space-around;padding-top:10px;
+}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;width:84px;cursor:pointer;color:var(--gray2);transition:color .2s}
+.tab-item .t-label{font-size:11.5px;font-weight:500}
+.tab-item.active{color:var(--deep)}
+.tab-item.center{width:76px}
+.tab-fab{
+  width:60px;height:60px;border-radius:50%;margin-top:-32px;
+  background:linear-gradient(140deg,#2AAE74,#178A5C);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 10px 22px rgba(29,158,117,.4),0 0 0 6px var(--bg);
+  transition:transform .15s;
+}
+.tab-fab:active{transform:scale(.9)}
+.tabbar .home-indicator{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4px;border-radius:2px;background:#1c1f1d;opacity:.85}
+.page-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding-bottom:110px;scrollbar-width:none}
+.page-body::-webkit-scrollbar{display:none}
+
+/* ============ 路线页 ============ */
+.route-header{padding:64px 22px 6px;display:flex;align-items:center;justify-content:space-between}
+.route-header h1{font-size:30px;font-weight:800;letter-spacing:.02em}
+.map-mode-btn{
+  display:flex;align-items:center;gap:5px;border:1.5px solid var(--green2);color:var(--deep);
+  background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+}
+.search-row{display:flex;gap:10px;padding:10px 22px 4px}
+.search-box{
+  flex:1;height:46px;background:#fff;border:1px solid var(--line);border-radius:14px;
+  display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--gray2);font-size:14px;cursor:pointer;
+}
+.plus-btn{
+  width:46px;height:46px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(140deg,#2AAE74,#178A5C);color:#fff;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(29,158,117,.3);
+  transition:transform .12s;font-family:inherit;
+}
+.plus-btn:active{transform:scale(.9)}
+.banner-row{display:flex;gap:10px;padding:14px 22px 4px}
+.banner-card{
+  flex:1;min-width:0;height:118px;border-radius:18px;position:relative;overflow:hidden;cursor:pointer;
+  color:#fff;transition:transform .15s;
+}
+.banner-card:active{transform:scale(.965)}
+.banner-card svg{position:absolute;inset:0;width:100%;height:100%}
+.banner-inner{position:relative;z-index:2;padding:14px 15px;height:100%;display:flex;flex-direction:column}
+.banner-tag{align-self:flex-start;font-size:10px;background:rgba(255,255,255,.22);backdrop-filter:blur(3px);padding:3px 8px;border-radius:7px;font-weight:600;letter-spacing:.05em}
+.banner-title{font-size:16.5px;font-weight:700;line-height:1.35;margin-top:9px;text-shadow:0 1px 6px rgba(0,0,0,.2)}
+.banner-sub{font-size:10.5px;opacity:.85;margin-top:auto}
+.route-tabs{display:flex;gap:20px;padding:16px 22px 8px;font-size:15px;color:var(--gray)}
+.route-tabs .rt{cursor:pointer;position:relative;padding-bottom:7px;font-weight:500;transition:color .2s}
+.route-tabs .rt.active{color:var(--ink);font-weight:700}
+.route-tabs .rt.active::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:22px;height:3.5px;border-radius:2px;background:var(--green2)}
+.route-item{
+  margin:10px 22px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;
+  display:flex;gap:13px;cursor:pointer;transition:transform .15s,box-shadow .15s;
+}
+.route-item:active{transform:scale(.975)}
+.route-thumb{width:96px;height:96px;border-radius:13px;overflow:hidden;flex:none;position:relative}
+.route-thumb svg{width:100%;height:100%}
+.diff-tag{position:absolute;top:6px;left:6px;font-size:10px;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;font-weight:600;color:var(--deep)}
+.route-info{flex:1;min-width:0;display:flex;flex-direction:column}
+.route-name{font-size:16px;font-weight:700;letter-spacing:.01em}
+.route-meta{display:flex;flex-wrap:wrap;gap:9px;font-size:11.5px;color:var(--gray);margin-top:6px}
+.route-meta b{color:var(--ink2);font-weight:600}
+.route-hot{font-size:11px;color:var(--gray2);margin-top:4px}
+.route-hot-row{display:flex;align-items:center;gap:8px;margin-top:4px}
+.route-hot-row .route-hot{margin-top:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 点赞 / 评论 */
+.social-bar{display:flex;align-items:center;gap:6px;flex:none}
+.soc-btn{
+  display:flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:12px;
+  border:1px solid var(--line);background:#fff;color:var(--gray);font-family:inherit;
+  font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.soc-btn span{line-height:1}
+.soc-btn:active{transform:scale(.94)}
+.soc-btn.like.on{border-color:#F0C9C6;background:#FDF2F1;color:#CF453F}
+.soc-btn.like.on svg{fill:#CF453F;stroke:#CF453F}
+.feed-social{padding:9px 0 0;margin-top:9px;border-top:1px solid #F2F1EC;display:flex}
+.feed-social .soc-btn{height:26px;font-size:11.5px}
+
+/* 评论抽屉 */
+.sheet-mask{
+  position:absolute;inset:0;z-index:70;background:rgba(22,48,31,.34);
+  opacity:0;transition:opacity .24s;display:flex;align-items:flex-end;
+}
+.sheet-mask.show{opacity:1}
+.sheet{
+  width:100%;max-height:72%;background:#fff;border-radius:22px 22px 0 0;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,.24,1);
+  display:flex;flex-direction:column;padding-bottom:22px;
+}
+.sheet-mask.show .sheet{transform:translateY(0)}
+.sheet-grip{width:36px;height:4px;border-radius:2px;background:#E2E0D8;margin:9px auto 0;flex:none}
+.sheet-head{
+  display:flex;align-items:center;padding:12px 18px 10px;flex:none;
+  border-bottom:1px solid #F2F1EC;
+}
+.sheet-head b{font-size:14.5px;font-weight:700}
+.sheet-head .n{font-size:11.5px;color:var(--gray);margin-left:6px;font-weight:500}
+.sheet-x{
+  margin-left:auto;background:none;border:none;font-family:inherit;font-size:12.5px;
+  color:var(--gray);cursor:pointer;padding:4px;
+}
+.sheet-list{flex:1;overflow-y:auto;padding:4px 18px 6px;min-height:120px}
+.cmt-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #F7F6F2}
+.cmt-item:last-child{border-bottom:none}
+.cmt-av{
+  width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#fff;background:#7E9C88;
+}
+.cmt-av.me{background:var(--green2)}
+.cmt-main{min-width:0;flex:1}
+.cmt-top{display:flex;align-items:baseline;gap:7px}
+.cmt-u{font-size:12px;font-weight:700;color:var(--ink2)}
+.cmt-t{font-size:10px;color:var(--gray2)}
+.cmt-c{font-size:13px;line-height:1.6;color:var(--ink2);margin-top:3px}
+.cmt-empty{text-align:center;font-size:12px;color:var(--gray2);padding:38px 0}
+.sheet-bar{
+  display:flex;align-items:center;gap:9px;padding:10px 18px 0;flex:none;
+}
+.sheet-bar input{
+  flex:1;min-width:0;height:40px;border-radius:20px;border:1.5px solid var(--line);
+  background:#F7F8F5;padding:0 15px;font-family:inherit;font-size:13px;color:var(--ink);
+  outline:none;user-select:text;
+}
+.sheet-bar input:focus{border-color:var(--green2);background:#fff}
+.sheet-bar button{
+  flex:none;height:40px;padding:0 18px;border-radius:20px;border:none;cursor:pointer;
+  background:var(--green2);color:#fff;font-family:inherit;font-size:13px;font-weight:700;
+}
+.sheet-bar button:active{transform:scale(.96)}
+.sheet-bar button:disabled{background:#D5DBD7;cursor:default}
+/* 详情页互动条 */
+.detail-social{
+  display:flex;align-items:center;gap:10px;padding:12px 20px 0;
+}
+.detail-social .soc-btn{height:30px;padding:0 13px;font-size:12px;border-radius:15px}
+.detail-social .sec-line{flex:1}
+.detail-social-note{font-size:11.5px;color:var(--gray2)}
+.route-tags{display:flex;gap:6px;margin-top:auto;padding-top:6px}
+
+/* ============ 路线详情 ============ */
+.detail-header{
+  padding:58px 16px 10px;display:flex;align-items:center;gap:12px;background:var(--bg);position:relative;z-index:5;
+}
+.detail-header h2{flex:1;text-align:center;font-size:17px;font-weight:700}
+.fav-btn{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--gray);cursor:pointer;background:none;border:none;font-family:inherit}
+.map-wrap{position:relative;height:316px;margin:2px 14px 0;border-radius:16px;overflow:hidden;background:#EEF0E8}
+.map-wrap svg{width:100%;height:100%;display:block}
+.map-legend{
+  position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.94);border-radius:10px;
+  padding:7px 11px;font-size:11px;color:var(--ink2);display:flex;gap:12px;box-shadow:0 3px 10px rgba(22,48,31,.1);
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:0}
+.map-marker-label{font-size:11px;font-weight:600;fill:var(--ink2)}
+.compass{
+  position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 10px rgba(22,48,31,.12);
+}
+.stat-row{
+  margin:14px 14px 0;background:#fff;border:1px solid var(--line);border-radius:16px;
+  display:flex;padding:16px 6px;
+}
+.stat-cell{flex:1;text-align:center;border-right:1px solid var(--line)}
+.stat-cell:last-child{border-right:none}
+.stat-v{font-size:21px;font-weight:800;letter-spacing:.01em}
+.stat-v small{font-size:12px;font-weight:600;color:var(--ink2)}
+.stat-k{font-size:11px;color:var(--gray);margin-top:3px}
+.stat-cell .easy{color:var(--green2)}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;padding:20px 20px 4px}
+.sec-title h3{font-size:17px;font-weight:800}
+.sec-title .more{font-size:12px;color:var(--gray);cursor:pointer}
+.photo-strip{display:flex;gap:9px;padding:10px 20px 0;overflow-x:auto;scrollbar-width:none}
+.photo-strip::-webkit-scrollbar{display:none}
+.strip-item{flex:none;width:118px;height:118px;border-radius:13px;overflow:hidden;position:relative;cursor:pointer;transition:transform .15s}
+.strip-item:active{transform:scale(.94)}
+.strip-item img{width:100%;height:100%;object-fit:cover}
+.ai-badge{
+  position:absolute;top:7px;right:7px;background:rgba(22,48,31,.72);color:#fff;backdrop-filter:blur(2px);
+  font-size:10px;padding:3px 8px;border-radius:7px;display:flex;align-items:center;gap:3px;font-weight:600;
+}
+.detail-cta{padding:18px 16px 26px;margin-top:auto}
+.detail-cta .btn-green{height:54px;font-size:16.5px}
+
+/* ============ 出发页 ============ */
+.depart-header{padding:64px 22px 14px}
+.depart-header h1{font-size:30px;font-weight:800}
+.depart-header p{color:var(--gray);font-size:14px;margin-top:5px}
+.hero-card{
+  margin:6px 22px 0;height:196px;border-radius:22px;position:relative;overflow:hidden;cursor:pointer;
+  color:#fff;background:linear-gradient(140deg,#1E5C41,#2E7D5B 62%,#37876A);
+  box-shadow:0 14px 30px rgba(30,92,65,.35);transition:transform .16s;
+}
+.hero-card:active{transform:scale(.975)}
+.hero-card svg.bgart{position:absolute;inset:0;width:100%;height:100%}
+.hero-inner{position:relative;z-index:2;padding:22px;height:100%;display:flex;flex-direction:column}
+.hero-icon{
+  width:52px;height:52px;border-radius:15px;background:rgba(255,255,255,.16);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3);
+}
+.hero-title{font-size:23px;font-weight:800;margin-top:14px;letter-spacing:.02em}
+.hero-sub{font-size:13px;opacity:.88;margin-top:5px}
+.hero-arrow{
+  position:absolute;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(0,0,0,.18);
+  transition:transform .2s;
+}
+.hero-card:hover .hero-arrow{transform:translateX(5px)}
+.entry-row{display:flex;gap:12px;margin:14px 22px 0}
+.entry-card{
+  flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 15px;cursor:pointer;
+  transition:transform .15s, box-shadow .15s;
+}
+.entry-card:active{transform:scale(.96)}
+.entry-icon{width:38px;height:38px;border-radius:12px;background:#EAF4EE;color:var(--deep);display:flex;align-items:center;justify-content:center}
+.entry-title{font-size:15.5px;font-weight:700;margin-top:11px}
+.entry-sub{font-size:11.5px;color:var(--gray);margin-top:4px;line-height:1.5}
+.recent-item{
+  margin:0 22px;padding:13px 2px;display:flex;align-items:center;gap:12px;cursor:pointer;
+  border-bottom:1px solid var(--line);
+}
+.recent-item:last-child{border-bottom:none}
+.recent-thumb{width:46px;height:46px;border-radius:11px;overflow:hidden;flex:none}
+.recent-thumb img{width:100%;height:100%;object-fit:cover}
+.recent-info{flex:1;min-width:0}
+.recent-name{font-size:14.5px;font-weight:600}
+.recent-meta{font-size:11.5px;color:var(--gray);margin-top:3px}
+.recent-arrow{color:var(--gray2)}
+.empty-recent{padding:22px;text-align:center;color:var(--gray2);font-size:13px}
+
+/* ============ 我的照片 · 相册 ============ */
+.gp-wrap{padding-bottom:34px}
+.gp-sum{padding:2px 20px 0;font-size:12.5px;color:var(--gray);display:flex;align-items:baseline;gap:5px}
+.gp-sum b{font-size:17px;color:var(--ink);font-weight:800}
+.gp-tabs{display:flex;gap:8px;padding:13px 20px 2px;overflow-x:auto;scrollbar-width:none}
+.gp-tabs::-webkit-scrollbar{display:none}
+.gp-tab{flex:none;font-size:12.5px;padding:6px 13px;border-radius:20px;background:#fff;
+  border:1px solid var(--line);color:var(--ink2);cursor:pointer;transition:all .16s}
+.gp-tab.on{background:var(--deep);border-color:var(--deep);color:#fff;font-weight:600}
+.gp-grid{columns:2;column-gap:9px;padding:12px 20px 0}
+.gp-item{break-inside:avoid;margin-bottom:9px;border-radius:13px;overflow:hidden;background:#fff;
+  border:1px solid var(--line);cursor:pointer;transition:transform .16s;box-shadow:0 2px 10px rgba(22,48,31,.05)}
+.gp-item:active{transform:scale(.975)}
+.gp-item img{width:100%;display:block;background:#EAEAE2}
+.gp-cap{padding:8px 10px 9px;display:flex;align-items:center;gap:6px}
+.gp-name{font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp-tag{flex:none;font-size:9px;padding:1.5px 5px;border-radius:4px;background:#EAF5EF;color:var(--deep);letter-spacing:.02em}
+.gp-date{font-size:9.5px;color:var(--gray2);margin-left:auto;flex:none;letter-spacing:.02em}
+
+/* ============ 照片详情 ============ */
+.pd-hero{margin:6px 14px 0;border-radius:16px;overflow:hidden;background:#0E1A13}
+.pd-hero img{width:100%;display:block}
+.pd-card{margin:14px 14px 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px}
+.pd-name{font-size:20px;font-weight:800;letter-spacing:.01em}
+.pd-en{font-size:9.5px;letter-spacing:.2em;color:var(--gray);margin-top:5px}
+.pd-rows{margin-top:13px;border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:9px}
+.pd-row{display:flex;font-size:12.5px;line-height:1.5}
+.pd-row .k{color:var(--gray);width:62px;flex:none}
+.pd-row .v{color:var(--ink2);flex:1}
+.pd-acts{display:flex;gap:10px;margin:16px 14px 0}
+.pd-acts button{flex:1;height:48px;font-size:14.5px}
+
+/* ============ 选照片 ============ */
+.picker-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 20px}
+.picker-item{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:pointer}
+.picker-item img{width:100%;height:100%;object-fit:cover}
+.picker-check{
+  position:absolute;top:7px;right:7px;width:23px;height:23px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.95);background:rgba(22,48,31,.25);
+  display:flex;align-items:center;justify-content:center;transition:all .18s;
+}
+.picker-item.on .picker-check{background:var(--green2);border-color:#fff}
+.picker-check svg{opacity:0;transform:scale(.4);transition:all .18s}
+.picker-item.on .picker-check svg{opacity:1;transform:scale(1)}
+.picker-bar{
+  position:absolute;bottom:0;left:0;right:0;padding:14px 20px 28px;background:var(--bg);
+  border-top:1px solid var(--line);
+}
+.selected-tip{font-size:13px;color:var(--gray);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.selected-tip b{color:var(--deep)}
+
+/* ============ 选择成图效果 ============ */
+.effect-summary{
+  margin:10px 20px 0;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:13.5px;
+}
+.effect-summary .thumb-mini{width:34px;height:34px;border-radius:9px;overflow:hidden;flex:none}
+.effect-summary .thumb-mini img{width:100%;height:100%;object-fit:cover}
+.effect-summary .re{margin-left:auto;color:var(--green2);font-size:13px;cursor:pointer;font-weight:600;background:none;border:none;font-family:inherit}
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 20px 8px}
+.tpl-card{
+  background:#fff;border:2px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:border-color .18s, transform .15s;position:relative;
+}
+.tpl-card:active{transform:scale(.96)}
+.tpl-card.on{border-color:var(--green2);box-shadow:0 6px 18px rgba(29,158,117,.16)}
+.tpl-check{
+  position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--green2);
+  display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.4);transition:all .2s;z-index:3;
+}
+.tpl-card.on .tpl-check{opacity:1;transform:scale(1)}
+.tpl-preview{height:104px;position:relative;overflow:hidden}
+.tpl-preview svg{width:100%;height:100%;display:block}
+.tpl-body{padding:10px 12px 12px}
+.tpl-name-row{display:flex;align-items:center;justify-content:space-between}
+.tpl-name{font-size:14.5px;font-weight:700}
+.tpl-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px}
+.tpl-tag.free{background:#E3F2EA;color:var(--deep)}
+.tpl-tag.limited{background:#F8EFDB;color:var(--gold)}
+.tpl-desc{font-size:11px;color:var(--gray);margin-top:4px}
+.effect-note{text-align:center;font-size:11px;color:var(--gray2);padding:10px 30px 0}
+.effect-bar{position:absolute;bottom:0;left:0;right:0;padding:12px 20px 28px;background:var(--bg);border-top:1px solid var(--line)}
+.effect-bar .btn-green{height:52px;font-size:16.5px}
+
+/* ============ 生图设置（选模型 + 写提示词） ============ */
+.pp-sec{padding:18px 20px 0}
+.pp-sec-head{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.pp-sec-title{font-size:14px;font-weight:700;letter-spacing:.01em}
+.pp-sec-hint{font-size:11px;color:var(--gray2)}
+.pp-sec-more{margin-left:auto;font-size:11.5px;color:var(--green2);font-weight:600}
+/* 当前效果摘要 */
+.pp-cur{
+  margin:10px 20px 0;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:10px 12px;display:flex;align-items:center;gap:11px;
+}
+.pp-cur-ic{
+  width:40px;height:40px;border-radius:11px;flex:none;overflow:hidden;background:#EAF3EC;
+  display:flex;align-items:center;justify-content:center;
+}
+.pp-cur-ic svg{width:100%;height:100%;display:block}
+.pp-cur-txt{min-width:0}
+.pp-cur-name{font-size:14px;font-weight:700}
+.pp-cur-desc{font-size:11px;color:var(--gray);margin-top:2px}
+.pp-cur .re{margin-left:auto;flex:none;color:var(--green2);font-size:12.5px;font-weight:600;background:none;border:none;font-family:inherit;cursor:pointer}
+/* 模型列表 */
+.model-list{display:flex;flex-direction:column;gap:9px}
+.model-row{
+  background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;
+  display:flex;align-items:center;gap:11px;cursor:pointer;transition:border-color .16s,background .16s,transform .12s;
+}
+.model-row:active{transform:scale(.985)}
+.model-row.on{border-color:var(--green2);background:#F4FBF7}
+.model-logo{
+  width:32px;height:32px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:#fff;letter-spacing:-.02em;
+}
+.model-main{min-width:0;flex:1}
+.model-name{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:6px}
+.model-tag{font-size:9.5px;font-weight:600;padding:1.5px 5px;border-radius:5px;background:#F8EFDB;color:var(--gold);letter-spacing:.02em}
+.model-tag.free{background:#E3F2EA;color:var(--deep)}
+.model-sub{font-size:10.5px;color:var(--gray);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.model-radio{
+  width:19px;height:19px;border-radius:50%;border:1.5px solid #D7DBD6;flex:none;
+  display:flex;align-items:center;justify-content:center;transition:all .16s;
+}
+.model-row.on .model-radio{border-color:var(--green2);background:var(--green2)}
+.model-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .16s}
+.model-row.on .model-radio::after{transform:scale(1)}
+/* 提示词 */
+.pp-box{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:11px 13px 9px}
+.pp-box:focus-within{border-color:var(--green2)}
+.pp-box textarea{
+  width:100%;min-height:76px;max-height:110px;border:none;outline:none;resize:none;background:none;
+  font-family:inherit;font-size:13px;line-height:1.62;color:var(--ink);user-select:text;
+}
+.pp-box textarea::placeholder{color:var(--gray2)}
+.pp-count{text-align:right;font-size:10.5px;color:var(--gray2);margin-top:2px}
+.pp-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.pp-sub{display:flex;align-items:baseline;gap:8px;margin:18px 0 -2px}
+.pp-sub > span{font-size:12.5px;font-weight:700;color:var(--deep)}
+.pp-sub > em{font-size:10.5px;font-style:normal;color:var(--muted)}
+/* 六档风格排成 3×2，避免最后一个孤零零换行 */
+.pp-chips:has(> .pp-chip:nth-child(6):last-child){display:grid;grid-template-columns:repeat(3,1fr);gap:8px 7px}
+.pp-chips:has(> .pp-chip:nth-child(6):last-child) > .pp-chip{justify-content:center;text-align:center}
+/* 极简坐标：地名 + 经纬度表单 */
+.pp-coord{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;display:flex;flex-direction:column;gap:9px}
+.pp-coord:focus-within{border-color:var(--green2)}
+.pp-field{display:flex;align-items:center;gap:10px}
+.pp-flabel{font-size:11.5px;color:var(--gray);flex:none;width:28px}
+.pp-text{
+  flex:1;min-width:0;border:none;outline:none;background:#F6F8F4;border-radius:9px;
+  padding:8px 10px;font-family:inherit;font-size:13px;color:var(--ink);user-select:text;
+  transition:background .15s,box-shadow .15s;
+}
+.pp-text:focus{background:#F1F8F4;box-shadow:inset 0 0 0 1.5px #BEE3D2}
+.pp-coord-row{display:flex;gap:9px}
+.pp-coord-row .pp-field{flex:1;min-width:0}
+.pp-gps{
+  display:flex;align-items:center;justify-content:center;gap:6px;height:36px;
+  background:#F1F8F4;border:1px dashed #BEE3D2;border-radius:10px;
+  font-size:12px;color:var(--deep);font-weight:600;font-family:inherit;cursor:pointer;
+}
+.pp-gps:active{background:#E7F5ED}
+.pp-preview{
+  display:flex;align-items:baseline;gap:8px;border-top:1px dashed var(--line);padding-top:9px;
+}
+.pp-preview .k{font-size:11px;color:var(--gray);flex:none}
+.pp-preview .v{font-size:12.5px;font-weight:700;color:var(--deep);letter-spacing:.01em}
+/* 极简坐标：一张照片一组坐标 */
+.pp-coord-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 2px 9px}
+.pp-coord-head .k{font-size:11.5px;color:var(--gray)}
+.pp-coord-head .n{font-size:11.5px;color:var(--deep);font-weight:600;flex:none}
+.pp-card{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:11px 12px 12px;margin-bottom:9px}
+.pp-card:focus-within{border-color:var(--green2)}
+.pp-card-top{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.pp-no{
+  width:18px;height:18px;border-radius:50%;flex:none;background:#EDF4EE;color:var(--deep);
+  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;
+}
+.pp-thumb{width:32px;height:32px;border-radius:8px;object-fit:cover;flex:none;background:#EFEEE8}
+.pp-card-name{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.2}
+.pp-card-loc{font-size:10.5px;color:var(--gray2);margin-top:2px}
+.pp-gps-mini{
+  margin-left:auto;flex:none;font-family:inherit;cursor:pointer;
+  font-size:10.5px;color:var(--deep);font-weight:600;background:#F1F8F4;
+  border:1px dashed #BEE3D2;border-radius:99px;padding:5px 9px;
+}
+.pp-gps-mini:active{background:#E7F5ED}
+.pp-chip{
+  font-size:11.5px;color:var(--ink2);background:#fff;border:1px solid var(--line);
+  border-radius:20px;padding:5px 11px;cursor:pointer;transition:all .14s;
+}
+.pp-chip:active{transform:scale(.94)}
+.pp-chip.on{background:#E3F2EA;border-color:#BEE3D2;color:var(--deep);font-weight:600}
+.pp-tip{font-size:10.5px;color:var(--gray2);line-height:1.6;padding:12px 22px 0;text-align:center}
+.pp-bar{position:absolute;bottom:0;left:0;right:0;padding:12px 20px 28px;background:var(--bg);border-top:1px solid var(--line)}
+.pp-bar .btn-green{height:52px;font-size:16px;width:100%}
+.pp-bar .pp-bar-note{text-align:center;font-size:10.5px;color:var(--gray2);margin-top:8px}
+
+/* ============ 生成中 ============ */
+.generating{
+  position:absolute;inset:0;z-index:60;background:rgba(247,248,245,.97);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;
+}
+.gen-ring{width:104px;height:104px;position:relative}
+.gen-ring svg{transform:rotate(-90deg)}
+.gen-ring .pct{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.gen-num{font-size:26px;font-weight:800;color:var(--deep)}
+.gen-num small{font-size:13px;font-weight:600}
+.gen-steps{margin-top:30px;width:100%;max-width:280px}
+.gen-step{display:flex;align-items:center;gap:11px;padding:8px 0;color:var(--gray2);font-size:14px;transition:color .3s}
+.gen-step .dot{
+  width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;
+  display:flex;align-items:center;justify-content:center;transition:all .3s;background:#fff;
+}
+.gen-step.active{color:var(--ink);font-weight:600}
+.gen-step.active .dot{border-color:var(--green2)}
+.gen-step.active .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--green2);animation:pulse 1s infinite}
+.gen-step.done{color:var(--ink2)}
+.gen-step.done .dot{border-color:var(--green2);background:var(--green2);color:#fff}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.6}}
+.gen-title{font-size:19px;font-weight:800;margin-top:26px;letter-spacing:.02em}
+.gen-mode{font-size:11.5px;color:var(--gray);margin-top:7px;letter-spacing:.02em}
+
+/* ============ 作品结果 / AI 标注 ============ */
+.result-photo-wrap{
+  position:relative;flex:1;min-height:0;overflow:hidden;background:#0d120e;
+  display:flex;align-items:center;justify-content:center;
+}
+.photo-fit{position:relative;flex:none;line-height:0}
+.photo-fit>img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ============ 效果：极简坐标（minimal-coordinate skill） ============ */
+.min-overlay{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.min-cluster{position:absolute;animation:minMapIn .85s cubic-bezier(.2,.7,.3,1) .12s both}
+.min-map{display:block;width:100%;height:auto;overflow:visible}
+.min-location-dot{
+  position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;
+  background:#CF453F;box-shadow:0 0 0 1px rgba(255,255,255,.78);
+}
+.min-dot{opacity:0;transition:opacity .45s ease}
+.min-dot.on{opacity:1}
+@keyframes minMapIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.photo-fit.wide .anno-chip{max-width:42%;padding:5px 8px;border-radius:9px}
+.photo-fit.wide ~ .result-thumbs{
+  top:auto;bottom:98px;left:50%;right:auto;transform:translateX(-50%);
+  flex-direction:row;background:rgba(255,255,255,.10);padding:6px;border-radius:14px;
+  backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);
+}
+.photo-fit.wide .anno-chip .a-title{font-size:11px;line-height:1.3}
+.photo-fit.wide .anno-chip .a-term{font-size:9px;padding:0 5px;margin-top:3px}
+.photo-fit.wide .anno-chip .a-detail{font-size:9.5px;margin-top:4px}
+.anno-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.anno-chip{
+  position:absolute;max-width:64%;pointer-events:auto;cursor:pointer;z-index:2;
+  background:rgba(16,24,18,.82);backdrop-filter:blur(3px);
+  border:1px solid var(--c,#3FBF85);border-radius:10px;padding:7px 10px;color:#fff;
+  line-height:1.45;   /* 父级 .photo-fit 是 line-height:0，不显式给会让术语标签被压扁、文字压线 */
+  opacity:0;transform:scale(.6);
+  transition:opacity .35s,transform .35s cubic-bezier(.2,.9,.3,1.4);
+  box-shadow:0 6px 16px rgba(0,0,0,.3);
+}
+.anno-chip.show{opacity:1;transform:scale(1)}
+.anno-chip.expanded{z-index:6;backdrop-filter:none;background:rgba(16,24,18,.94)}
+.anno-chip.expanded.show{transform:scale(1)}
+.anno-chip .a-title{font-size:12.5px;font-weight:700;line-height:1.35}
+.anno-chip .a-term{
+  display:inline-block;margin-top:5px;font-size:10px;line-height:1.7;font-weight:600;color:var(--c,#3FBF85);
+  border:1px solid var(--c,#3FBF85);border-radius:5px;padding:0 6px;letter-spacing:.03em;
+}
+.anno-chip .a-detail{font-size:10.5px;line-height:1.5;color:rgba(255,255,255,.82);margin-top:6px;display:none}
+.anno-chip.expanded .a-detail{display:block}
+.anno-summary{
+  position:absolute;left:12px;right:12px;bottom:12px;z-index:5;
+  background:rgba(16,24,18,.8);backdrop-filter:blur(6px);border-radius:14px;padding:12px 14px;color:#fff;
+  display:flex;gap:10px;align-items:flex-start;opacity:0;transform:translateY(18px);transition:all .5s .1s;
+  border:1px solid rgba(255,255,255,.14);
+}
+.anno-summary.show{opacity:1;transform:none}
+.anno-summary .s-icon{flex:none;width:30px;height:30px;border-radius:9px;background:var(--green2);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.anno-summary .s-text{font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.92)}
+.result-topbar{
+  position:absolute;top:0;left:0;right:0;z-index:6;padding:56px 14px 30px;
+  background:linear-gradient(rgba(10,16,12,.55),transparent);
+  display:flex;align-items:center;gap:10px;
+}
+.result-topbar .title{color:#fff;font-size:15px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.result-topbar .tpl-name-tag{margin-left:auto;font-size:11px;color:#fff;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);padding:4px 10px;border-radius:8px}
+.result-thumbs{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;gap:8px;
+}
+.result-thumb{
+  width:44px;height:44px;border-radius:10px;overflow:hidden;cursor:pointer;opacity:.55;
+  border:2px solid transparent;transition:all .2s;position:relative;
+}
+.result-thumb.on{opacity:1;border-color:#fff}
+.result-thumb img{width:100%;height:100%;object-fit:cover}
+.result-thumb .t-ai{position:absolute;right:2px;bottom:2px;font-size:8px;background:var(--green2);color:#fff;border-radius:4px;padding:0 3px;font-weight:700}
+.result-actions{padding:13px 16px 26px;background:var(--bg);border-top:1px solid var(--line)}
+.result-actions .btn-green{height:50px;font-size:16px}
+.result-sub-row{display:flex;gap:10px;margin-top:10px}
+.result-sub-row .btn-ghost{flex:1;height:44px;font-size:14px}
+
+/* ============ 效果：明信片（原片 + 水彩绘版 + 色卡 + 手写标题） ============ */
+.pc-scroll{position:absolute;inset:0;overflow-y:auto;padding:78px 18px 26px;-webkit-overflow-scrolling:touch}
+.pc-reveal{will-change:transform}
+.pc-sheet{
+  background:#FBF7EC;border-radius:12px;overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.5);
+  position:relative;
+}
+.pc-photo{position:relative;line-height:0;background:#E7E2D4;aspect-ratio:3/2;overflow:hidden}
+.pc-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+.pc-photo .pc-badge{
+  position:absolute;left:10px;bottom:9px;font-size:9px;letter-spacing:.14em;color:#fff;
+  background:rgba(12,18,14,.72);border:1px solid rgba(255,255,255,.45);border-radius:4px;
+  padding:2px 7px;backdrop-filter:blur(4px);text-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+.pc-rule{height:1px;background:rgba(42,42,38,.14)}
+.pc-art{position:relative;margin:12px 12px 0;height:168px;overflow:hidden;background:#FBF7EC}
+.pc-art img{width:100%;height:100%;object-fit:cover;display:block}
+.pc-art::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(120,110,90,.12), inset 0 0 22px 8px rgba(251,247,236,.55);
+}
+.pc-art::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(132% 112% at 50% 46%,rgba(251,247,236,0) 62%,rgba(251,247,236,.42) 86%,rgba(251,247,236,.9) 100%);
+}
+.pc-wash{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.85;
+  background:linear-gradient(160deg,rgba(255,255,255,.42),rgba(120,160,150,.22) 52%,rgba(230,200,140,.28));
+}
+.pc-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:multiply;
+  background-image:radial-gradient(rgba(60,50,35,.14) .6px,transparent .6px);
+  background-size:3px 3px;
+}
+/* 六档手账画风：同一套版式，换笔触 */
+.pc-sheet[data-style="pen"]    .pc-art img{filter:url(#pcPaint1) saturate(1.24) contrast(.9) brightness(1.12)}
+.pc-sheet[data-style="wet"]    .pc-art img{filter:url(#pcPaint2) saturate(1.5) contrast(.82) brightness(1.16) blur(.9px)}
+.pc-sheet[data-style="film"]   .pc-art img{filter:url(#pcPaint1) sepia(.34) saturate(.84) contrast(1.05) brightness(1.02)}
+.pc-sheet[data-style="pencil"] .pc-art img{filter:url(#pcPaint1) grayscale(1) contrast(1.22) brightness(1.12)}
+.pc-sheet[data-style="washi"]  .pc-art img{filter:url(#pcPaint2) sepia(.16) saturate(.8) contrast(.94) brightness(1.1)}
+/* 第六档 · 纸面留白：不另起绘版，照片下半直接化纸，铅笔线顺着走成细细的草 */
+.pc-sheet[data-style="paper"] .pc-photo{aspect-ratio:3/4;background:#FAF5E7}
+.pc-sheet[data-style="paper"] .pc-photo img{
+  object-position:50% 34%;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 78%,rgba(0,0,0,.12) 88%,rgba(0,0,0,0) 96%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 78%,rgba(0,0,0,.12) 88%,rgba(0,0,0,0) 96%);
+}
+.pc-paper{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.12;
+  background:
+    repeating-linear-gradient(76deg,rgba(90,82,66,.9) 0 1px,transparent 1px 4px),
+    repeating-linear-gradient(-58deg,rgba(90,82,66,.7) 0 1px,transparent 1px 7px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 56%,rgba(0,0,0,.45) 72%,#000 88%,#000 100%);
+  mask-image:linear-gradient(to bottom,transparent 56%,rgba(0,0,0,.45) 72%,#000 88%,#000 100%);
+}
+.pc-sheet[data-style="paper"] .pc-art{display:none}
+.pc-sheet[data-style="paper"] .pc-badge{display:none}
+.pc-mark{
+  position:absolute;right:20px;bottom:22px;z-index:3;line-height:1.2;
+  font-family:'Segoe Script','Snell Roundhand','Bradley Hand','Lucida Handwriting',cursive;
+  font-size:14px;color:#8A8371;transform:rotate(-2.5deg);
+}
+.pc-foot{padding:12px 18px 16px;text-align:center}
+.pc-script{
+  font-family:'Segoe Script','Snell Roundhand','Bradley Hand','Lucida Handwriting',cursive;
+  font-size:20px;line-height:1.28;color:#3A3A32;letter-spacing:.01em;
+}
+.pc-sub{
+  font-family:'Segoe Script','Snell Roundhand','Bradley Hand',cursive;
+  font-style:italic;font-size:11.5px;line-height:1.6;color:#8C8674;margin-top:1px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.pc-note{
+  margin:11px auto 0;max-width:88%;padding-top:9px;border-top:1px dashed rgba(42,42,38,.2);
+  font-size:11px;line-height:1.75;color:#6C6757;text-align:left;
+}
+.pc-swatches{display:flex;gap:7px;justify-content:center;margin-top:13px}
+.pc-sheet[data-style="pencil"] .pc-sw{filter:grayscale(1) contrast(.92)}
+.pc-sheet[data-style="film"] .pc-sw{filter:sepia(.28) saturate(.9)}
+.pc-sheet[data-style="washi"] .pc-sw{filter:saturate(.72) brightness(1.06)}
+.pc-sw{width:44px;height:24px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06)}
+.pc-sign{display:flex;align-items:center;justify-content:space-between;padding:0 14px 12px;font-size:9px;letter-spacing:.16em;color:#B0A894}
+.result-thumbs.pc-thumbs{
+  position:static;transform:none;width:max-content;margin:16px auto 0;
+  flex-direction:row;background:rgba(255,255,255,.1);padding:6px;border-radius:14px;
+  backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);
+}
+
+/* ============ 效果：抽象画（双色套印 + 纸面 + 印章） ============ */
+.ab-sheet{
+  background:#F2EEE1;border-radius:12px;overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.5);
+}
+.ab-stage{position:relative;margin:12px 12px 0;aspect-ratio:1/1;background:#EAE4D2;overflow:hidden}
+.ab-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ab-base{filter:grayscale(1) contrast(1.55) brightness(1.08)}
+.ab-plate{filter:grayscale(1) contrast(2.1);mix-blend-mode:multiply;opacity:.26;transform:translate(4px,-3px)}
+.ab-ink{
+  position:absolute;inset:0;mix-blend-mode:multiply;opacity:.62;
+  background:linear-gradient(112deg,var(--ink-a) 0%,var(--ink-a) 44%,var(--ink-b) 44%,var(--ink-b) 100%);
+}
+.ab-sheet[data-style="构成主义"] .ab-ink{background:linear-gradient(160deg,var(--ink-a) 0%,var(--ink-a) 34%,var(--ink-b) 34%,var(--ink-b) 100%)}
+.ab-sheet[data-style="剪纸拼贴"] .ab-ink{background:linear-gradient(90deg,var(--ink-a) 0%,var(--ink-a) 52%,var(--ink-b) 52%,var(--ink-b) 100%)}
+.ab-sheet[data-style="极简留白"] .ab-ink{opacity:.34;background:linear-gradient(180deg,var(--ink-a) 0%,var(--ink-a) 62%,var(--ink-b) 62%,var(--ink-b) 100%)}
+.ab-sheet[data-style="丝网版画"] .ab-ink{opacity:.66;background:linear-gradient(108deg,var(--ink-a) 0%,var(--ink-a) 46%,var(--ink-b) 46%,var(--ink-b) 100%)}
+.ab-grain{
+  position:absolute;inset:0;mix-blend-mode:multiply;opacity:.15;
+  background-image:radial-gradient(rgba(40,32,20,.9) .7px,transparent .7px);background-size:4px 4px;
+}
+.ab-seal{
+  position:absolute;right:9px;bottom:9px;width:26px;height:26px;border-radius:2px;
+  background:#B23A2A;color:#F7EFDC;font-size:9.5px;line-height:1.15;font-weight:600;letter-spacing:0;
+  display:flex;align-items:center;justify-content:center;opacity:.94;writing-mode:vertical-rl;
+  box-shadow:0 1px 2px rgba(0,0,0,.22);
+}
+.ab-foot{padding:14px 18px 16px;text-align:center}
+.ab-meta{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.2em;color:#A29880}
+.ab-title{
+  font-family:'Segoe Script','Snell Roundhand','Bradley Hand','Lucida Handwriting',cursive;
+  font-size:19px;line-height:1.3;color:#3A3A32;margin-top:6px;letter-spacing:.01em;
+}
+.ab-band{
+  display:flex;height:18px;margin:14px auto 0;max-width:220px;border-radius:3px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(43,38,28,.08);
+}
+.ab-band span{flex:1}
+.ab-note{
+  margin:12px auto 0;max-width:90%;padding-top:9px;border-top:1px dashed rgba(42,42,38,.2);
+  font-size:11px;line-height:1.75;color:#6C6757;text-align:left;
+}
+
+/* ============ 效果：抽象画 · 剪贴明信片（主体剪下来贴在色块上） ============ */
+.cl-sheet{
+  position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:12px;
+  background:#F7F1DE;
+  box-shadow:0 16px 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.5);
+}
+.cl-paper{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.55;
+  background-image:radial-gradient(rgba(120,110,86,.34) .6px,transparent .6px);
+  background-size:3px 3px;
+}
+/* 背后那块色：只在上缘撕开，其余压直边 */
+.cl-block{
+  position:absolute;left:17%;top:17%;width:66%;height:31%;
+  background:var(--cl-ink);transform:rotate(.7deg);
+  clip-path:polygon(0% 3%,7% 1%,15% 3%,24% 0%,33% 2%,42% 0%,51% 3%,60% 1%,
+                    69% 3%,78% 0%,87% 2%,95% 0%,100% 2%,100% 100%,0% 100%);
+}
+/* 主体：剪下来的一块，带纸边与毛口 */
+.cl-cut{
+  position:absolute;left:19%;top:28%;width:60%;height:42%;
+  padding:3px;background:#FBF6E7;transform:rotate(-.9deg);
+  filter:url(#clTear);
+  clip-path:polygon(1% 4%,20% 1%,40% 3%,60% 0%,80% 2%,98% 1%,
+                    100% 24%,97% 48%,100% 72%,96% 98%,
+                    78% 96%,58% 99%,38% 96%,18% 99%,1% 96%,
+                    4% 72%,0% 48%,3% 24%);
+}
+.cl-cut img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%;
+  filter:grayscale(1) contrast(1.26) brightness(1.04)}
+/* 版面上的细标尺 */
+.cl-cross{position:absolute;right:7%;top:24%;width:26%;height:34%;pointer-events:none;
+  border-right:1px dashed rgba(70,64,48,.34);border-bottom:1px dashed rgba(70,64,48,.34)}
+.cl-cross::before{content:'';position:absolute;right:-2px;top:33%;width:5px;border-top:1px solid rgba(70,64,48,.4)}
+.cl-cross::after{content:'';position:absolute;right:0;bottom:33%;height:5px;border-right:1px solid rgba(70,64,48,.4)}
+.cl-cap{position:absolute;left:8%;right:8%;bottom:9%}
+.cl-rule{height:1px;background:rgba(58,54,42,.45);margin-bottom:9px}
+.cl-title{
+  font-family:Georgia,'Times New Roman','Songti SC',serif;
+  font-size:23px;line-height:1.15;color:#33322A;letter-spacing:-.01em;text-align:right;
+}
+.cl-no{
+  margin-top:6px;text-align:right;font-size:9px;letter-spacing:.2em;color:#8B8471;
+  text-transform:uppercase;
+}
+.cl-note{
+  margin-top:11px;padding-top:8px;border-top:1px dashed rgba(58,54,42,.22);
+  font-size:10.5px;line-height:1.7;color:#77705D;
+}
+
+/* ============ 效果：中国风 · 手绘舆图 ============ */
+.at-sheet{
+  position:relative;aspect-ratio:400/620;overflow:hidden;border-radius:12px;
+  --at-paper:#EFE7D2;
+  --at-halo:#F6F0DE;
+  --at-m1:#B2C8BA; --at-m2:#89A996; --at-m3:#668F79;
+  --at-tree:#4A6B57; --at-water:#7FA8B6; --at-red:#B2372A;
+  --at-route:#4A4438; --at-ink:#4A4438;
+  --at-sand:#E4D3B0; --at-sandline:#C8AE86; --at-cloud:#FBF7EA;
+  background:var(--at-paper);
+  box-shadow:0 16px 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.4);
+}
+.at-paper{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.85;
+  background:
+    radial-gradient(130% 95% at 50% 38%,rgba(255,255,255,.46) 0%,rgba(255,255,255,0) 46%,rgba(150,128,92,.26) 100%),
+    radial-gradient(rgba(120,104,76,.28) .6px,transparent .6px);
+  background-size:auto,3px 3px;
+}
+.at-canvas{position:relative;display:block;width:100%;height:100%}
+.at-zh{font-family:'Songti SC','SimSun','Noto Serif SC',serif;font-size:12.5px;font-weight:600;fill:#2B2822;
+  stroke:var(--at-halo);stroke-width:2.6;paint-order:stroke;stroke-linejoin:round}
+.at-en{font-family:'Helvetica Neue',Arial,sans-serif;font-size:6.6px;letter-spacing:.15em;fill:#332F27;
+  stroke:var(--at-halo);stroke-width:1.7;paint-order:stroke;stroke-linejoin:round}
+.at-prov{font-family:'Songti SC','SimSun',serif;font-size:6.2px;fill:#5E5747;
+  stroke:var(--at-halo);stroke-width:1.6;paint-order:stroke;stroke-linejoin:round}
+.at-big{font-family:'Songti SC','SimSun','Noto Serif SC',serif;font-size:17px;letter-spacing:.16em;fill:#6D6553;opacity:.62;
+  stroke:var(--at-halo);stroke-width:2.4;paint-order:stroke}
+.at-big-en{font-family:'Helvetica Neue',Arial,sans-serif;font-size:6.5px;letter-spacing:.3em;fill:#6D6553;opacity:.7;
+  stroke:var(--at-halo);stroke-width:1.4;paint-order:stroke}
+.at-scale text{font-family:'Helvetica Neue',Arial,sans-serif;fill:#5A5446;letter-spacing:.08em}
+.at-foot{
+  position:absolute;left:0;right:0;bottom:0;padding:16px 16px 12px;text-align:center;
+  background:linear-gradient(to top,rgba(239,231,210,.98) 30%,rgba(239,231,210,0) 100%);
+}
+.at-title{font-family:'Songti SC','SimSun',serif;font-size:13px;color:#3A362C;letter-spacing:.16em}
+.at-sub{font-size:9.5px;color:#8A8272;margin-top:3px;letter-spacing:.05em}
+/* 五档古意：换纸、换山色、换线 */
+.at-sheet[data-style="水墨淡彩"]{--at-m1:#B9B9B0;--at-m2:#8E8E84;--at-m3:#6A6A60;--at-tree:#5A5A50;--at-water:#9FA9A8}
+.at-sheet[data-style="青绿山水"]{--at-m1:#8FBFA6;--at-m2:#4F8F72;--at-m3:#2F6B52;--at-tree:#2E5E46;--at-water:#5E97A6}
+.at-sheet[data-style="绢本设色"]{--at-paper:#EDE0C2;--at-halo:#F8F0DA;--at-m1:#CEBE9C;--at-m2:#A8916A;--at-m3:#7C6A48;--at-tree:#5E4E32;--at-water:#8FA79A;--at-sand:#DFC79A}
+.at-sheet[data-style="木刻线描"]{--at-paper:#F1EADA;--at-water:#6E6A5C;--at-route:#33302A}
+.at-sheet[data-style="木刻线描"] .at-m{fill:none;stroke:#3A362C;stroke-width:.85;opacity:.9}
+.at-sheet[data-style="木刻线描"] .at-paper{opacity:.4}
+
+/* ============ 广场 ============ */
+.square-header{padding:64px 22px 10px;display:flex;align-items:baseline;justify-content:space-between}
+.square-header h1{font-size:28px;font-weight:800}
+.square-header p{font-size:12px;color:var(--gray)}
+.home-feed-note{margin:14px 22px 0;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--gray)}
+.home-feed-note::before{content:'';width:3px;height:11px;border-radius:2px;background:var(--green2)}
+.feed-item{margin:12px 22px 0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .15s}
+.feed-item:active{transform:scale(.975)}
+.feed-head{display:flex;align-items:center;gap:10px;padding:13px 14px 0}
+.feed-avatar{width:34px;height:34px;border-radius:50%;background:#EAF4EE;color:var(--deep);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:none}
+.feed-who{flex:1;min-width:0}
+.feed-name{font-size:13.5px;font-weight:700}
+.feed-time{font-size:11px;color:var(--gray2);margin-top:2px}
+.feed-photo{position:relative;margin:11px 14px 0;border-radius:13px;overflow:hidden;height:210px}
+
+/* 广场：直接把成图放上来（明信片 / 抽象 / 剪贴 / 舆图），不再退回原片 */
+.feed-art{position:relative;margin:11px 14px 0;border-radius:13px;overflow:hidden;background:#0e1310;line-height:0}
+.feed-art .pc-sheet,.feed-art .ab-sheet,.feed-art .cl-sheet,.feed-art .at-sheet{border-radius:0;box-shadow:none}
+.feed-art .at-sheet{width:100%}
+.fv-slide.fv-art-slide{display:block;padding:84px 16px 150px;overflow-y:auto}
+.fv-slide.fv-art-slide .pc-sheet,.fv-slide.fv-art-slide .ab-sheet,
+.fv-slide.fv-art-slide .cl-sheet,.fv-slide.fv-art-slide .at-sheet{width:100%;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.sheet-preview.pv-art{width:252px;max-height:352px;overflow:hidden;background:#F4F0E4}
+.sheet-preview.pv-art .sp-tag{z-index:4}
+.sheet-preview.pv-art::after{content:'';position:absolute;left:0;right:0;bottom:0;height:52px;z-index:3;
+  background:linear-gradient(0deg,rgba(244,240,228,.96),rgba(244,240,228,0));pointer-events:none}
+.workdetail-art{flex:1;overflow-y:auto;padding:70px 16px 18px}
+.workdetail-art .pc-sheet,.workdetail-art .ab-sheet,
+.workdetail-art .cl-sheet,.workdetail-art .at-sheet{width:100%}
+.poster-photo.pv-art{padding:0;background:#F4F0E4}
+.poster-photo.pv-art .pc-sheet,.poster-photo.pv-art .ab-sheet,
+.poster-photo.pv-art .cl-sheet,.poster-photo.pv-art .at-sheet{border-radius:0;box-shadow:none;width:100%}
+.poster-photo.pv-art .pc-sheet,.poster-photo.pv-art .ab-sheet,
+.poster-photo.pv-art .cl-sheet,.poster-photo.pv-art .at-sheet{border-radius:0;box-shadow:none;width:100%}
+.feed-photo img{width:100%;height:100%;object-fit:cover}
+/* 多图精选帖：卡片内右滑翻图 */
+.feed-photo.feed-multi{height:300px}
+.fm-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;touch-action:pan-x pan-y}
+.fm-track img{-webkit-user-drag:none;user-select:none}
+.fm-track::-webkit-scrollbar{display:none}
+.fm-track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;scroll-snap-stop:always}
+.fm-count{position:absolute;right:9px;top:9px;font-size:10px;font-weight:600;color:#fff;background:rgba(16,24,18,.58);backdrop-filter:blur(4px);border-radius:20px;padding:2px 8px;letter-spacing:.04em}
+.feed-chips{position:absolute;left:10px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap}
+.feed-chips .fchip{font-size:10px;background:rgba(16,24,18,.72);color:#fff;backdrop-filter:blur(3px);border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:2px 7px;font-weight:600}
+.feed-body{padding:11px 14px 13px}
+.feed-summary{font-size:13px;color:var(--ink2);line-height:1.55}
+.feed-loc{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--gray);margin-top:7px}
+/* 多图帖全屏浏览（右滑翻页） */
+.fv-head{position:absolute;top:0;left:0;right:0;z-index:3;padding:56px 20px 40px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(6,10,8,.78),rgba(6,10,8,0))}
+.fv-name{font-size:13px;font-weight:700;color:#fff}
+.fv-time{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
+.fv-track{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.fv-track::-webkit-scrollbar{display:none}
+.fv-slide{flex:0 0 100%;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:96px 18px 156px}
+.fv-slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.45);-webkit-user-drag:none;user-select:none}
+.fv-nav{display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);color:#fff;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
+.fv-nav:hover{background:rgba(255,255,255,.26)}
+.fv-prev{left:10px}
+.fv-next{right:10px}
+@media (hover:hover) and (pointer:fine){.fv-nav{display:flex}}
+.fv-bar{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:40px 22px 34px;background:linear-gradient(0deg,rgba(6,10,8,.9),rgba(6,10,8,0))}
+.fv-row{display:flex;align-items:flex-end;gap:14px}
+.fv-cap{flex:1;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.86);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.fv-count{flex:none;font-size:11px;font-weight:600;color:#fff;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 10px}
+.fv-hint{text-align:center;font-size:10.5px;color:rgba(255,255,255,.5);letter-spacing:.06em;margin-bottom:9px;transition:opacity .2s}
+
+/* ============ 作品详情（广场点开） ============ */
+.workdetail-body{flex:1;display:flex;flex-direction:column;background:#0d120e}
+.workdetail-meta{background:var(--bg);padding:12px 18px 6px;display:flex;align-items:center;gap:10px}
+
+/* ============ 我的 ============ */
+.mine-header{padding:66px 22px 4px;display:flex;align-items:center;gap:13px;cursor:pointer}
+.mine-avatar{width:58px;height:58px;border-radius:50%;background:#EAF4EE;color:var(--deep);display:flex;align-items:center;justify-content:center;flex:none}
+.mine-name{font-size:22px;font-weight:800}
+.mine-sub{font-size:12.5px;color:var(--gray);margin-top:4px}
+.mine-arrow{margin-left:auto;color:var(--gray2)}
+.mine-cards{display:flex;gap:11px;margin:16px 22px 0}
+.mine-card{flex:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}
+.mine-card .mc-head{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700}
+.mine-card .mc-link{font-size:11px;color:var(--green2);font-weight:500;cursor:pointer}
+.mine-card .mc-body{margin-top:9px;font-size:11.5px;color:var(--gray);line-height:1.7}
+.mine-card .mc-body b{color:var(--ink);font-size:12.5px}
+.mine-chart{margin-top:6px;height:38px}
+.mine-chart svg{width:100%;height:100%}
+.space-progress{margin-top:10px;height:6px;border-radius:3px;background:#EFEDE6;overflow:hidden}
+.space-progress i{display:block;height:100%;width:16%;border-radius:3px;background:linear-gradient(90deg,#2AAE74,#1D9E75);transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.mine-sec{margin:14px 22px 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}
+.mine-sec-title{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:700}
+.mine-grid{display:flex;margin-top:14px}
+.mine-grid .mg{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:transform .12s}
+.mine-grid .mg:active{transform:scale(.9)}
+.mg-icon{width:42px;height:42px;border-radius:13px;background:#F4F5F0;display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.mg-label{font-size:12px;font-weight:600}
+.mg-num{font-size:10.5px;color:var(--gray2)}
+.mine-rows{margin:14px 22px 0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.mine-row{display:flex;align-items:center;padding:15px 16px;font-size:14.5px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--line)}
+.mine-row:last-child{border-bottom:none}
+.mine-row:active{background:#FAFAF7}
+.mine-row .mr-arrow{margin-left:auto;color:var(--gray2)}
+
+/* ============ Toast / 弹层 ============ */
+.toast{
+  position:absolute;left:50%;top:47%;transform:translate(-50%,-50%) scale(.85);z-index:90;
+  background:rgba(22,32,26,.88);backdrop-filter:blur(8px);color:#fff;font-size:14px;font-weight:500;
+  padding:13px 22px;border-radius:14px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.2,.9,.3,1.3);
+  display:flex;align-items:center;gap:9px;max-width:76%;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast .t-ok{width:19px;height:19px;border-radius:50%;background:var(--green2);display:flex;align-items:center;justify-content:center;flex:none}
+.mask{
+  position:absolute;inset:0;z-index:80;background:rgba(15,25,19,.5);backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:flex-end;justify-content:center;
+}
+.mask.show{opacity:1;pointer-events:auto}
+.sheet{
+  width:100%;background:var(--bg);border-radius:24px 24px 0 0;padding:22px 22px 34px;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.3,1);max-height:78%;overflow-y:auto;
+}
+.mask.show .sheet{transform:none}
+.sheet h3{font-size:17px;font-weight:800;text-align:center}
+.sheet .sheet-sub{text-align:center;font-size:12.5px;color:var(--gray);margin-top:6px}
+.sheet-preview{margin:16px auto 0;width:210px;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.sheet-preview img{width:100%;display:block}
+.sheet-preview .sp-tag{position:absolute;left:10px;bottom:10px;background:rgba(16,24,18,.72);color:#fff;font-size:10px;padding:3px 9px;border-radius:7px;backdrop-filter:blur(3px)}
+.sheet-preview .sp-wm{position:absolute;right:10px;bottom:10px;font-size:9px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:3px}
+.sheet-btns{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.publish-choice{
+  margin-top:16px;background:#fff;border:1.5px solid var(--green2);border-radius:16px;padding:15px;
+  display:flex;gap:11px;align-items:flex-start;cursor:pointer;
+}
+.publish-choice .pc-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--green2);flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center;background:var(--green2)}
+.sheet-note{margin-top:14px;text-align:center;font-size:11px;color:var(--gray2)}
+
+/* 海报 modal */
+.poster-mask{align-items:center;padding:0 36px}
+.poster-card{width:100%;border-radius:18px;overflow:hidden;background:#fff;transform:scale(.8);transition:transform .35s cubic-bezier(.2,.9,.3,1.3);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.mask.show .poster-card{transform:scale(1)}
+.poster-photo{position:relative}
+.poster-photo img{width:100%;display:block;max-height:380px;object-fit:cover}
+.poster-terms{position:absolute;left:12px;bottom:12px;display:flex;gap:6px;flex-wrap:wrap}
+.poster-terms span{font-size:10px;background:rgba(16,24,18,.72);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:2px 8px;backdrop-filter:blur(3px);font-weight:600}
+.poster-footer{padding:13px 16px;display:flex;align-items:center;gap:9px}
+.poster-footer .pf-logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(140deg,#2AAE74,#178A5C);display:flex;align-items:center;justify-content:center;flex:none}
+.poster-footer .pf-name{font-size:13px;font-weight:800}
+.poster-footer .pf-slogan{font-size:10px;color:var(--gray);margin-top:2px}
+.poster-footer .pf-qr{margin-left:auto;font-size:9.5px;color:var(--gray2);text-align:right;line-height:1.5}
+
+/* ============ 照片全屏缩放 ============ */
+.zoom-layer{
+  position:absolute;inset:0;z-index:96;background:#060907;
+  opacity:0;transition:opacity .22s;overflow:hidden;touch-action:none;
+}
+.zoom-layer.show{opacity:1}
+.zoom-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.zoom-img{
+  max-width:100%;max-height:100%;display:block;transform-origin:center center;
+  will-change:transform;transition:transform .2s cubic-bezier(.2,.7,.3,1);
+  user-select:none;-webkit-user-drag:none;-webkit-user-select:none;
+}
+.zoom-img.dragging{transition:none}
+.zoom-top{
+  position:absolute;top:0;left:0;right:0;z-index:2;pointer-events:none;
+  padding:14px 16px 34px;display:flex;align-items:center;gap:10px;
+  background:linear-gradient(180deg,rgba(0,0,0,.62),rgba(0,0,0,0));
+}
+.zoom-x{
+  pointer-events:auto;height:32px;padding:0 14px;border-radius:20px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.16);color:#fff;
+  font-size:12.5px;font-family:inherit;line-height:30px;
+}
+.zoom-x:active{transform:scale(.95)}
+.zoom-cap{
+  margin-left:auto;font-size:11.5px;color:rgba(255,255,255,.72);max-width:62%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.zoom-hint{
+  position:absolute;left:0;right:0;bottom:32px;z-index:2;text-align:center;
+  font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.05em;
+  transition:opacity .3s;pointer-events:none;
+}
+.zoom-scale{
+  position:absolute;right:16px;bottom:30px;z-index:2;pointer-events:none;
+  font-size:11px;font-weight:600;color:rgba(255,255,255,.86);background:rgba(255,255,255,.14);
+  border-radius:20px;padding:3px 9px;opacity:0;transition:opacity .2s;
+}
+.zoom-scale.on{opacity:1}
+
+/* ============ 移动端：占满全屏，不用手机外框 ============ */
+@media (max-width:520px){
+  html,body{height:100%;overflow:hidden}
+  body{display:block;background:var(--bg)}
+  .stage{display:block;gap:0;height:100%}
+  .phone{width:100%;height:100%;height:100dvh;border-radius:0;box-shadow:none;overflow:hidden}
+  .caption{display:none}
+  /* 真机浏览器自带状态栏，假的不再叠加 */
+  .statusbar{display:none}
+  /* 开屏：纵向按可视高度重新分配，插画吃掉剩余空间，小屏也不会把按钮顶出屏幕 */
+  #page-splash{padding:env(safe-area-inset-top,0px) 22px env(safe-area-inset-bottom,0px)}
+  .splash-top{margin-top:18px;flex:none}
+  .splash-mid{margin-top:18px;flex:1 1 auto;min-height:0}
+  .splash-title{font-size:clamp(27px,8vw,36px);line-height:1.2;margin-top:10px}
+  .splash-sub{font-size:13.5px;margin-top:8px}
+  .splash-art{margin-top:auto;height:auto;flex:1 1 auto;min-height:120px;max-height:min(44dvh,320px)}
+  .splash-art svg{height:100%}
+  .splash-bottom{flex:none;padding:10px 0 6px}
+  .splash-bottom .guest-link{margin-top:12px;font-size:14px}
+  .splash-bottom .legal{margin-top:8px;font-size:10.5px}
+}
+</style>
+</head>
+<body data-page-node-id="TqTrtBbmG1L9Rjb6h2d2lY">
+<div data-page-node-id="eoHkhCfZC2b9fXDPy67e39" class="stage">
+  <div data-page-node-id="fhOePU1MDVzPc8FMnchnxQ" class="phone">
+    <div data-page-node-id="wwTMoCZzjLcoB2k9AaQPPv" class="screen" id="screen">
+      <div data-page-node-id="8Sj9438w7ybvPXVOioP26U" class="statusbar">
+        <span data-page-node-id="b9BIzi3W4L8oMNfBiJRNcp" class="time"><!--pnid:uvbZPNKSn3kSRRSVrx2PY7-->9:41</span>
+        <span data-page-node-id="G5fDCBMJiIGEWf7QAemuuQ" class="icons">
+          <svg data-page-node-id="clZgKlMTOAdZadJ7OsYG5U" class="sb-i" height="12" viewBox="0 0 18 12" width="18"><rect data-page-node-id="K0BUWLQ2TlFPVky11OUm59" fill="#16301F" height="5" rx="0.8" width="3" x="0" y="7"/><rect data-page-node-id="yDaxlLLN8l55h72wRLbYY1" fill="#16301F" height="7" rx="0.8" width="3" x="4.5" y="5"/><rect data-page-node-id="Zdl1d8VJ9GGyrNU5V0IMt6" fill="#16301F" height="9.5" rx="0.8" width="3" x="9" y="2.5"/><rect data-page-node-id="kSu7X8SP8v2qAYIf4MmzaU" fill="#16301F" height="12" opacity=".35" rx="0.8" width="3" x="13.5" y="0"/></svg>
+          <svg data-page-node-id="81EQHwr58JXntW8gye3gVh" class="sb-i" height="12" viewBox="0 0 17 12" width="17"><path data-page-node-id="j3N67yVm7ZqAvfzCq5Oh8Z" d="M8.5 9.6a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.3 7.2a4.6 4.6 0 0 1 6.4 0L10.2 8.7a2.7 2.7 0 0 0-3.8 0zM2.1 4.4a8.9 8.9 0 0 1 12.8 0l-1.5 1.5a6.9 6.9 0 0 0-9.8 0z" fill="#16301F" transform="translate(0,-1.5)"/></svg>
+          <svg data-page-node-id="jCHtt4t7yvyMmuIbTFF4pQ" class="sb-i" height="12" viewBox="0 0 25 12" width="25"><rect data-page-node-id="vK4OheGMZUV6kahUxaBoLQ" fill="none" height="11" opacity=".4" rx="3.2" stroke="#16301F" width="21" x="0.5" y="0.5"/><rect data-page-node-id="WYpbVQolvogkLzfHsGZZnd" fill="#16301F" height="7.6" rx="1.8" width="15" x="2.2" y="2.2"/><path data-page-node-id="PRMMerwPUJJwzmMEDVcX3N" d="M23.2 4v4a2.2 2.2 0 0 0 0-4z" fill="#16301F" opacity=".4"/></svg>
+        </span>
+      </div>
+      <!--pnid:HKTEJXboO9g82GaMqRtgUX--><!-- 页面由 JS 渲染 -->
+    </div>
+  </div>
+  <div data-page-node-id="ITHNrEkbEIXLLwhe1sUsZK" class="caption"><b data-page-node-id="J4TrdgJclKeQFhOmbCkHNS"><!--pnid:rDHyPKFrMC5yzRUVx2jXUT-->「徒步图鉴」交互原型</b><!--pnid:HvNKEtXnrhN3AeRyyMzyOI--> · 点击绿色主按钮开始演示 · 开屏 / 路线 / 出发 / 成图 / 我的 全链路可点</div>
+</div>
+
+<script data-page-node-id="yCckmBxOfVMlxO3rgt8cnm" data-pnid-children="ecnZ47b8fNlNnEGr2suyAe">
+/* ================================================================
+   数据
+================================================================ */
+const PHOTOS = [
+  /* ① 云南 · 楚雄州永仁县宜就镇对门村（用户实拍） */
+  {
+    src:'assets/raw1_yunnan.jpg', name:'河谷坝子', loc:'云南省 · 楚雄州 · 永仁县宜就镇',
+    geo:{lat:26.0621, lng:101.6274, alt:1620, province:'云南省', city:'楚雄彝族自治州',
+         district:'永仁县', town:'宜就镇', place:'对门村', bearing:'北偏东',
+         takenAt:'2026-08-12 16:40', accuracy:'approximate'},
+    summary:'云南高原的雨季河谷：山是绿的，田是绿的，连云都在为这片绿色下雨。',
+    en:'River Valley', enSub:'Monsoon green, all the way down the valley',
+    palette:['#93AEB6','#5C8455','#C9B25E'],
+    annotations:[
+      {type:'box', x:44, y:2, w:38, h:22, cx:4, cy:6, color:'#5B9BD5',
+       title:'高原午后为什么爱下阵雨？', term:'对流云 · 积雨云',
+       detail:'海拔高、日照强，午后地面受热，暖湿空气迅速上升凝结成高耸的积云，常在同一片山谷上空反复堆积，傍晚落下一场短促的雨。'},
+      {type:'box', x:1, y:21, w:29, h:29, cx:33, cy:19, color:'#3FBF85',
+       title:'山坡为什么绿得这么"厚"？', term:'亚热带常绿阔叶林',
+       detail:'这里雨热同期，5—10 月的降水占全年八成以上，山体被常绿阔叶林整年覆盖，冬天也不落叶，远看就像一层厚厚的绿绒。'},
+      {type:'box', x:9, y:45, w:84, h:11, cx:2, cy:43, color:'#D8A95A',
+       title:'山谷里为什么会有成片水田？', term:'山间坝子 · 河谷农业',
+       detail:'河流到宽谷段流速变慢，泥沙沉积出平坦的阶地，引水就能种稻。当地人把这种被山围起来的小平原叫作"坝子"。'},
+      {type:'box', x:0, y:64, w:100, h:34, cx:8, cy:57, color:'#C97B6E',
+       title:'田埂边的草比庄稼还高？', term:'农田边缘带 · 路缘植物',
+       detail:'田边不施肥也不打药，水热又充足，草本植物便疯长成一条"野草带"，是昆虫、蛙类和小型鸟类藏身的地方。'}
+    ]
+  },
+  /* ② 山西 · 忻州宁武县西马坊乡 · 芦芽山 */
+  {
+    src:'assets/raw2_luya.jpg', name:'芦芽石林', loc:'山西省 · 忻州市 · 宁武县芦芽山',
+    geo:{lat:38.7442, lng:111.8836, alt:2410, province:'山西省', city:'忻州市',
+         district:'宁武县', town:'西马坊乡', place:'五坝线芦芽山旅游度假区', bearing:'正南',
+         takenAt:'2026-08-20 09:15', accuracy:'approximate'},
+    summary:'海拔两千多米的花岗岩石林：石头站成森林，树在石缝里扎根，云从谷底漫上来。',
+    en:'Luya Stone Forest', enSub:'Stone peaks, larch roots, clouds from below',
+    palette:['#A9B4B8','#33513F','#C7D6DE'],
+    annotations:[
+      {type:'box', x:60, y:34, w:34, h:46, cx:52, cy:4, color:'#D8A95A',
+       title:'石峰为什么一根一根立着？', term:'花岗岩垂直节理',
+       detail:'花岗岩冷却收缩时留下几组近垂直的裂隙，冻融与重力顺着裂隙不断剥离岩体，把整块山体切成了石柱。'},
+      {type:'point', x:70, y:52, cx:48, cy:34, color:'#3FBF85',
+       title:'石头缝里怎么长得出树？', term:'华北落叶松 · 岩生植物',
+       detail:'芦芽山是华北落叶松的天然分布区，根系沿岩缝伸展，落叶逐年腐烂积成一层薄土，后一代就扎得更稳。'},
+      {type:'box', x:2, y:39, w:44, h:14, cx:2, cy:24, color:'#5B9BD5',
+       title:'远山为什么层层变淡？', term:'大气透视',
+       detail:'空气里的水汽和尘埃散射光线，距离越远对比度越低、色调越偏蓝灰。人眼正是靠这个规律判断远近。'},
+      {type:'box', x:0, y:58, w:44, h:38, cx:2, cy:62, color:'#C97B6E',
+       title:'这条深谷是谁挖出来的？', term:'第四纪冰川 · 冰蚀谷',
+       detail:'冰期时冰川沿谷地缓慢下移，像刨子一样刨宽刨深谷底，留下宽而圆缓的 U 形谷，如今被森林填满。'}
+    ]
+  },
+  /* ③ 山西 · 晋中市榆次区榆次老城 */
+  {
+    src:'assets/raw3_yuci.jpg', name:'老城的夜', loc:'山西省 · 晋中市 · 榆次区老城',
+    geo:{lat:37.6898, lng:112.7475, alt:795, province:'山西省', city:'晋中市',
+         district:'榆次区', town:'', place:'榆次老城', bearing:'西南',
+         takenAt:'2026-10-03 20:12', accuracy:'approximate'},
+    summary:'夜里的榆次老城：斗拱托着百年前的屋檐，琉璃在灯下还亮着当年的颜色。',
+    en:'Old Town at Night', enSub:'Lamps on the eaves of a hundred-year roof',
+    palette:['#2B3A4A','#D9A24A','#B4463C'],
+    annotations:[
+      {type:'box', x:36, y:33, w:38, h:16, cx:2, cy:36, color:'#D8A95A',
+       title:'屋檐下那排"积木"是什么？', term:'斗拱',
+       detail:'斗形木块与弓形横木层层叠挑，把屋檐的重量传到柱子上。挑得越远出檐越大，地震时还能像弹簧一样耗散能量。'},
+      {type:'box', x:78, y:23, w:20, h:14, cx:52, cy:4, color:'#3FBF85',
+       title:'屋顶为什么是金黄色的？', term:'琉璃瓦 · 晋式琉璃',
+       detail:'山西是琉璃烧造重镇，瓦胎挂铅釉二次烧成。黄绿是庙宇与官式建筑的用色，夜里被灯一照更显金黄。'},
+      {type:'point', x:16, y:24, cx:2, cy:4, color:'#C97B6E',
+       title:'屋脊上的小兽干什么用？', term:'脊兽 · 鸱吻',
+       detail:'正脊两端的吻兽传说能吞火镇灾，脊上成排的小兽按建筑等级递减，既压住瓦垄防漏，也是身份的标尺。'},
+      {type:'box', x:4, y:57, w:92, h:12, cx:2, cy:64, color:'#5B9BD5',
+       title:'墙头一圈圈的花是什么？', term:'瓦当 · 滴水',
+       detail:'檐口最下一排瓦头叫瓦当，圆形的瓦当挡住瓦垄末端、引导雨水滴落，也是砖雕匠人最舍得用工的装饰面。'}
+    ]
+  }
+];
+
+/* 非上传流程继续使用的原始演示素材：路线、最近上传、广场保持原样 */
+const ORIGINAL_PHOTOS = [
+  {
+    src:'assets/cliff.png', name:'红崖峡谷', loc:'山西 · 忻州 · 芦芽山',
+    summary:'红色的岩壁记录沉积，深邃的峡谷记录流水，山把时间写成了地层。',
+    annotations:[
+      {type:'box',x:8,y:28,w:45,h:30,cx:4,cy:8,color:'#D8A95A',title:'岩壁为什么一层一层？',term:'沉积岩层理',detail:'不同时期沉积物逐层堆积、压实成岩，成分与颗粒差异留下了可见的层理。'},
+      {type:'point',x:24,y:24,cx:30,cy:14,color:'#5B9BD5',title:'崖顶为什么只长灌木？',term:'山地灌丛',detail:'崖顶风大、土层薄、水分少，低矮灌木比乔木更容易扎根和越冬。'},
+      {type:'box',x:38,y:58,w:34,h:28,cx:56,cy:48,color:'#3FBF85',title:'峡谷是怎样切出来的？',term:'V 型谷',detail:'河流沿构造裂隙长期下切，两侧坡面物质不断被侵蚀搬运，形成狭窄谷地。'},
+      {type:'box',x:33,y:15,w:42,h:11,cx:44,cy:42,color:'#C97B6E',title:'远山为什么一层比一层淡？',term:'大气透视',detail:'空气中的水汽与尘埃散射光线，距离越远，山体对比度越低、颜色越偏冷。'}
+    ]
+  },
+  {
+    src:'assets/gully.png', name:'河谷漫步', loc:'西北 · 荒漠台地',
+    summary:'平坦的台地被冲沟切开，水流短暂离开，却把痕迹留在了山坡上。',
+    annotations:[
+      {type:'box',x:8,y:25,w:46,h:20,cx:3,cy:8,color:'#D8A95A',title:'顶部为什么这样平？',term:'台地',detail:'较坚硬的岩层保护下方地层，周围被侵蚀降低后，留下平顶高地。'},
+      {type:'box',x:20,y:48,w:52,h:34,cx:52,cy:38,color:'#3FBF85',title:'冲沟为何向上游延伸？',term:'溯源侵蚀',detail:'径流在沟头不断掏蚀，使沟谷逐步向坡面上方后退。'},
+      {type:'box',x:2,y:72,w:60,h:20,cx:4,cy:57,color:'#C97B6E',title:'沟口为什么呈扇形？',term:'洪积裙',detail:'山洪出沟后流速骤降，携带的砂石在沟口沉积，多个扇体连接成裙。'},
+      {type:'point',x:72,y:25,cx:52,cy:13,color:'#5B9BD5',title:'一年只绿几天的草',term:'荒漠草原植被',detail:'短暂降水让一年生草本迅速萌发，完成生长后在干季前枯萎。'}
+    ]
+  },
+  {
+    src:'assets/ridge.png', name:'山脊上的风', loc:'山西 · 忻州 · 芦芽山',
+    summary:'沿着山脊行走，草甸在脚下铺开，远处的峰峦一层层退进天空。',
+    annotations:[
+      {type:'box',x:22,y:36,w:58,h:22,cx:4,cy:8,color:'#3FBF85',title:'脚下的路为什么沿这里走？',term:'山脊线',detail:'山脊是两侧坡面的分水线，视野开阔，也常成为穿越山地的天然路径。'},
+      {type:'box',x:0,y:58,w:70,h:30,cx:4,cy:50,color:'#D8A95A',title:'山顶为什么是大片草甸？',term:'高山草甸',detail:'低温、强风与较短生长期限制树木生长，耐寒草本形成连续群落。'},
+      {type:'point',x:78,y:30,cx:52,cy:15,color:'#5B9BD5',title:'尖峰是被谁削出来的？',term:'冰川角峰',detail:'多条冰川从不同方向侵蚀同一山体，留下尖锐的山峰与陡峭岩壁。'},
+      {type:'box',x:34,y:20,w:50,h:12,cx:38,cy:43,color:'#C97B6E',title:'远山为什么层层变淡？',term:'大气透视',detail:'距离增加后，空气散射降低山体对比度，形成由深到浅的空间层次。'}
+    ]
+  }
+];
+
+/* ================================================================
+   效果：极简坐标（skills/minimal-coordinate/SKILL.md）
+   照片像素零改动，只叠加一层透明线稿地图 + 一个红点
+================================================================ */
+const MIN_MAPS = {
+  /* 透明局部地图资产（区域路网+水系+地名内嵌，边缘羽化）；红点由前端按地图内坐标定位 */
+  'assets/raw1_yunnan.jpg': {
+    asset:'assets/maps/yijiu.svg', anchor:{x:4, y:4, w:48}, dot:{x:30.2, y:17.6}
+  },
+  'assets/raw2_luya.jpg': {
+    asset:'assets/maps/luya.svg', anchor:{x:3, y:3, w:28}, dot:{x:18, y:22.1}
+  },
+  'assets/raw3_yuci.jpg': {
+    asset:'assets/maps/yuci.svg', anchor:{x:2, y:1.5, w:26.5}, dot:{x:70.8, y:31.3}
+  }
+};
+
+function buildMinimalOverlay(photo){
+  const cfg = MIN_MAPS[photo.src];
+  if(!cfg) return '';
+  return `<div class="min-overlay">
+    <div class="min-cluster" style="left:${cfg.anchor.x}%;top:${cfg.anchor.y}%;width:${cfg.anchor.w}%">
+      <img class="min-map" src="${cfg.asset}" alt="">
+      <span class="min-location-dot min-dot" style="left:${cfg.dot.x}%;top:${cfg.dot.y}%"></span>
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   我的照片 · 相册（演示数据：10 张已标注作品，位于「我的 › 户外足迹 › 照片」）
+================================================================ */
+const GALLERY = [
+  {src:'assets/gallery/collage-pagoda.jpg', name:'山顶塔影', en:'HILLTOP PAGODA',      place:'山西 · 永济',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/collage-lotus.jpg',  name:'残荷一方', en:'LOTUS IN AUTUMN',     place:'浙江 · 杭州',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/collage-sword.jpg',  name:'林中之剑', en:'SWORD IN THE WOOD',   place:'四川 · 峨眉',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/collage-bamboo.jpg', name:'一枝瘦竹', en:'A SLIP OF BAMBOO',    place:'江苏 · 苏州',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/collage-tea.jpg',    name:'窗前饮茶', en:'WINDOW TEA',          place:'云南 · 大理',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/collage-bridge.jpg', name:'暮色斜拉桥', en:'RIVER AT DUSK',     place:'湖北 · 武汉',    date:'11.01', eff:'抽象画 · 剪贴明信片', kind:'photo'},
+  {src:'assets/gallery/temple-night.jpg', name:'殿前长夜', en:'NIGHT BEFORE THE HALL', place:'山西 · 晋中', date:'11.01', eff:'抽象画 · 丝网版画', kind:'photo'},
+  {src:'assets/gallery/lake-abstraction.jpg', name:'湖畔双影', en:'TWO AT THE LAKE', place:'四川 · 甘孜', date:'11.01', eff:'抽象画 · 丝网版画', kind:'photo'},
+  {src:'assets/gallery/white-cliff.jpg',name:'白崖灯塔', en:'LIGHTHOUSE BENEATH THE CLIFF', place:'英国 · 比奇角',  date:'11.01', eff:'明信片 · 纸面留白',   kind:'photo'},
+  {src:'assets/gallery/hill-house.jpg', name:'山坡上的白房子', en:'A HOUSE ON THE HILL', place:'英国 · 肯特郡',      date:'11.01', eff:'明信片 · 纸面留白',   kind:'photo'},
+  {src:'assets/gallery/grass-camp.jpg', name:'草原营地', en:'GRASSLAND CAMP',      place:'新疆 · 伊犁',        date:'11.01', eff:'明信片',   kind:'photo'},
+  {src:'assets/gallery/starry-lake.jpg',name:'雪山星湖', en:'STARRY MOUNTAIN LAKE', place:'四川 · 贡嘎',        date:'11.01', eff:'明信片',   kind:'photo'},
+  {src:'assets/gallery/snow-lake.jpg',  name:'雪峰冰湖', en:'SNOW PEAKS & ALPINE LAKE', place:'西藏 · 日喀则',  date:'11.01', eff:'明信片',   kind:'photo'},
+  {src:'assets/gallery/yulong.jpg',   name:'玉龙雪山',   en:'YULONG SNOW MOUNTAIN', place:'云南 · 丽江',        date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/dolomites.jpg',name:'三峰山',     en:'TRE CIME DI LAVAREDO', place:'意大利 · 多洛米蒂',  date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/sanya.jpg',    name:'椰梦长廊',   en:'COCONUT DREAM CORRIDOR', place:'海南 · 三亚',     date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/hemu.jpg',     name:'禾木村',     en:'HEMU VILLAGE',        place:'新疆 · 阿勒泰',      date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/linyi.jpg',    name:'皇山阁',     en:'HUANGSHAN PAVILION',  place:'山东 · 临沂',        date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/hongkong.jpg', name:'维多利亚港', en:'VICTORIA HARBOUR',    place:'中国香港',            date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/xiamen.jpg',   name:'集美公园',   en:'JIAGENG PARK',        place:'福建 · 厦门',        date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/pamir.jpg',    name:'帕米尔高原', en:'PAMIR PLATEAU',       place:'新疆 · 塔什库尔干',  date:'11.01', eff:'极简坐标', kind:'photo'},
+  {src:'assets/gallery/siping.jpg',   name:'泗坪水库',   en:'SIPING RESERVOIR',    place:'河南 · 济源',        date:'11.01', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/wugong.jpg',   name:'武功山',     en:'WUGONG MOUNTAIN',     place:'江西 · 萍乡',        date:'11.01', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/tengger.jpg',  name:'腾格里沙漠', en:'TENGGER DESERT',      place:'内蒙古 · 阿拉善左旗', date:'10.26', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/taihang.jpg',  name:'南太行',     en:'SOUTH TAIHANG',       place:'山西 · 陵川',        date:'10.24', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/tiger.jpg',    name:'虎跳峡',     en:'TIGER LEAPING GORGE', place:'云南 · 香格里拉',    date:'10.21', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/dangling.jpg', name:'党岭',       en:'DANGLING',            place:'四川 · 丹巴',        date:'10.18', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/genyen.jpg',   name:'格聂',       en:'GENYEN',              place:'四川 · 理塘',        date:'10.16', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/yubeng.jpg',   name:'雨崩村',     en:'YUBENG VILLAGE',      place:'云南 · 德钦',        date:'10.12', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/housihe.jpg',  name:'后寺河水库', en:'HOUSIHE RESERVOIR',   place:'河南 · 巩义',        date:'10.08', eff:'地理标注', kind:'photo'},
+  {src:'assets/gallery/route-china.jpg', name:'这趟行程的线', en:'ROUTE MAP',      place:'川 · 滇 · 晋 · 蒙',  date:'全年',  eff:'中国风 · 手绘舆图', kind:'map'}
+];
+
+const ROUTES = [
+  {id:0, name:'芦芽山 · 马仑草原环线', km:'12.4', kmU:'km', climb:'580', climbU:'m', time:'4h20', diff:'轻松', diffC:'easy',
+   season:'6-10月', hot:231, fav:48, tags:['短途','徒步','高山草甸'], map:'loop', photos:['assets/luya.jpg','assets/ridge.png','assets/cliff.png'], photoCount:23},
+  {id:1, name:'五台山 · 东台顶往返', km:'8.6', kmU:'km', climb:'920', climbU:'m', time:'5h10', diff:'标准', diffC:'std',
+   season:'5-9月', hot:189, fav:62, tags:['徒步','山脊','进阶'], map:'out', photos:['assets/cliff.png','assets/ridge.png','assets/gully.png'], photoCount:17},
+  {id:2, name:'龙山 · 沟谷森林步道', km:'6.2', kmU:'km', climb:'260', climbU:'m', time:'2h40', diff:'轻松', diffC:'easy',
+   season:'4-11月', hot:156, fav:35, tags:['亲子','森林','短途'], map:'mtn', photos:['assets/gully.png','assets/cliff.png','assets/ridge.png'], photoCount:31}
+];
+
+const TEMPLATES = [
+  {id:'origin', name:'原图', tag:'free', tagT:'免费', desc:'保留照片原本的样子'},
+  {id:'geo', name:'地理科普', tag:'free', tagT:'免费', desc:'位置与地貌信息更清晰'},
+  {id:'min', name:'极简坐标', tag:'free', tagT:'免费', desc:'只保留地名与经纬度', skill:'minimal-coordinate'},
+  {id:'postcard', name:'明信片', tag:'limited', tagT:'限免', desc:'照片加纸面，六种笔触可选'},
+  {id:'abstract', name:'抽象画', tag:'limited', tagT:'限免', desc:'把照片压成色块与剪影'},
+  {id:'china', name:'中国风线路图', tag:'limited', tagT:'限免', desc:'行程或单张，都画成古地图'}
+];
+
+/* 可选生图大模型（演示数据：仅用于交互展示，不发起真实请求） */
+const MODELS = [
+  {id:'seedream', name:'即梦 · Seedream 4.0', vendor:'字节跳动', good:'写实风景 / 中文理解准', tag:'free', tagT:'免费', bg:'#2F6F5E', ch:'即'},
+  {id:'wanx',     name:'通义万相 2.1',       vendor:'阿里云',   good:'手绘质感 / 风格迁移强', tag:'free', tagT:'免费', bg:'#3C5A8A', ch:'万'},
+  {id:'kolors',   name:'可灵 · Kolors',      vendor:'快手',     good:'淡彩手账 / 东方审美', tag:'limited', tagT:'限免', bg:'#8A5A3C', ch:'可'}
+];
+
+/* 提示词配置：按成图效果切换引导方式
+   mode:text 自由描述  multi 多选追加  single 单选风格  coord 地名+经纬度 */
+const PROMPT_CONF = {
+  origin:{
+    mode:'single', title:'保留方式', hint:'原图不改画面',
+    ph:'例如：只保留原片色调，不额外加字…',
+    chips:['原片色调','不加水印','保留完整画幅']
+  },
+  geo:{
+    mode:'multi', title:'补充这里的地质地貌', hint:'你写的会被标到图上',
+    ph:'例如：海拔 3,180 米，石灰岩峰丛地貌，谷底是高山草甸…',
+    chips:['海拔 3,180 米','石灰岩峰丛','冰川槽谷','峡谷阶地','高山草甸','雨季午后阵雨']
+  },
+  min:{
+    mode:'coord', title:'确认地名与坐标', hint:'红点就标在这里',
+    def:{name:'云南 · 宜就对门村', lat:'25°25′N', lng:'101°32′E'}
+  },
+  postcard:{
+    mode:'single', title:'手账风格', hint:'选一种纸感与笔触',
+    ph:'写在明信片背面的那句话，例如：那年冬天，风很大…',
+    chips:['钢笔淡彩','水彩湿画','老胶片','铅笔素描','和纸质感','纸面留白']
+  },
+  abstract:{
+    mode:'single', title:'配色与构成', hint:'选一种画法',
+    ph:'例如：只用墨绿与土黄，把山脊压成三条横带…',
+    chips:['几何色块','构成主义','剪纸拼贴','极简留白','丝网版画','剪贴明信片']
+  },
+  china:{
+    mode:'single', title:'画风与题跋', hint:'选一种古意',
+    ph:'例如：题一句「山行手记」，按行程顺序连成古地图…',
+    chips:['手绘舆图','水墨淡彩','青绿山水','木刻线描','绢本设色']
+  }
+};
+
+/* 「我」发布的多图精选：首页为一处主图，右滑看其余 */
+/* 抽象画 · 剪贴明信片：主体剪下来贴在单色块上，纸面留白，打字机标题与编号 */
+const POST_COLLAGE6 = {
+  author:'山野里的我', time:'刚刚', isAI:true, mine:true,
+  coverPos:'center 45%',
+  photo:{
+    name:'把六样东西剪下来贴在纸上',
+    src:'assets/gallery/collage-pagoda.jpg',
+    loc:'山西 · 永济 / 浙江 · 杭州 / 四川 · 峨眉',
+    summary:'宝塔、残荷、持刀的人、一枝竹、窗前的茶、暮色里的桥——都从原片里剪下来，背后压一块颜色，只剩纸面、一条横线和一行编号。',
+    annotations:[{term:'山顶塔影'},{term:'残荷一方'}]
+  },
+  images:[
+    'assets/gallery/collage-pagoda.jpg',
+    'assets/gallery/collage-lotus.jpg',
+    'assets/gallery/collage-sword.jpg',
+    'assets/gallery/collage-bamboo.jpg',
+    'assets/gallery/collage-tea.jpg',
+    'assets/gallery/collage-bridge.jpg'
+  ]
+};
+
+/* 抽象画 · 丝网版画：原片拆成几块颜色，留剪影、一道光和一放印章 */
+const POST_ABSTRACT2 = {
+  author:'山野里的我', time:'刚刚', isAI:true, mine:true,
+  coverPos:'center 12%',
+  photo:{
+    name:'把两张照片拆成了色块',
+    src:'assets/gallery/temple-night.jpg',
+    loc:'山西 · 晋中 / 四川 · 甘孜',
+    summary:'大殿的灯、湖边的两个人，都被拆成几块颜色重新缝了一遍——留下剪影、一道赭黄的光，和一枚红印。',
+    annotations:[{term:'殿前长夜'},{term:'湖畔双影'}]
+  },
+  images:[
+    'assets/gallery/temple-night.jpg',
+    'assets/gallery/lake-abstraction.jpg'
+  ]
+};
+
+/* 明信片 · 纸面留白：上半格留照片，下半格化纸，铅笔线继续走 */
+const POST_PAPER2 = {
+  author:'山野里的我', time:'刚刚', isAI:true, mine:true,
+  coverPos:'center 42%',
+  photo:{
+    name:'上半天光，下半张纸',
+    src:'assets/gallery/white-cliff.jpg',
+    loc:'英国 · 比奇角 / 肯特郡',
+    summary:'灯塔的红、草坡的绿、海水的蓝只留在上半格，下半格交给米白纸面和铅笔线——风从崖上过去，人走成一条细细的线。',
+    annotations:[{term:'白崖灯塔'},{term:'山坡白屋'}]
+  },
+  images:[
+    'assets/gallery/white-cliff.jpg',
+    'assets/gallery/hill-house.jpg'
+  ]
+};
+
+const POST_POSTCARD3 = {
+  author:'山野里的我', time:'刚刚', isAI:true, mine:true,
+  coverPos:'center 34%',
+  photo:{
+    name:'把三张照片画成了明信片',
+    src:'assets/gallery/grass-camp.jpg',
+    loc:'新疆 · 伊犁 / 四川 · 贡嘎 / 西藏 · 日喀则',
+    summary:'花海里的毡房、倒映星空的雪峰、正午泛青的冰湖——同一个明信片模板刷了三遍，三处天气却各留各的。',
+    annotations:[{term:'草原营地'},{term:'雪山星湖'},{term:'雪峰冰湖'}]
+  },
+  images:[
+    'assets/gallery/grass-camp.jpg',
+    'assets/gallery/starry-lake.jpg',
+    'assets/gallery/snow-lake.jpg'
+  ]
+};
+
+const POST_SEASON4 = {
+  author:'山野里的我', time:'今天 14:01', isAI:true, mine:true,
+  coverPos:'center 32%',
+  photo:{
+    name:'晨昏与四季',
+    src:'assets/gallery/yulong.jpg',
+    loc:'云南 · 丽江 / 意大利 · 多洛米蒂 / 海南 · 三亚 / 新疆 · 阿勒泰',
+    summary:'玉龙雪山的日照金山、多洛米蒂正午的碎石坡、三亚最后一格橘色、禾木清晨的炊烟——一趟远行，收齐了四季的光。',
+    annotations:[{term:'玉龙雪山'},{term:'三峰山'},{term:'椰梦长廊'},{term:'禾木村'}]
+  },
+  images:[
+    'assets/gallery/yulong.jpg',
+    'assets/gallery/dolomites.jpg',
+    'assets/gallery/sanya.jpg',
+    'assets/gallery/hemu.jpg'
+  ]
+};
+
+const POST_CITY4 = {
+  author:'山野里的我', time:'今天 13:19', isAI:true, mine:true,
+  photo:{
+    name:'灯、海与高原',
+    src:'assets/gallery/linyi.jpg',
+    loc:'山东 · 临沂 / 中国香港 / 福建 · 厦门 / 新疆 · 帕米尔',
+    summary:'同一趟假期里的四种光线：皇山阁的月色、维港的夜航、集美涨潮的台阶，还有被夕阳照亮的那片帕米尔。',
+    annotations:[{term:'皇山阁'},{term:'维多利亚港'},{term:'集美公园'},{term:'帕米尔高原'}]
+  },
+  images:[
+    'assets/gallery/linyi.jpg',
+    'assets/gallery/hongkong.jpg',
+    'assets/gallery/xiamen.jpg',
+    'assets/gallery/pamir.jpg'
+  ]
+};
+
+const POST_ROUTES = {
+  author:'山野里的我', time:'今天 12:05', isAI:true, mine:true,
+  photo:{
+    name:'这一年走过的山野',
+    src:'assets/gallery/route-china.jpg',
+    loc:'内蒙古 · 河南 · 四川 · 云南 · 江西',
+    summary:'从腾格里的沙丘走到虎跳峡的谷底，把十处山野缝成一张图——每一处都还留着当时的天气。',
+    annotations:[{term:'腾格里沙漠'},{term:'泗坪水库'},{term:'党岭村'},{term:'虎跳峡'}]
+  },
+  images:[
+    'assets/gallery/route-china.jpg',
+    'assets/gallery/tengger.jpg',
+    'assets/gallery/siping.jpg',
+    'assets/gallery/housihe.jpg',
+    'assets/gallery/dangling.jpg',
+    'assets/gallery/genyen.jpg',
+    'assets/gallery/yubeng.jpg',
+    'assets/gallery/taihang.jpg',
+    'assets/gallery/tiger.jpg',
+    'assets/gallery/wugong.jpg'
+  ]
+};
+
+const FEED_SEED = [
+  POST_COLLAGE6,
+  POST_ABSTRACT2,
+  POST_PAPER2,
+  POST_POSTCARD3,
+  POST_SEASON4,
+  POST_CITY4,
+  POST_ROUTES,
+  {photo:ORIGINAL_PHOTOS[0], author:'山风', time:'2 小时前', isAI:true},
+  {photo:ORIGINAL_PHOTOS[1], author:'阿灿', time:'5 小时前', isAI:true},
+  {photo:ORIGINAL_PHOTOS[2], author:'北纬 39°', time:'昨天 18:24', isAI:true}
+];
+
+/* ================================================================
+   全局状态
+================================================================ */
+const S = {
+  tab:'routes',
+  routeTab:'pick',     // 路线页子 tab：开屏后默认落在「精选」
+  template:'geo',
+  model:'seedream',    // 生图大模型（默认即梦）
+  prompts:{},          // 每个效果各自的提示词（按效果分开存，避免串味）
+  styleBy:{},          // 每个效果各自选中的风格
+  coord:{name:'云南 · 宜就对门村', lat:'25°25′N', lng:'101°32′E'},  // 极简坐标的默认地名与经纬度
+  coords:{},           // 极简坐标：按照片 src 各存一组 {name,lat,lng}，一张照片一组
+  liked:{},            // 已点赞的 key（路线 r<id> / 帖子 p:<名称>）
+  logged:false,
+  works:[],            // 本次生成的作品（photo 引用）
+  saved:[],            // 已存图鉴
+  published:[],        // 已发布到广场
+  recent:[
+    {name:'把六样东西剪下来贴在纸上', meta:'6 张照片 · 1 分钟前', time:'1 分钟前', photo:POST_COLLAGE6.photo, images:POST_COLLAGE6.images},
+    {name:'把两张照片拆成了色块', meta:'2 张照片 · 1 分钟前', time:'1 分钟前', photo:POST_ABSTRACT2.photo, images:POST_ABSTRACT2.images},
+    {name:'上半天光，下半张纸', meta:'2 张照片 · 1 分钟前', time:'1 分钟前', photo:POST_PAPER2.photo, images:POST_PAPER2.images},
+    {name:'把三张照片画成了明信片', meta:'3 张照片 · 2 分钟前', time:'2 分钟前', photo:POST_POSTCARD3.photo, images:POST_POSTCARD3.images},
+    {name:'晨昏与四季', meta:'4 张照片 · 今天 14:01', time:'今天 14:01', photo:POST_SEASON4.photo, images:POST_SEASON4.images},
+    {name:'灯、海与高原', meta:'4 张照片 · 今天 13:19', time:'今天 13:19', photo:POST_CITY4.photo, images:POST_CITY4.images},
+    {name:'这一年走过的山野', meta:'10 张照片 · 今天 12:05', time:'今天 12:05', photo:POST_ROUTES.photo, images:POST_ROUTES.images},
+    {name:'山脊上的风', meta:'3 张照片 · 今天 08:42', photo:ORIGINAL_PHOTOS[2]},
+    {name:'河谷漫步', meta:'5 张照片 · 10 月 28 日', photo:ORIGINAL_PHOTOS[1]}
+  ],
+  stats:{days:5, tracks:8, photos:86, posts:3, favs:12, space:320}
+};
+
+const screen = document.getElementById('screen');
+const navStack = [];
+
+/* ================================================================
+   工具
+================================================================ */
+function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild}
+/* 让照片按原图比例完整显示，标注坐标才能对齐（横竖幅混排也不会错位） */
+function fitPhoto(wrap){
+  if(!wrap) return;
+  const fit = wrap.querySelector('.photo-fit');
+  if(!fit) return;
+  const img = fit.querySelector('img');
+  if(!img) return;
+  const apply = ()=>{
+    const bw = wrap.clientWidth, bh = wrap.clientHeight;
+    if(!bw || !bh) return;
+    const nw = img.naturalWidth || 3, nh = img.naturalHeight || 4;
+    const r = nw/nh;
+    let w = bw, h = bw/r;
+    if(h > bh){ h = bh; w = bh*r; }
+    fit.style.width = Math.round(w)+'px';
+    fit.style.height = Math.round(h)+'px';
+    fit.classList.toggle('wide', r > 1.05);
+    layoutAnnoChips(fit);
+  };
+  if(img.complete && img.naturalWidth) apply();
+  img.addEventListener('load', apply);
+  requestAnimationFrame(apply);
+}
+/* 标注卡片避让：先按锚点落位，再收敛到照片内并两两错开，避免字压字 / 卡片互盖 */
+function layoutAnnoChips(fit){
+  if(!fit) return;
+  const W = fit.clientWidth, H = fit.clientHeight;
+  if(!W || !H) return;
+  const pad = 6, gap = 8;
+  const chips = [].slice.call(fit.querySelectorAll('.anno-chip'));
+  if(!chips.length) return;
+  const items = chips.map((c,i)=>({
+    el:c, i:i,
+    w: Math.min(c.offsetWidth || 0, W - pad*2),
+    h: c.offsetHeight || 0,
+    cx: parseFloat(c.dataset.cx),
+    cy: parseFloat(c.dataset.cy)
+  })).filter(it=> it.w > 0);
+  if(!items.length) return;
+  items.sort((a,b)=> a.cy - b.cy || a.cx - b.cx || a.i - b.i);
+  const placed = [];
+  items.forEach(it=>{
+    let x = it.cx/100*W, y = it.cy/100*H;
+    x = Math.max(pad, Math.min(x, W - it.w - pad));
+    y = Math.max(pad, Math.min(y, H - it.h - pad));
+    for(let guard=0; guard<40; guard++){
+      const hit = placed.find(p=> x < p.x+p.w+gap && p.x < x+it.w+gap && y < p.y+p.h+gap && p.y < y+it.h+gap);
+      if(!hit) break;
+      const below = hit.y + hit.h + gap;
+      const above = hit.y - it.h - gap;
+      if(below + it.h <= H - pad){
+        y = below;                       /* 往下让 */
+      }else if(above >= pad){
+        y = above;                       /* 下方放不下，改往上让 */
+      }else{
+        const nx = Math.min(W - it.w - pad, hit.x + hit.w + gap);
+        if(nx <= x + 0.5) break;         /* 实在挪不动，接受现状 */
+        x = nx;
+      }
+    }
+    placed.push({x:x, y:y, w:it.w, h:it.h});
+    it.el.style.left = Math.round(x)+'px';
+    it.el.style.top  = Math.round(y)+'px';
+  });
+}
+/* 点开一条时收起其它条，并按新高度重新避让 */
+function bindAnnoChips(fit){
+  const chips = [].slice.call(fit.querySelectorAll('.anno-chip'));
+  chips.forEach(c=>c.onclick=(e)=>{
+    e.stopPropagation();
+    const open = !c.classList.contains('expanded');
+    chips.forEach(o=>{ if(o!==c) o.classList.remove('expanded'); });
+    c.classList.toggle('expanded', open);
+    layoutAnnoChips(fit);
+    requestAnimationFrame(()=>layoutAnnoChips(fit));
+    setTimeout(()=>layoutAnnoChips(fit), 80);
+  });
+}
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.result-photo-wrap').forEach(w=>fitPhoto(w));
+});
+function toast(msg, ok=true){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t = el(`<div class="toast">${ok?'<span class="t-ok"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>':''}<span>${msg}</span></div>`);
+  screen.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),320)},1900);
+}
+const ICONS = {
+  mountain:'<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><path d="M3 18.5 9.2 7.2a1.2 1.2 0 0 1 2 0l3 5 1.8-2.6a1.2 1.2 0 0 1 2 0L21 18.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.6" cy="5.4" r="1.7" fill="currentColor"/></svg>',
+  route:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 19c4.5 0 4.5-6 9-6s4.5 3 8 3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-dasharray="0.5 3.4"/><circle cx="5" cy="19" r="2.1" fill="currentColor"/><circle cx="22" cy="16" r="2.1" fill="#fff" stroke="currentColor" stroke-width="1.6"/></svg>',
+  person:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.9"/><path d="M4.8 20c1.3-3.4 4-5 7.2-5s5.9 1.6 7.2 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  back:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="#16301F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  search:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.9"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  camera:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8.5 7l1.4-2.4A1.5 1.5 0 0 1 11.2 4h1.6a1.5 1.5 0 0 1 1.3.6L15.5 7"/><circle cx="12" cy="13" r="3.6"/></svg>',
+  upload:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5"/><path d="M4 20h16"/></svg>',
+  target:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.6"/></svg>',
+  wechat:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M9.3 4C5.3 4 2 6.8 2 10.2c0 1.9 1 3.5 2.6 4.6l-.7 2.1 2.4-1.2c.6.2 1.3.3 2 .3h.4A5.5 5.5 0 0 1 9.3 14c0-3 2.9-5.4 6.5-5.4h.3C15.6 6 12.7 4 9.3 4zM7 8.4a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8zm4.7 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8zM22 13.9c0-2.8-2.8-5-6.2-5s-6.2 2.2-6.2 5 2.8 5 6.2 5c.6 0 1.1-.1 1.7-.2l2 1-.5-1.8A4.9 4.9 0 0 0 22 13.9zm-8.4-1.7a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5zm4.5 0a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5z"/></svg>',
+  pin:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6.8-5.3-6.8-10.2a6.8 6.8 0 1 1 13.6 0C18.8 15.7 12 21 12 21z"/><circle cx="12" cy="10.6" r="2.3"/></svg>',
+  bookmark:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6.5 3.5h11a1 1 0 0 1 1 1V21l-6.5-4.2L5.5 21V4.5a1 1 0 0 1 1-1z"/></svg>',
+  fav:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6.5 3.5h11a1 1 0 0 1 1 1V21l-6.5-4.2L5.5 21V4.5a1 1 0 0 1 1-1z"/></svg>',
+  heart:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.2s-7.4-4.5-7.4-9.4A4.3 4.3 0 0 1 12 8.1a4.3 4.3 0 0 1 7.4 2.7c0 4.9-7.4 9.4-7.4 9.4z"/></svg>',
+  cmt:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20.5 12c0 4-3.8 7.2-8.5 7.2-.9 0-1.9-.13-2.7-.37L4.5 20.4l1.1-3.3C4.3 15.7 3.5 13.9 3.5 12 3.5 8 7.3 4.8 12 4.8s8.5 3.2 8.5 7.2z"/></svg>',
+};
+
+/* 山野插画（开屏） */
+function splashArtSVG(){
+  return `<svg viewBox="0 0 340 330" fill="none">
+    <circle cx="268" cy="52" r="26" fill="#F7E9AE"/>
+    <path d="M-10 78c40-8 70 6 110 0s70-14 120-4 90 8 130-2" stroke="#E4E9DF" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-10 96c50-6 80 8 130 2s80-12 130-2 80 10 100 4" stroke="#EDF0E6" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-20 300 L60 170 L110 235 L170 130 L235 240 L290 165 L370 300 Z" fill="#DDE9DF"/>
+    <path d="M-20 300 L40 210 L95 262 L150 185 L215 268 L275 205 L370 300 Z" fill="#A9C9B2"/>
+    <path d="M-20 300 L55 240 L120 285 L185 230 L255 290 L315 245 L370 300 Z" fill="#7FA98A"/>
+    <path d="M-20 300 L70 262 L150 300 L240 262 L330 300 Z" fill="#5E8A6C"/>
+    <path d="M150 300 C 160 280 130 268 150 252 C 168 238 150 226 165 214" stroke="#F6F2E2" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <g fill="#4E7A5C"><path d="M52 236 60 216 68 236z"/><path d="M64 240 70 224 76 240z"/><rect x="59" y="236" width="2.4" height="8"/></g>
+    <g fill="#4E7A5C"><path d="M288 246 296 226 304 246z"/><path d="M300 250 306 234 312 250z"/><rect x="295" y="246" width="2.4" height="8"/></g>
+  </svg>`;
+}
+/* 出发页绿色卡片内的山形 */
+function heroArtSVG(){
+  return `<svg class="bgart" viewBox="0 0 346 200" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M-10 210 L70 90 L130 160 L200 60 L280 165 L340 105 L370 210Z" fill="#2A7253" opacity=".55"/>
+    <path d="M-10 210 L50 130 L120 185 L190 110 L270 195 L330 145 L370 210Z" fill="#236148" opacity=".7"/>
+    <path d="M190 200 C 200 178 175 168 196 150 C 212 137 198 126 212 114" stroke="#F6F2E2" stroke-width="7" stroke-linecap="round" fill="none" opacity=".8"/>
+  </svg>`;
+}
+/* banner 山形底图 */
+function bannerArtSVG(i){
+  const arts = [
+    `<svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><rect width="200" height="120" fill="#3E7A5E"/><circle cx="160" cy="26" r="15" fill="#F7E9AE" opacity=".9"/><path d="M-10 120 45 45 80 90 120 30 170 100 210 120Z" fill="#2E5F48"/><path d="M-10 120 60 75 110 108 160 80 210 120Z" fill="#234A38"/></svg>`,
+    `<svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><rect width="200" height="120" fill="#4E8A6B"/><circle cx="40" cy="24" r="13" fill="#F7E9AE" opacity=".85"/><path d="M-10 120 35 55 75 95 125 40 175 105 210 120Z" fill="#35694F"/><path d="M-10 120 55 85 105 110 155 88 210 120Z" fill="#27523D"/></svg>`
+  ];
+  return arts[i%arts.length];
+}
+/* 平滑轨迹：Catmull-Rom 转三次贝塞尔，传入的每个路径点都精确落在曲线上。
+   起终点圆点、沿途照片点全部取自这组路径点，所以不会再和线脱开。 */
+function smoothPath(pts, closed){
+  const p = closed ? pts.slice(0,-1) : pts.slice();
+  const n = p.length;
+  const at = i => closed ? p[(i+n)%n] : p[Math.max(0, Math.min(n-1, i))];
+  let d = `M${p[0][0]} ${p[0][1]}`;
+  const segs = closed ? n : n-1;
+  for(let i=0;i<segs;i++){
+    const a=at(i-1), b=at(i), c=at(i+1), e=at(i+2);
+    const c1x=b[0]+(c[0]-a[0])/6, c1y=b[1]+(c[1]-a[1])/6;
+    const c2x=c[0]-(e[0]-b[0])/6, c2y=c[1]-(e[1]-b[1])/6;
+    d += ` C${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${c[0]} ${c[1]}`;
+  }
+  return closed ? d+'Z' : d;
+}
+/* 路线缩略小地图 */
+const THUMB_SHAPES = {
+  loop:{closed:true,  pts:[[24,68],[18,42],[42,24],[70,28],[79,52],[64,70],[42,75]]},
+  out: {closed:false, pts:[[18,80],[34,60],[28,42],[46,34],[66,30],[80,18]]}
+};
+function routeThumbSVG(type, seed){
+  let inner = `<rect width="96" height="96" fill="#EDF0E6"/>
+    <path d="M-5 30 Q 25 22 48 30 T 101 28" stroke="#DFE4D6" stroke-width="5" fill="none"/>
+    <path d="M-5 62 Q 30 55 55 63 T 101 58" stroke="#DFE4D6" stroke-width="5" fill="none"/>`;
+  if(type==='mtn'){
+    inner += `<path d="M-5 96 28 38 48 66 66 30 101 96Z" fill="#A9C9B2"/><path d="M-5 96 40 62 62 80 82 58 101 96Z" fill="#7FA98A"/><path d="M20 96 C 30 80 22 74 34 64" stroke="#F6F2E2" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  } else {
+    const g = THUMB_SHAPES[type] || THUMB_SHAPES.out;
+    const s = g.pts[0], e = g.pts[g.pts.length-1];
+    inner += `<path d="${smoothPath(g.pts, !!g.closed)}" stroke="#22A06B" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+    if(g.closed){
+      inner += `<circle cx="${s[0]}" cy="${s[1]}" r="4.2" fill="#E8862E" stroke="#EDF0E6" stroke-width="1.6"/>`;
+    } else {
+      inner += `<circle cx="${s[0]}" cy="${s[1]}" r="3.4" fill="#FFF" stroke="#E8862E" stroke-width="2.4"/>
+        <circle cx="${e[0]}" cy="${e[1]}" r="4.2" fill="#E8862E" stroke="#EDF0E6" stroke-width="1.6"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 96 96">${inner}</svg>`;
+}
+/* 路线详情地图：轨迹、起终点、沿途照片点、文字标注共用同一组坐标 */
+const MAP_SHAPES = {
+  /* 环线：起点与终点合一。整体上移，避开左下角图例与右上角指北针 */
+  loop:{
+    closed:true,
+    pts:[[72,206],[56,160],[88,122],[150,104],[208,122],[230,160],[210,196],[156,214],[106,212]],
+    photo:[150,104],
+    startLabel:{t:'起终点', x:66, y:224, a:'end'},
+    photoLabel:{x:150, y:88, a:'middle'}
+  },
+  /* 往返：单程线，起终点各一枚 */
+  out:{
+    closed:false,
+    pts:[[60,222],[94,190],[84,158],[120,132],[168,116],[214,106],[250,82],[262,64]],
+    photo:[168,116],
+    startLabel:{t:'起点', x:72, y:226, a:'start'},
+    endLabel:{t:'终点', x:246, y:70, a:'end'},
+    photoLabel:{x:166, y:140, a:'middle'}
+  },
+  /* 沟谷步道 */
+  mtn:{
+    closed:false,
+    pts:[[58,222],[96,196],[86,162],[130,144],[186,133],[228,139],[254,160],[268,190]],
+    photo:[186,133],
+    startLabel:{t:'起点', x:70, y:226, a:'start'},
+    endLabel:{t:'终点', x:262, y:210, a:'end'},
+    photoLabel:{x:186, y:112, a:'middle'}
+  }
+};
+function routeMapSVG(route){
+  const g = MAP_SHAPES[route.map] || MAP_SHAPES.mtn;
+  const s = g.pts[0], e = g.pts[g.pts.length-1];
+  const d = smoothPath(g.pts, !!g.closed);
+  /* 橙色=起终点（对齐图例）；起点空心、终点实心，环线只有一枚 */
+  const dotStart = (x,y)=>`<circle cx="${x}" cy="${y}" r="5.8" fill="#FFF" stroke="#E8862E" stroke-width="3.2"/>`;
+  const dotEnd   = (x,y)=>`<circle cx="${x}" cy="${y}" r="7" fill="#E8862E" stroke="#FFF" stroke-width="2.4"/>`;
+  const label = o=>`<text x="${o.x}" y="${o.y}" text-anchor="${o.a}" class="map-marker-label" stroke="#EDF0E6" stroke-width="3.4" paint-order="stroke">${o.t}</text>`;
+  return `<svg viewBox="0 0 340 316" preserveAspectRatio="xMidYMid slice">
+    <rect width="340" height="316" fill="#EDF0E6"/>
+    ${[40,90,140,190,240].map(y=>`<path d="M-10 ${y} Q 90 ${y-14} 180 ${y} T 360 ${y-4}" stroke="#E0E5D7" stroke-width="6" fill="none"/>`).join('')}
+    ${[70,150,230].map(x=>`<path d="M${x} -10 Q ${x+12} 150 ${x-6} 330" stroke="#E4E8DB" stroke-width="4" fill="none"/>`).join('')}
+    <path d="${d}" stroke="#F8FAF3" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" class="route-casing"/>
+    <path d="${d}" stroke="#22A06B" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="route-path"/>
+    ${g.closed ? dotEnd(s[0],s[1]) : dotStart(s[0],s[1]) + dotEnd(e[0],e[1])}
+    <circle cx="${g.photo[0]}" cy="${g.photo[1]}" r="5" fill="#22A06B" stroke="#FFF" stroke-width="2"/>
+    ${label(g.startLabel)}
+    ${g.endLabel ? label(g.endLabel) : ''}
+    ${label({t:'沿途照片', x:g.photoLabel.x, y:g.photoLabel.y, a:g.photoLabel.a})}
+  </svg>`;
+}
+/* 模板预览小图 */
+function tplPreviewSVG(id){
+  const mtn = `<path d="M-5 104 35 40 60 75 88 28 130 90 165 45 205 104Z" fill="#7FA98A"/><path d="M-5 104 55 70 95 92 135 68 175 90 205 104Z" fill="#5E8A6C"/>`;
+  const base = `<rect width="200" height="104" fill="#CFE0D3"/>${mtn}`;
+  switch(id){
+    case 'origin': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice">${base}</svg>`;
+    case 'geo': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice">${base}
+      <rect x="12" y="12" width="76" height="26" rx="7" fill="rgba(255,255,255,.92)"/>
+      <rect x="20" y="20" width="44" height="4" rx="2" fill="#22A06B"/><rect x="20" y="29" width="58" height="4" rx="2" fill="#D9DED4"/>
+      <path d="M150 22c8-7 20-4 22 5" stroke="#E8862E" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`;
+    case 'min': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice">${base}
+      <image href="assets/maps/yijiu.svg" x="12" y="4" width="112" height="56" opacity=".82"/>
+      <circle cx="76" cy="33" r="2.8" fill="#CF453F"/></svg>`;
+    case 'postcard': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice"><rect width="200" height="104" fill="#F3ECDC"/>${mtn}
+      <path d="M20 88 h160" stroke="#B8860B" stroke-width="1.6" stroke-dasharray="5 4"/></svg>`;
+    case 'abstract': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice"><rect width="200" height="104" fill="#E9E4D2"/>
+      <path d="M-5 104 40 45 70 80 105 35 150 85 185 55 205 104Z" fill="#8FA98B"/>
+      <path d="M-5 104 60 78 110 95 150 75 205 104Z" fill="#B8875B" opacity=".8"/></svg>`;
+    case 'china': return `<svg viewBox="0 0 200 104" preserveAspectRatio="xMidYMid slice"><rect width="200" height="104" fill="#EFE7D2"/>
+      <path d="M30 84 C 55 60 40 40 80 34 C 120 28 115 55 150 48" stroke="#B0413E" stroke-width="2.6" fill="none" stroke-dasharray="1 6" stroke-linecap="round"/>
+      <circle cx="30" cy="84" r="4" fill="#B0413E"/><circle cx="150" cy="48" r="4" fill="#B0413E"/>
+      <circle cx="170" cy="24" r="10" fill="#D8A95A" opacity=".7"/></svg>`;
+  }
+}
+
+/* ================================================================
+   页面：开屏 / 登录
+================================================================ */
+function renderSplash(){
+  const p = el(`<div class="page" id="page-splash">
+    <div class="splash-top fade-up" style="animation-delay:.05s">
+      <div class="logo-badge"><span style="width:30px;height:30px;color:#fff;display:block">${ICONS.mountain}</span></div>
+      <div><div class="brand-name">徒步图鉴</div><div class="brand-en">HIKING ATLAS</div></div>
+    </div>
+    <div class="splash-mid">
+      <div class="eyebrow fade-up" style="animation-delay:.22s">看见山野，也读懂山野</div>
+      <div class="splash-title fade-up" style="animation-delay:.38s">把山野风景，<br>收进你的图鉴。</div>
+      <div class="splash-sub fade-up" style="animation-delay:.55s">去山野，去探索，去记录每一程。</div>
+      <div class="splash-art fade-up" style="animation-delay:.7s">${splashArtSVG()}</div>
+    </div>
+    <div class="splash-bottom">
+      <button class="btn-green btn-wechat fade-up" style="animation-delay:.9s" id="btn-login">
+        <span class="wx">${ICONS.wechat}</span>微信一键登录
+      </button>
+      <div class="guest-link fade-up" style="animation-delay:1.02s" id="btn-guest">先逛逛，游客访问 <span class="arr">→</span></div>
+      <div class="legal fade-up" style="animation-delay:1.12s">登录即代表同意 <span>《用户协议》</span> 和 <span>《隐私政策》</span></div>
+    </div>
+  </div>`);
+  p.querySelector('#btn-login').onclick = doLogin;
+  p.querySelector('#btn-guest').onclick = ()=>{ S.logged=false; toast('以游客身份逛逛（仅可浏览）'); setTimeout(()=>goMain('routes'),800); };
+  return p;
+}
+function doLogin(){
+  const btn = document.getElementById('btn-login');
+  btn.innerHTML = '<span class="wx" style="animation:floatY 1s infinite">'+ICONS.wechat+'</span>正在登录…';
+  btn.style.pointerEvents='none';
+  setTimeout(()=>{ S.logged=true; toast('登录成功，欢迎回来'); setTimeout(()=>goMain('routes'),750); },1400);
+}
+function goMain(tab){
+  document.getElementById('page-splash').style.opacity='0';
+  document.getElementById('page-splash').style.transform='scale(1.06)';
+  document.getElementById('page-splash').style.transition='all .45s';
+  setTimeout(()=>{
+    document.getElementById('page-splash').remove();
+    S.tab = tab;
+    screen.appendChild(renderMain());
+  },380);
+}
+
+/* ================================================================
+   页面：主框架（TabBar）
+================================================================ */
+function renderMain(){
+  const p = el(`<div class="page" id="page-main">
+    <div id="tab-pages" style="flex:1;position:relative;overflow:hidden"></div>
+    <div class="tabbar">
+      <div class="tab-item ${S.tab==='routes'?'active':''}" data-tab="routes"><span style="width:24px;height:24px;display:block">${ICONS.route}</span><span class="t-label">路线</span></div>
+      <div class="tab-item center ${S.tab==='depart'?'active':''}" data-tab="depart"><div class="tab-fab"><span style="width:30px;height:30px;color:#fff;display:block">${ICONS.mountain}</span></div><span class="t-label" style="margin-top:2px">出发</span></div>
+      <div class="tab-item ${S.tab==='mine'?'active':''}" data-tab="mine"><span style="width:24px;height:24px;display:block">${ICONS.person}</span><span class="t-label">我的</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>`);
+  p.querySelectorAll('.tab-item').forEach(t=>{
+    t.onclick = ()=>switchTab(t.dataset.tab);
+  });
+  /* 节点尚未挂到 document，直接引用挂载 */
+  const tab = S.tab||'routes';
+  const host = p.querySelector('#tab-pages');
+  host.appendChild(tab==='routes'?renderRoutes():tab==='mine'?renderMine():renderDepart());
+  return p;
+}
+function switchTab(tab){
+  if(S.tab===tab) return;
+  S.tab = tab;
+  document.querySelectorAll('#page-main .tab-item').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  mountTab(tab);
+}
+function mountTab(tab){
+  const host = document.getElementById('tab-pages');
+  host.innerHTML='';
+  let page;
+  if(tab==='routes') page = renderRoutes();
+  else if(tab==='mine') page = renderMine();
+  else page = renderDepart();
+  host.appendChild(page);
+}
+
+/* ================================================================
+   Tab：路线
+================================================================ */
+function routeItemsHTML(){
+  return ROUTES.map(r=>`
+    <div class="route-item" data-id="${r.id}">
+      <div class="route-thumb">${routeThumbSVG(r.map)}<span class="diff-tag">${r.diff}</span></div>
+      <div class="route-info">
+        <div class="route-name">${r.name}</div>
+        <div class="route-meta">
+          <span><b>${r.km}</b> ${r.kmU}</span><span>↑ <b>${r.climb}</b> ${r.climbU}</span><span>◷ <b>${r.time}</b></span><span>▣ ${r.season}</span>
+        </div>
+        <div class="route-hot-row">
+          <div class="route-hot">热度 ${r.hot}</div>
+          ${socialBarHTML('r'+r.id)}
+        </div>
+        <div class="route-tags">${r.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+const FEED_NOTE = `<div class="home-feed-note">精选 · 大家镜头里的山野</div>`;
+function renderRoutes(){
+  const items = routeItemsHTML();
+  const initK = S.routeTab || 'pick';
+  const p = el(`<div class="page" style="position:absolute;inset:0">
+    <div class="page-body">
+      <div class="route-header">
+        <h1>路线</h1>
+        <button class="map-mode-btn" id="map-mode"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zm0 0v14m6-12v14"/></svg>地图模式</button>
+      </div>
+      <div class="search-row">
+        <div class="search-box" id="search-box">${ICONS.search}<span>搜索关键词或路线名</span></div>
+        <button class="plus-btn" id="plus-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="banner-row">
+        <div class="banner-card" id="banner-0">${bannerArtSVG(0)}<div class="banner-inner"><span class="banner-tag">本周精选</span><div class="banner-title">去山野，走出自己的路线</div><div class="banner-sub">3 条适合秋天出发的徒步路线</div></div></div>
+        <div class="banner-card" id="banner-1">${bannerArtSVG(1)}<div class="banner-inner"><span class="banner-tag">沿途照片</span><div class="banner-title">看见别人镜头里的山野</div><div class="banner-sub">来自图鉴用户的真实记录</div></div></div>
+      </div>
+      <div class="route-tabs">
+        ${[['near','附近路线'],['pick','精选'],['short','短途'],['hard','挑战'],['ride','骑行']]
+          .map(([k,t])=>`<span class="rt ${k===initK?'active':''}" data-k="${k}">${t}</span>`).join('')}
+      </div>
+      <div id="home-list">${initK==='pick' ? FEED_NOTE + feedCardsHTML(feedData()) : items}</div>
+      <div style="height:20px"></div>
+    </div>
+  </div>`);
+  /* 列表切换：精选 tab 换成帖子流（与广场同款卡片），其余回到路线列表 */
+  const listBox = p.querySelector('#home-list');
+  const mountRoutes = ()=>{
+    listBox.innerHTML = routeItemsHTML();
+    bindSocial(listBox);
+    listBox.querySelectorAll('.route-item').forEach(it=>it.onclick=()=>pushPage(renderRouteDetail(ROUTES[+it.dataset.id])));
+  };
+  const mountFeed = ()=>{
+    listBox.innerHTML = FEED_NOTE + feedCardsHTML(feedData());
+    bindFeedCards(listBox);
+  };
+  const switchList = (k)=>{
+    S.routeTab = k;
+    p.querySelectorAll('.route-tabs .rt').forEach(x=>x.classList.toggle('active', x.dataset.k===k));
+    if(k==='pick') mountFeed(); else mountRoutes();
+    p.querySelector('.page-body').scrollTop = 0;
+  };
+  p.querySelector('#map-mode').onclick = ()=>toast('地图模式：附近路线一目了然（演示）');
+  p.querySelector('#search-box').onclick = ()=>toast('搜索：输入关键词或路线名（演示）');
+  p.querySelector('#plus-btn').onclick = ()=>toast('新建路线（第二阶段开放）');
+  p.querySelector('#banner-0').onclick = ()=>switchList('pick');
+  p.querySelector('#banner-1').onclick = ()=>openSquare();
+  p.querySelectorAll('.route-tabs .rt').forEach(t=>t.onclick=()=>switchList(t.dataset.k));
+  if(initK==='pick'){ bindFeedCards(listBox); }
+  else {
+    p.querySelectorAll('.route-item').forEach(it=>it.onclick=()=>pushPage(renderRouteDetail(ROUTES[+it.dataset.id])));
+    bindSocial(listBox);
+  }
+  return p;
+}
+
+/* ================================================================
+   页面：路线详情
+================================================================ */
+function renderRouteDetail(route){
+  const photos = route.photos.map(src=>`
+    <div class="strip-item" data-src="${src}"><img src="${src}"><span class="ai-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>AI</span></div>`).join('');
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10">
+    <div class="page-body" style="padding-bottom:30px">
+      <div class="detail-header">
+        <div class="back-btn" id="back">${ICONS.back}</div>
+        <h2>${route.name}</h2>
+        <button class="fav-btn" id="fav">${ICONS.fav}<span id="fav-n">${route.fav}</span></button>
+      </div>
+      <div class="map-wrap" id="map-wrap">
+        ${routeMapSVG(route)}
+        <div class="map-legend"><span><i class="legend-dot" style="background:#22A06B"></i>轨迹路线</span><span><i class="legend-dot" style="background:#E8862E"></i>起终点</span></div>
+        <div class="compass"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#86928B" stroke-width="1.6"/><path d="M12 5.5 14.5 13 12 11.6 9.5 13Z" fill="#E8862E"/></svg></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-cell"><div class="stat-v">${route.km}<small> ${route.kmU}</small></div><div class="stat-k">路线距离</div></div>
+        <div class="stat-cell"><div class="stat-v">${route.climb}<small> ${route.climbU}</small></div><div class="stat-k">累计爬升</div></div>
+        <div class="stat-cell"><div class="stat-v">${route.time}</div><div class="stat-k">参考用时</div></div>
+        <div class="stat-cell"><div class="stat-v ${route.diffC==='easy'?'easy':''}">${route.diff}</div><div class="stat-k">路线难度</div></div>
+      </div>
+      <div class="detail-social">
+        <span class="detail-social-note">${route.hot} 人走过 · 收藏 ${route.fav}</span>
+        <span class="sec-line"></span>
+        ${socialBarHTML('r'+route.id)}
+      </div>
+      <div class="sec-title"><h3>沿途照片 <span style="font-size:12px;color:var(--gray);font-weight:500">· ${route.photoCount} 张</span></h3><span class="more" id="see-all">查看全部</span></div>
+      <div class="photo-strip">${photos}</div>
+      <div class="detail-cta"><button class="btn-green" id="go-btn" style="width:100%"><span style="width:19px;height:19px;display:inline-block">${ICONS.route}</span>我要出发 · 复制这条路线</button></div>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  bindSocial(p);
+  let favd = false;
+  p.querySelector('#fav').onclick = function(){
+    favd = !favd;
+    document.getElementById('fav-n').textContent = route.fav + (favd?1:0);
+    this.style.color = favd ? 'var(--green2)' : '';
+    toast(favd ? '已收藏这条路线' : '已取消收藏');
+  };
+  p.querySelector('#see-all').onclick = ()=>toast('全部沿途照片（演示）');
+  p.querySelectorAll('.strip-item').forEach(s=>s.onclick=()=>{
+    const photo = ORIGINAL_PHOTOS.find(x=>x.src===s.dataset.src) || ORIGINAL_PHOTOS[0];
+    pushPage(renderWorkDetail({photo, author:'我', time:'沿途拍摄', loc:route.name}));
+  });
+  p.querySelector('#go-btn').onclick = ()=>toast('已复制路线，去「出发」上传照片吧');
+  /* 轨迹描绘动画：白色描边与绿色轨迹同步生长 */
+  setTimeout(()=>{
+    const paths = p.querySelectorAll('.route-path, .route-casing');
+    if(!paths.length) return;
+    paths.forEach(path=>{
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+      path.getBoundingClientRect();
+      path.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.4,.6,.3,1)';
+      path.style.strokeDashoffset = '0';
+    });
+  },250);
+  return p;
+}
+
+/* ================================================================
+   Tab：出发
+================================================================ */
+function renderDepart(){
+  const recent = S.recent.map((r,i)=>`
+    <div class="recent-item" data-i="${i}">
+      <div class="recent-thumb"><img src="${r.photo.src}"></div>
+      <div class="recent-info"><div class="recent-name">${r.name}</div><div class="recent-meta">${r.meta}</div></div>
+      <span class="recent-arrow">›</span>
+    </div>`).join('');
+  const p = el(`<div class="page" style="position:absolute;inset:0">
+    <div class="page-body">
+      <div class="depart-header"><h1>出发</h1><p>把这一程，收进你的轨迹。</p></div>
+      <div class="hero-card" id="upload-card">
+        ${heroArtSVG()}
+        <div class="hero-inner">
+          <div class="hero-icon">${ICONS.camera}</div>
+          <div class="hero-title">上传照片</div>
+          <div class="hero-sub">选几张照片，记录这一程的山野</div>
+          <div class="hero-arrow"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+        </div>
+      </div>
+      <div class="entry-row">
+        <div class="entry-card" id="entry-gpx"><div class="entry-icon">${ICONS.upload}</div><div class="entry-title">上传轨迹</div><div class="entry-sub">导入 GPX 文件<br>解析距离与爬升</div></div>
+        <div class="entry-card" id="entry-rec"><div class="entry-icon">${ICONS.target}</div><div class="entry-title">开始记录</div><div class="entry-sub">记录实时足迹<br>留下沿途位置</div></div>
+      </div>
+      <div class="sec-title" style="padding-left:22px;padding-right:22px"><h3>最近上传</h3><span class="more" id="all-rec">全部记录</span></div>
+      <div style="margin-top:4px">${S.recent.length?recent:'<div class="empty-recent">还没有记录，点上方「上传照片」开始第一程</div>'}</div>
+      <div style="height:24px"></div>
+    </div>
+  </div>`);
+  p.querySelector('#upload-card').onclick = ()=>pushPage(renderPicker());
+  p.querySelector('#entry-gpx').onclick = ()=>toast('GPX 导入为 MVP 后第二阶段功能');
+  p.querySelector('#entry-rec').onclick = ()=>toast('实时记录为 MVP 后第二阶段功能');
+  p.querySelector('#all-rec').onclick = ()=>toast('全部记录（演示）');
+  p.querySelectorAll('.recent-item').forEach(it=>it.onclick=()=>{
+    const r = S.recent[+it.dataset.i];
+    if(r.images && r.images.length>1){
+      pushPage(renderFeedViewer({author:'山野里的我', time:r.time || '今天', photo:r.photo, images:r.images}));
+    } else {
+      pushPage(renderWorkDetail({photo:r.photo, author:'我', time:r.meta, loc:r.photo.loc}));
+    }
+  });
+  return p;
+}
+
+/* ================================================================
+   页面：选照片（模拟相册）
+================================================================ */
+let picked = new Set([0,1,2]);
+function renderPicker(){
+  picked = new Set([0,1,2]);
+  const grid = PHOTOS.map((ph,i)=>`
+    <div class="picker-item on" data-i="${i}"><img src="${ph.src}"><span class="picker-check"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>`).join('');
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10;background:var(--bg)">
+    <div class="detail-header">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>选择照片</h2><span style="width:36px"></span>
+    </div>
+    <div style="padding:2px 20px;font-size:12.5px;color:var(--gray)">相册（演示数据）· 建议选有地貌特征的风景照</div>
+    <div class="picker-grid">${grid}</div>
+    <div class="picker-bar">
+      <div class="selected-tip">已选择 <b id="pick-n">3</b> 张照片，将一起生成作品</div>
+      <button class="btn-green" id="pick-ok" style="width:100%;height:52px;font-size:16.5px">下一步 · 选择成图效果</button>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  p.querySelectorAll('.picker-item').forEach(it=>it.onclick=()=>{
+    const i = +it.dataset.i;
+    if(picked.has(i)){ if(picked.size===1){ toast('至少保留 1 张照片', false); return; } picked.delete(i); it.classList.remove('on'); }
+    else { picked.add(i); it.classList.add('on'); }
+    document.getElementById('pick-n').textContent = picked.size;
+  });
+  p.querySelector('#pick-ok').onclick = ()=>pushPage(renderEffects());
+  return p;
+}
+
+/* ================================================================
+   页面：选择成图效果
+================================================================ */
+function renderEffects(){
+  const cards = TEMPLATES.map(t=>`
+    <div class="tpl-card ${t.id===S.template?'on':''}" data-id="${t.id}">
+      <span class="tpl-check"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div class="tpl-preview">${tplPreviewSVG(t.id)}</div>
+      <div class="tpl-body">
+        <div class="tpl-name-row"><span class="tpl-name">${t.name}</span><span class="tpl-tag ${t.tag}">${t.tagT}</span></div>
+        <div class="tpl-desc">${t.desc}</div>
+      </div>
+    </div>`).join('');
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10;background:var(--bg)">
+    <div class="detail-header">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>选择成图效果</h2><span style="width:36px"></span>
+    </div>
+    <div class="effect-summary">
+      <span class="thumb-mini"><img src="${PHOTOS[0].src}"></span>
+      已选择 <b style="color:var(--deep)">&nbsp;${picked.size}&nbsp;</b> 张照片
+      <button class="re" id="re-pick">重新选择</button>
+    </div>
+    <div class="page-body" style="padding-bottom:120px">
+      <div class="tpl-grid">${cards}</div>
+      <div class="effect-note">效果仅改变呈现方式，原始照片会始终保留</div>
+    </div>
+    <div class="effect-bar"><button class="btn-green" id="gen-btn" style="width:100%">${S.template==='china'?(picked.size>1?'生成一张行程图':'生成一张位置图'):'生成 '+picked.size+' 张作品'}&nbsp;→</button></div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  p.querySelector('#re-pick').onclick = popPage;
+  p.querySelectorAll('.tpl-card').forEach(c=>c.onclick=()=>{
+    S.template = c.dataset.id;
+    p.querySelectorAll('.tpl-card').forEach(x=>x.classList.toggle('on', x.dataset.id===S.template));
+    p.querySelector('#gen-btn').innerHTML = (S.template==='china'
+      ? (picked.size > 1 ? '生成一张行程图' : '生成一张位置图')
+      : '生成 ' + picked.size + ' 张作品') + '&nbsp;→';
+  });
+  p.querySelector('#gen-btn').onclick = ()=>{
+    /* 原图不需要 AI，直接生成；其余效果先进入生图设置（选模型 + 写提示词） */
+    if(S.template === 'origin') startGenerate();
+    else pushPage(renderPrompt());
+  };
+  return p;
+}
+
+/* ================================================================
+   页面：生图设置（选大模型 + 写提示词）
+   演示用途：只呈现交互，不发起真实模型请求
+================================================================ */
+/* 极简坐标：每张照片各有一组地名与经纬度，默认取照片自带的 GPS */
+function dmsText(v, isLat){
+  const a = Math.abs(v), d = Math.floor(a), m = Math.round((a - d) * 60);
+  return `${d}°${('0'+m).slice(-2)}′${isLat ? (v>=0?'N':'S') : (v>=0?'E':'W')}`;
+}
+function coordOf(ph){
+  const k = ph.src;
+  if(!S.coords[k]){
+    const g = ph.geo || {};
+    const provRaw = g.province || (ph.loc||'').split(' · ')[0] || '';
+    const prov = provRaw.replace(/(省|市|自治区|特别行政区)$/,'');
+    let place = g.place || g.town || g.district || (ph.loc||'').split(' · ').slice(-1)[0] || '';
+    if(place.length > 8) place = g.district || g.town || place;   // 太长的地址换成县/乡
+    S.coords[k] = {
+      name: prov && place ? `${prov} · ${place}` : (place || prov || ''),
+      lat: g.lat != null ? dmsText(g.lat, true)  : '',
+      lng: g.lng != null ? dmsText(g.lng, false) : ''
+    };
+  }
+  return S.coords[k];
+}
+
+function renderPrompt(){
+  const tpl = TEMPLATES.find(t=>t.id===S.template) || TEMPLATES[1];
+  const c = PROMPT_CONF[tpl.id] || PROMPT_CONF.geo;
+  const curPrompt = S.prompts[tpl.id] || '';
+  if(c.chips && !S.styleBy[tpl.id]) S.styleBy[tpl.id] = c.chips[0];
+
+  const rows = MODELS.map(m=>`
+    <div class="model-row ${m.id===S.model?'on':''}" data-mid="${m.id}">
+      <span class="model-logo" style="background:${m.bg}">${m.ch}</span>
+      <div class="model-main">
+        <div class="model-name">${m.name}<span class="model-tag ${m.tag}">${m.tagT}</span></div>
+        <div class="model-sub">${m.vendor} · ${m.good}</div>
+      </div>
+      <span class="model-radio"></span>
+    </div>`).join('');
+  const chips = (c.chips||[]).map(w=>`<span class="pp-chip" data-c="${w}">${w}</span>`).join('');
+
+  /* 编辑区按效果切换：经纬度表单（一张一组）/ 自由描述 */
+  const pickList = [...picked].map(i=>PHOTOS[i]);
+  const coordCards = pickList.map((ph,i)=>{
+    const cd = coordOf(ph);
+    return `<div class="pp-card" data-src="${ph.src}" data-i="${i}">
+      <div class="pp-card-top">
+        <span class="pp-no">${i+1}</span>
+        <img class="pp-thumb" src="${ph.src}" alt="">
+        <div style="min-width:0">
+          <div class="pp-card-name">${ph.name}</div>
+          <div class="pp-card-loc">${(ph.loc||'').split(' · ').slice(-2).join(' · ')}</div>
+        </div>
+        <button class="pp-gps-mini" data-gps="${i}">用这张的 GPS</button>
+      </div>
+      <div class="pp-field" style="margin-bottom:8px">
+        <span class="pp-flabel">地名</span>
+        <input class="pp-text" data-f="name" value="${cd.name}" placeholder="例如：云南 · 宜就对门村">
+      </div>
+      <div class="pp-coord-row">
+        <div class="pp-field"><span class="pp-flabel">纬度</span><input class="pp-text" data-f="lat" value="${cd.lat}" placeholder="25°25′N"></div>
+        <div class="pp-field"><span class="pp-flabel">经度</span><input class="pp-text" data-f="lng" value="${cd.lng}" placeholder="101°32′E"></div>
+      </div>
+      <div class="pp-preview" style="margin-top:9px"><span class="k">图上会写成</span><span class="v" data-prev="${i}">${cd.name} · ${cd.lat} ${cd.lng}</span></div>
+    </div>`;
+  }).join('');
+  const editor = c.mode === 'coord' ? `
+    <div class="pp-coord-head">
+      <span class="k">一张照片一组，红点标在各自的位置</span>
+      <span class="n">共 ${pickList.length} 张</span>
+    </div>
+    ${coordCards}` : `
+    <div class="pp-box">
+      <textarea id="pp-input" maxlength="120" placeholder="${c.ph}">${curPrompt}</textarea>
+      <div class="pp-count"><span id="pp-n">${curPrompt.length}</span>/120</div>
+    </div>`;
+
+  const tip = c.mode==='coord' ? '位置为大致范围，非测量精度；原片不做任何改动'
+    : tpl.id==='geo' ? '图上标注会参考你补充的信息，原始照片始终完整保留'
+    : tpl.id==='china' ? (picked.size > 1 ? '整趟行程会画进同一张图，照片只用来读地点' : '这张照片的地点会画成一张单景舆图，原片不直接出现')
+    : '只影响这一次生成的画面，原始照片始终完整保留';
+
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10;background:var(--bg)">
+    <div class="detail-header">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>生图设置</h2><span style="width:36px"></span>
+    </div>
+    <div class="pp-cur">
+      <span class="pp-cur-ic">${tplPreviewSVG(tpl.id)}</span>
+      <div class="pp-cur-txt">
+        <div class="pp-cur-name">${tpl.name}</div>
+        <div class="pp-cur-desc">${tpl.desc} · ${picked.size} 张照片</div>
+      </div>
+      <button class="re" id="chg">换效果</button>
+    </div>
+    <div class="page-body" style="padding-bottom:132px">
+      <div class="pp-sec">
+        <div class="pp-sec-head">
+          <span class="pp-sec-title">选择大模型</span>
+          <span class="pp-sec-hint">不同模型擅长的画风不一样</span>
+        </div>
+        <div class="model-list">${rows}</div>
+      </div>
+      <div class="pp-sec">
+        <div class="pp-sec-head">
+          <span class="pp-sec-title">${c.title}</span>
+          <span class="pp-sec-hint">${c.hint}</span>
+        </div>
+        ${editor}
+        ${c.chips ? `<div class="pp-chips">${chips}</div>` : ''}
+      </div>
+      <div class="pp-tip">${tip}</div>
+    </div>
+    <div class="pp-bar">
+      <button class="btn-green" id="pp-go"></button>
+      <div class="pp-bar-note">生成约需 15 秒 · 可随时取消</div>
+    </div>
+  </div>`);
+
+  const ta = p.querySelector('#pp-input');
+  const goBtn = p.querySelector('#pp-go');
+  const refresh = ()=>{
+    const m = MODELS.find(x=>x.id===S.model) || MODELS[0];
+    goBtn.textContent = S.template==='china'
+      ? `用「${m.name}」画一张${picked.size > 1 ? '行程' : '位置'}图`
+      : `用「${m.name}」生成 ${picked.size} 张`;
+    p.querySelectorAll('.model-row').forEach(r=>r.classList.toggle('on', r.dataset.mid===S.model));
+    if(c.mode === 'multi'){
+      const txt = S.prompts[tpl.id] || '';
+      p.querySelectorAll('.pp-chip').forEach(ch=>ch.classList.toggle('on', txt.includes(ch.dataset.c)));
+    } else {
+      p.querySelectorAll('.pp-chip').forEach(ch=>ch.classList.toggle('on', S.styleBy[tpl.id]===ch.dataset.c));
+    }
+    if(ta) p.querySelector('#pp-n').textContent = (S.prompts[tpl.id]||'').length;
+  };
+
+  p.querySelector('#back').onclick = popPage;
+  p.querySelector('#chg').onclick = popPage;
+  p.querySelectorAll('.model-row').forEach(r=>r.onclick=()=>{ S.model = r.dataset.mid; refresh(); });
+
+  if(ta) ta.addEventListener('input', ()=>{ S.prompts[tpl.id] = ta.value; refresh(); });
+
+  p.querySelectorAll('.pp-chip').forEach(ch=>ch.addEventListener('click', e=>{
+    e.stopPropagation();
+    const w = ch.dataset.c;
+    if(c.mode !== 'multi'){ S.styleBy[tpl.id] = w; refresh(); return; }
+    const cur = S.prompts[tpl.id] || '';
+    if(cur.includes(w)){
+      S.prompts[tpl.id] = cur.split(/[，,]/).map(s=>s.trim()).filter(s=>s && s!==w).join('，');
+    } else {
+      const base = cur.replace(/[，,]\s*$/,'');
+      S.prompts[tpl.id] = (base? base + '，' : '') + w;
+    }
+    if(ta) ta.value = S.prompts[tpl.id];
+    refresh();
+  }));
+
+  if(c.mode === 'coord'){
+    p.querySelectorAll('.pp-card').forEach(card=>{
+      const ph = PHOTOS.find(x=>x.src===card.dataset.src);
+      const cd = coordOf(ph);
+      const i = card.dataset.i;
+      const prev = card.querySelector(`[data-prev="${i}"]`);
+      const syncPrev = ()=>{ prev.textContent = `${cd.name} · ${cd.lat} ${cd.lng}`; };
+      card.querySelectorAll('[data-f]').forEach(inp=>{
+        inp.addEventListener('input', ()=>{ cd[inp.dataset.f] = inp.value; syncPrev(); });
+      });
+      card.querySelector('[data-gps]').onclick = ()=>{
+        const g = ph.geo || {};
+        if(g.lat != null) cd.lat = dmsText(g.lat, true);
+        if(g.lng != null) cd.lng = dmsText(g.lng, false);
+        if(!cd.name) cd.name = coordOf(ph).name;
+        card.querySelector('[data-f="lat"]').value = cd.lat;
+        card.querySelector('[data-f="lng"]').value = cd.lng;
+        card.querySelector('[data-f="name"]').value = cd.name;
+        syncPrev();
+        toast(`已从「${ph.name}」的 EXIF 读到坐标（演示）`);
+      };
+    });
+  }
+
+  goBtn.onclick = ()=>{
+    if(ta) S.prompts[tpl.id] = ta.value.trim();
+    goBack();                          /* 先退出提示词页，再起生成 */
+    setTimeout(startGenerate, 420);
+  };
+  refresh();
+  return p;
+}
+
+/* ================================================================
+   生成中 → 作品结果
+================================================================ */
+function startGenerate(){
+  const isAtlas = S.template === 'china';
+  const atlasOne = isAtlas && picked.size === 1;
+  S.works = isAtlas
+    ? (atlasOne ? [{...PHOTOS[[...picked][0]], atlasSingle:true}] : [ATLAS_COVER])
+    : [...picked].map(i=>PHOTOS[i]);
+  const isMin = S.template === 'min';
+  const tpl = TEMPLATES.find(t=>t.id===S.template) || TEMPLATES[1];
+  const mdl = MODELS.find(m=>m.id===S.model) || MODELS[0];
+  const userPrompt = S.prompts[S.template] || '';
+  const style = S.styleBy[S.template] || '';
+  const genMode = S.template==='origin' ? '原始照片无损导出'
+    : isMin ? `${mdl.name} · 极简坐标 · ${[...picked].length} 张各标一处`
+    : isAtlas ? `${mdl.name} · 手绘舆图 · ${atlasOne ? '1 处' : ATLAS_POINTS.length + ' 处停留'}`
+    : `${mdl.name} · ${tpl.name}${style?' · '+style:''}${userPrompt?' · 已按你的描述生成':''}`;
+  const gen = el(`<div class="generating" id="gen-overlay">
+    <div class="gen-ring">
+      <svg width="104" height="104" viewBox="0 0 104 104">
+        <circle cx="52" cy="52" r="46" fill="none" stroke="#E7E5DE" stroke-width="7"/>
+        <circle id="gen-arc" cx="52" cy="52" r="46" fill="none" stroke="#22A06B" stroke-width="7" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+      </svg>
+      <div class="pct"><div class="gen-num"><span id="gen-pct">0</span><small>%</small></div></div>
+    </div>
+    <div class="gen-title">${isAtlas?(atlasOne?'正在为这一处落笔…':'正在铺展这一年的行程…'):(isMin?'正在叠加地理线稿…':(S.template==='origin'?'正在准备原图…':'AI 正在读懂山野…'))}</div>
+    <div class="gen-mode">${genMode}</div>
+    <div class="gen-steps">
+      ${(isAtlas?(atlasOne?['读出这张照片的拍摄地','把这一处落到宣纸上','画山、引水、点朱砂','题字落款']:['读出行程里的每一处停留','按方位铺到宣纸上','画山、引水、点朱砂','题字落款'])
+        : isMin?['读取照片与拍摄地','提取真实地图要素','简化透明地图线稿','原片无损合成']
+        : S.template==='origin' ? ['读取原始照片','无损解码原片','套用原图呈现','导出高清原图']
+        : ['上传照片到云端','AI 读懂地貌与光线','按提示词绘制'+tpl.name,'合成你的专属成图'])
+        .map((t,i)=>`<div class="gen-step" data-p="${i}"><span class="dot"></span>${t}</div>`).join('')}
+    </div>
+  </div>`);
+  screen.appendChild(gen);
+  /* 生成遮罩也占一层：生成中点返回不会误退到上一页 */
+  layerPush({el:gen, close:()=>{ toast('正在生成，稍等一下'); }});
+  const arc = gen.querySelector('#gen-arc'), pct = gen.querySelector('#gen-pct');
+  const steps = gen.querySelectorAll('.gen-step');
+  let prog = 0, cur = 0;
+  const iv = setInterval(()=>{
+    prog += Math.random()*4+2.2;
+    if(prog>100) prog=100;
+    arc.style.strokeDashoffset = 289 - 289*prog/100;
+    pct.textContent = Math.floor(prog);
+    const stage = Math.min(3, Math.floor(prog/26));
+    if(stage!==cur){ cur=stage; }
+    steps.forEach((s,i)=>{
+      s.classList.toggle('done', prog >= (i+1)*26);
+      s.classList.toggle('active', !s.classList.contains('done') && i===Math.min(3, Math.floor(prog/26)));
+    });
+    if(prog>=100){
+      clearInterval(iv);
+      steps.forEach(s=>{s.classList.add('done');s.classList.remove('active')});
+      setTimeout(()=>{
+        gen.style.opacity='0'; gen.style.transition='opacity .35s';
+        setTimeout(()=>{
+          layerSilentClose(gen);      /* 遮罩并入结果页这一层，返回时一次到位 */
+          if(gen.parentNode) gen.remove();
+          pushPage(renderResult(0));
+        },360);
+      },420);
+    }
+  },110);
+}
+
+/* ================================================================
+   页面：AI 标注作品结果
+================================================================ */
+/* ================================================================
+   页面：我的照片（相册）
+================================================================ */
+function renderMyPhotos(){
+  const q = {all:GALLERY, photo:GALLERY.filter(g=>g.kind==='photo'), map:GALLERY.filter(g=>g.kind==='map')};
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10;background:var(--bg)">
+    <div class="detail-header">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>我的照片</h2><span style="width:36px"></span>
+    </div>
+    <div class="page-body" style="padding-bottom:26px">
+      <div class="gp-sum"><b>${S.stats.photos}</b> 张 · 已标注 <b>${GALLERY.length}</b> 张 · ${S.stats.tracks} 条路线</div>
+      <div class="gp-tabs">
+        <span class="gp-tab on" data-f="all">全部 ${q.all.length}</span>
+        <span class="gp-tab" data-f="photo">照片 ${q.photo.length}</span>
+        <span class="gp-tab" data-f="map">线路图 ${q.map.length}</span>
+      </div>
+      <div class="gp-grid" id="gp-grid"></div>
+      <div style="text-align:center;font-size:11.5px;color:var(--gray2);padding:14px 0 2px">更多照片可在「出发」页上传后继续标注</div>
+    </div>
+  </div>`);
+
+  const grid = p.querySelector('#gp-grid');
+  const paint = f => {
+    grid.innerHTML = q[f].map(g=>`
+      <div class="gp-item" data-src="${g.src}">
+        <img src="${g.src}" alt="${g.name}">
+        <div class="gp-cap">
+          <span class="gp-name">${g.name}</span>
+          <span class="gp-date">${g.date}</span>
+        </div>
+      </div>`).join('');
+    grid.querySelectorAll('.gp-item').forEach(it=>it.onclick=()=>{
+      const i = GALLERY.findIndex(g=>g.src===it.dataset.src);
+      pushPage(renderPhotoDetail(i));
+    });
+  };
+  paint('all');
+
+  p.querySelectorAll('.gp-tab').forEach(t=>t.onclick=()=>{
+    p.querySelectorAll('.gp-tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    paint(t.dataset.f);
+  });
+  p.querySelector('#back').onclick = popPage;
+  return p;
+}
+
+/* ================================================================
+   页面：照片详情（单张已标注作品）
+================================================================ */
+function renderPhotoDetail(i){
+  const g = GALLERY[i];
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:10;background:var(--bg)">
+    <div class="detail-header">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>照片</h2><span style="width:36px"></span>
+    </div>
+    <div class="page-body" style="padding-bottom:26px">
+      <div class="pd-hero"><img src="${g.src}" alt="${g.name}"></div>
+      <div class="pd-card">
+        <div class="pd-name">${g.name}</div>
+        <div class="pd-en">${g.en}</div>
+        <div class="pd-rows">
+          <div class="pd-row"><span class="k">地点</span><span class="v">${g.place}</span></div>
+          <div class="pd-row"><span class="k">拍摄</span><span class="v">${g.date}</span></div>
+          <div class="pd-row"><span class="k">标注</span><span class="v">${g.eff} · 位置为大致范围，非测量精度</span></div>
+        </div>
+      </div>
+      <div class="pd-acts">
+        <button class="btn-ghost" id="pd-share">分享</button>
+        <button class="btn-green" id="pd-again">重新标注</button>
+      </div>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  const hero = p.querySelector('.pd-hero img');
+  if(hero) hero.onclick = ()=>openZoom(g.src, g.name + ' · ' + g.place);
+  p.querySelector('#pd-share').onclick = ()=>toast('已生成分享图（演示）');
+  p.querySelector('#pd-again').onclick = ()=>{ goBack(2); setTimeout(()=>switchTab('depart'), 420); };
+  return p;
+}
+
+/* 明信片成图：原片在上，水彩绘版在下，配手写标题与三色卡。
+   画风由「生图设置 › 手账风格」决定，色卡取照片自带的三主色。
+   其中「纸面留白」不另起绘版：照片下半直接化纸，铅笔线顺着走到卡脚。 */
+const PC_STYLE_KEY = {'钢笔淡彩':'pen','水彩湿画':'wet','老胶片':'film','铅笔素描':'pencil','和纸质感':'washi','纸面留白':'paper'};
+function postcardSheetHTML(photo, opts){
+  const o = opts || {};
+  const styleName = S.styleBy.postcard || '钢笔淡彩';
+  const key = PC_STYLE_KEY[styleName] || 'pen';
+  const isPaper = (key === 'paper');
+  const note = (S.prompts.postcard || '').trim();
+  const sw = photo.palette || ['#93AEB6','#5C8455','#C9B25E'];
+  return `<div class="pc-sheet" data-style="${key}">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <filter id="pcPaint1" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="3" seed="7" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="pcPaint2" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.009 0.014" numOctaves="4" seed="11" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs></svg>
+    <div class="pc-photo">
+      <img src="${photo.src}" alt="${photo.name}">
+      ${isPaper?'<i class="pc-paper"></i><span class="pc-mark">still here</span>':''}
+      <span class="pc-badge">明信片 · ${styleName}</span>
+    </div>
+    <div class="pc-rule"></div>
+    <div class="pc-art"><img src="${photo.src}" alt=""><i class="pc-wash"></i><i class="pc-grain"></i></div>
+    <div class="pc-foot">
+      <div class="pc-script">${photo.en || photo.name}</div>
+      <div class="pc-sub">${photo.enSub || ''}</div>
+      ${note ? `<div class="pc-note">${note}</div>` : ''}
+      <div class="pc-swatches">${sw.map(c=>`<span class="pc-sw" style="background:${c}"></span>`).join('')}</div>
+    </div>
+    <div class="pc-sign"><span>${(photo.loc||'').split(' · ')[0] || ''}</span><span>${o.date || '2026.11.01'}</span></div>
+  </div>`;
+}
+
+/* 抽象画成图：原片压成双色套印，纸面留白，右下盖一枚印。色版随风格换。 */
+const AB_INK = {
+  '几何色块':{a:'#E0A32F', b:'#2E6E8E'},
+  '构成主义':{a:'#C0392B', b:'#1B1B1B'},
+  '剪纸拼贴':{a:'#7FA88A', b:'#C2603E'},
+  '极简留白':{a:'#C3BCA6', b:'#8C8877'},
+  '丝网版画':{a:'#E2B04A', b:'#2C6580'}
+};
+function abstractSheetHTML(photo){
+  const styleName = S.styleBy.abstract || '几何色块';
+  if(styleName === '剪贴明信片') return collageSheetHTML(photo);
+  const ink = AB_INK[styleName] || AB_INK['几何色块'];
+  const note = (S.prompts.abstract || '').trim();
+  const sw = photo.palette || ['#93AEB6','#5C8455','#C9B25E'];
+  const no = ('0' + ((photo.name || '').length + 2)).slice(-2);
+  const band = [ink.a, ink.b, sw[2] || sw[0]];
+  return `<div class="ab-sheet" data-style="${styleName}">
+    <div class="ab-stage" style="--ink-a:${ink.a};--ink-b:${ink.b}">
+      <img class="ab-base" src="${photo.src}" alt="${photo.name}">
+      <img class="ab-plate" src="${photo.src}" alt="">
+      <i class="ab-ink"></i><i class="ab-grain"></i>
+      <span class="ab-seal">山野</span>
+    </div>
+    <div class="ab-foot">
+      <div class="ab-meta"><span>NO.${no} / ${styleName}</span><span>${(photo.loc||'').split(' · ')[0] || ''}</span></div>
+      <div class="ab-title">${photo.en || photo.name}</div>
+      <div class="ab-band">${band.map(c=>`<span style="background:${c}"></span>`).join('')}</div>
+      ${note ? `<div class="ab-note">${note}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* 剪贴明信片：主体剪下来，背后压一块单色，纸面留白，衬线标题 + 编号 */
+const CL_INKS = ['#2B56A0','#8CC63F','#C0492E','#9DAE86','#2F4B8F','#D97B33'];
+const CL_SEASONS = ['SUMMER','AUTUMN','WINTER','SPRING'];
+function collageSheetHTML(photo){
+  const note = (S.prompts.abstract || '').trim();
+  const seed = ((photo.name || 'x').length + (photo.loc || '').length);
+  const blk = photo.ink || CL_INKS[seed % CL_INKS.length];
+  const no = ('00' + ((seed * 3 + 7) % 400)).slice(-3);
+  const season = CL_SEASONS[seed % 4];
+  const place = (photo.loc || '').split(' · ').slice(-1)[0] || '';
+  return `<div class="cl-sheet" style="--cl-ink:${blk}">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <filter id="clTear" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.055 0.085" numOctaves="3" seed="5" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs></svg>
+    <i class="cl-paper"></i>
+    <span class="cl-block"></span>
+    <span class="cl-cross"></span>
+    <span class="cl-cut"><img src="${photo.src}" alt="${photo.name}"></span>
+    <div class="cl-cap">
+      <div class="cl-rule"></div>
+      <div class="cl-title">${photo.en || photo.name}</div>
+      <div class="cl-no">N° ${no} / ${season} / MMXXVI${place ? ' · ' + place : ''}</div>
+      ${note ? `<div class="cl-note">${note}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   中国风 · 手绘舆图：把走过的点按方位摆在宣纸上，虚线串起来
+================================================================ */
+const ATLAS_POINTS = [
+  {zh:'腾格里沙漠', en:'TENGGER DESERT',    prov:'内蒙古 · Inner Mongolia', x:206, y: 96},
+  {zh:'芦芽山',     en:'LUYA MOUNTAIN',     prov:'山西 · Shanxi',          x:306, y:152, left:true},
+  {zh:'泗坪水库',   en:'SIPING RESERVOIR',  prov:'河南 · Jiyuan',          x:206, y:272},
+  {zh:'后寺河水库', en:'HOUSIHE RESERVOIR', prov:'河南 · Gongyi',          x:330, y:318, left:true},
+  {zh:'党岭村',     en:'DANGLING',          prov:'四川 · Danba',           x:178, y:392},
+  {zh:'格聂',       en:'GENYEN',            prov:'四川 · Litang',          x: 92, y:452},
+  {zh:'虎跳峡',     en:'TIGER LEAPING GORGE', prov:'云南 · Yunnan',        x:140, y:520}
+];
+
+/* 舆图是整趟行程的一张总图，不按单张照片出图 */
+const ATLAS_COVER = {
+  src:'assets/gallery/route-china.jpg',
+  name:'这趟行程的线', en:'THE WAY I WENT', enSub:'Seven stops, from sand to gorge',
+  loc:'内蒙古 · 山西 · 河南 · 四川 · 云南',
+  palette:['#B2372A','#5C7F6B','#C8AE86'], annotations:[],
+  summary:'从腾格里的沙，到虎跳峡的水——把这一年停留过的七处，按老法子画成一张舆图。'
+};
+
+/* 一条起伏的山脊，从 x0→x1 收在 baseY 上方 */
+/* 三组频率叠加：宽峰、窄谷、细起伏，避免规则锯齿 */
+function atlasRidge(x0, x1, baseY, amp, seed, n){
+  const pts = [];
+  for(let i=0;i<=n;i++){
+    const t = i/n, x = x0 + (x1-x0)*t;
+    const a = Math.pow(Math.abs(Math.sin((t*2.6 + seed)*Math.PI)), 0.52);
+    const b = Math.pow(Math.abs(Math.sin((t*5.9 + seed*1.9)*Math.PI)), 1.8) * 0.62;
+    const c = Math.abs(Math.sin((t*13.7 + seed*2.7)*Math.PI)) * 0.14;
+    pts.push([x, baseY - amp*(a*0.74 + b + c)]);
+  }
+  return pts;
+}
+function atlasBand(x0, x1, baseY, amp, seed, n, layers){
+  const L = layers || 2;
+  let out = '';
+  for(let k=0;k<L;k++){
+    const pts = atlasRidge(x0, x1, baseY + k*15, amp*(1 - k*0.34), seed + k*2.3, n);
+    const d = 'M' + pts.map(p=>`${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' L ')
+      + ` L ${x1},624 L ${x0},624 Z`;
+    const fill = k===0 ? 'var(--at-m1)' : (k===1 ? 'var(--at-m2)' : 'var(--at-m3)');
+    const op = k===0 ? .38 : (k===1 ? .60 : .84);
+    out += `<path class="at-m" d="${d}" fill="${fill}" opacity="${op}"/>`;
+  }
+  return out;
+}
+function atlasTrees(x0, x1, y0, y1, seed, count){
+  let out = '';
+  for(let i=0;i<count;i++){
+    const t = ((i*37 + seed*11) % 100)/100;
+    const u = ((i*61 + seed*7) % 100)/100;
+    const x = x0 + (x1-x0)*t, y = y0 + (y1-y0)*u;
+    const s = 2.2 + ((i*13)%7)/7 * 1.4;
+    out += `<path d="M${x.toFixed(1)},${(y-s*2.2).toFixed(1)} L${(x-s).toFixed(1)},${y.toFixed(1)} L${(x+s).toFixed(1)},${y.toFixed(1)} Z" fill="var(--at-tree)" opacity=".7"/>`;
+  }
+  return out;
+}
+/* 单张照片：在这一张舆图上只落一处，点位按照片名稳定抖动，避免张张一样 */
+function atlasSoloPoint(photo){
+  const k = (photo.name || '') + (photo.src || '');
+  let h = 5;
+  for(let i=0;i<k.length;i++) h = (h*31 + k.charCodeAt(i)) % 9973;
+  return { x: 148 + (h % 112), y: 286 + (Math.floor(h/7) % 76) };
+}
+
+function atlasSheetHTML(photo){
+  const styleName = S.styleBy.china || '手绘舆图';
+  const note = (S.prompts.china || '').trim();
+  const solo = !!photo.atlasSingle;
+  const soloPt = solo ? atlasSoloPoint(photo) : null;
+  const soloProv = ((photo.loc || photo.place || '').split(' · ')[0] || '').replace(/(省|市|自治区|特别行政区)$/, '');
+  const pts = solo
+    ? [{ zh:photo.name, en:(photo.en || '').slice(0,22), prov:soloProv, x:soloPt.x, y:soloPt.y }]
+    : ATLAS_POINTS;
+  const line = solo
+    ? `M 96 606 Q 128 520 154 452 Q 180 386 ${pts[0].x} ${pts[0].y}`
+    : pts.map((p,i)=>`${i?'L':'M'} ${p.x},${p.y}`).join(' ');
+  const marks = pts.map(p=>{
+    const left = p.left;
+    const tx = left ? -11 : 11;
+    const anchor = left ? 'end' : 'start';
+    return `<g class="at-pt" transform="translate(${p.x},${p.y})">
+      <circle r="5.6" fill="none" stroke="var(--at-red)" stroke-width=".7" opacity=".38"/>
+      <circle r="2.9" fill="var(--at-red)"/>
+      <text class="at-zh" x="${tx}" y="1.5" text-anchor="${anchor}">${p.zh}</text>
+      <text class="at-en" x="${tx}" y="13" text-anchor="${anchor}">${p.en}</text>
+      <text class="at-prov" x="${tx}" y="23.5" text-anchor="${anchor}">${p.prov}</text>
+    </g>`;
+  }).join('');
+  return `<div class="at-sheet" data-style="${styleName}">
+    <i class="at-paper"></i>
+    <svg class="at-canvas" viewBox="0 0 400 620" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <filter id="atBlur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+        <filter id="atSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.4"/></filter>
+        <linearGradient id="atMist" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--at-cloud)" stop-opacity=".85"/>
+          <stop offset="1" stop-color="var(--at-cloud)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="atSand" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--at-sand)" stop-opacity=".85"/>
+          <stop offset="1" stop-color="var(--at-sand)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- 北缘沙地 -->
+      <rect x="0" y="0" width="400" height="300" fill="url(#atSand)" opacity=".55"/>
+      <g stroke="var(--at-sandline)" stroke-width=".7" fill="none" opacity=".45">
+        <path d="M34 44 q22 -7 44 0 t44 0"/>
+        <path d="M58 62 q26 -8 52 0 t52 0"/>
+        <path d="M26 88 q20 -6 40 0 t40 0"/>
+        <path d="M248 38 q26 -8 52 0 t52 0"/>
+        <path d="M262 62 q24 -7 48 0 t48 0"/>
+        <path d="M300 92 q26 -8 52 0 t52 0"/>
+        <path d="M120 116 q26 -8 52 0 t52 0"/>
+        <path d="M180 148 q24 -7 48 0 t48 0"/>
+        <path d="M40 176 q26 -8 52 0 t52 0"/>
+      </g>
+      <g stroke="var(--at-ink)" stroke-width=".6" fill="none" opacity=".34" stroke-linecap="round">
+        <path d="M96 118 q5 -5 10 0 q5 -5 10 0"/>
+        <path d="M120 104 q4 -4 8 0 q4 -4 8 0"/>
+        <path d="M150 132 q4 -4 8 0 q4 -4 8 0"/>
+        <path d="M318 168 q5 -5 10 0 q5 -5 10 0"/>
+      </g>
+      ${atlasTrees(150,235,92,132,3,6)}
+
+      <!-- 山群：一层层从北往南压下来 -->
+      ${atlasBand(-14, 414, 292, 66, 1.2, 64, 2)}
+      ${atlasBand(-14, 414, 366, 74, 3.9, 56, 2)}
+      ${atlasBand(-14, 414, 464, 80, 0.6, 58, 2)}
+      ${atlasBand(-14, 414, 560, 68, 4.6, 50, 2)}
+
+      <!-- 水系 -->
+      <g fill="none" stroke="var(--at-water)" stroke-linecap="round" opacity=".95">
+        <path d="M64 214 q40 24 86 15 t84 21 q30 10 62 4" stroke-width="2.8"/>
+        <path d="M118 430 q46 16 92 2 t96 -22 q34 -8 70 -2" stroke-width="3"/>
+        <path d="M150 470 q-8 34 6 62 q6 14 2 30" stroke-width="2.2"/>
+      </g>
+      <path d="M118 430 q46 16 92 2 t96 -22 q34 -8 70 -2" fill="none" stroke="var(--at-paper)" stroke-width=".7" opacity=".5"/>
+
+      <!-- 云雾 -->
+      <g filter="url(#atBlur)" fill="var(--at-cloud)">
+        <ellipse cx="92"  cy="288" rx="98"  ry="14" opacity=".46"/>
+        <ellipse cx="330" cy="352" rx="86"  ry="12" opacity=".34"/>
+        <ellipse cx="146" cy="452" rx="102" ry="15" opacity=".42"/>
+        <ellipse cx="312" cy="524" rx="88"  ry="14" opacity=".34"/>
+        <ellipse cx="96"  cy="580" rx="116" ry="16" opacity=".3"/>
+      </g>
+
+      <!-- 林 -->
+      ${atlasTrees(30, 200, 398, 456, 5, 24)}
+      ${atlasTrees(268, 386, 366, 436, 9, 16)}
+      ${atlasTrees(120, 300, 486, 534, 2, 14)}
+
+      <!-- 行程虚线 -->
+      <path d="${line}" fill="none" stroke="var(--at-route)" stroke-width="1.5"
+            stroke-dasharray="6 4.5" stroke-linecap="round" opacity=".85"/>
+
+      <!-- 省份淡字 -->
+      ${solo
+        ? (pts[0].prov ? `<text class="at-big" x="300" y="188" text-anchor="middle">${pts[0].prov.split('').join(' ')}</text>` : '')
+        : `<text class="at-big" x="262" y="196" text-anchor="middle">河 南</text>
+      <text class="at-big-en" x="262" y="214" text-anchor="middle">HENAN</text>
+      <text class="at-big" x="228" y="348" text-anchor="middle">四 川</text>
+      <text class="at-big-en" x="228" y="366" text-anchor="middle">SICHUAN</text>
+      <text class="at-big" x="300" y="556" text-anchor="middle">云 南</text>
+      <text class="at-big-en" x="300" y="572" text-anchor="middle">YUNNAN</text>`}
+
+      <!-- 点位 -->
+      ${marks}
+
+      <!-- 比例尺 -->
+      <g class="at-scale" transform="translate(28,52)">
+        <path d="M0 0 h56" stroke="var(--at-ink)" stroke-width=".8"/>
+        <path d="M0 -3 v6 M28 -3 v6 M56 -3 v6" stroke="var(--at-ink)" stroke-width=".8"/>
+        <text y="-6" font-size="6">0</text>
+        <text x="24" y="-6" font-size="6">500</text>
+        <text x="46" y="-6" font-size="6">1,000 km</text>
+      </g>
+      <!-- 指北针 -->
+      <g class="at-north" transform="translate(126,44)">
+        <path d="M0 -11 L4 4 L0 1 L-4 4 Z" fill="var(--at-ink)"/>
+        <text x="0" y="-14" text-anchor="middle" font-size="6.5" letter-spacing="1">N</text>
+      </g>
+    </svg>
+    <div class="at-foot">
+      <div class="at-title">${solo ? photo.name : '这趟行程的线'}</div>
+      <div class="at-sub">${solo ? `${pts[0].prov ? pts[0].prov + ' · ' : ''}${styleName}` : `${pts.length} 处停留 · ${styleName}`}${note ? ' · ' + note : ''}</div>
+    </div>
+  </div>`;
+}
+
+function renderResult(idx){
+  const photo = S.works[idx];
+  const tpl = TEMPLATES.find(t=>t.id===S.template);
+  const isMin = (S.template === 'min');   // 极简坐标：走 minimal-coordinate skill
+  const isPc  = (S.template === 'postcard');   // 明信片：原片 + 水彩绘版 + 色卡
+  const isAb  = (S.template === 'abstract');   // 抽象画：双色套印 + 纸面 + 印章
+  const isCn  = (S.template === 'china');      // 中国风：手绘舆图
+  const isSheet = (isPc || isAb || isCn);
+  const chips = (photo.annotations||[]).map((a,i)=>`
+    <div class="anno-chip" data-i="${i}" data-cx="${a.cx}" data-cy="${a.cy}" style="left:${a.cx}%;top:${a.cy}%;--c:${a.color}">
+      <div class="a-title">${a.title}</div>
+      <span class="a-term">${a.term}</span>
+      <div class="a-detail">${a.detail}</div>
+    </div>`).join('');
+  /* SVG 覆盖层：框 / 箭头 / 点 */
+  const overlays = (photo.annotations||[]).map((a,i)=>{
+    if(a.type==='box') return `<rect class="anno-shape" data-i="${i}" x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="1.2" fill="none" stroke="${a.color}" stroke-width="0.9" stroke-dasharray="2.4 1.6" vector-effect="non-scaling-stroke" style="opacity:0;transition:opacity .4s"/>`;
+    if(a.type==='arrow'){ const x2=a.x, y2=a.y, rad=(a.angle||0)*Math.PI/180, len=13, x1=x2-Math.cos(rad)*len, y1=y2-Math.sin(rad)*len;
+      return `<g class="anno-shape" data-i="${i}" style="opacity:0;transition:opacity .4s"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${a.color}" stroke-width="0.7" vector-effect="non-scaling-stroke" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="0.9" fill="${a.color}"/></g>`;
+    }
+    return `<g class="anno-shape" data-i="${i}" style="opacity:0;transition:opacity .4s"><circle cx="${a.x}" cy="${a.y}" r="1.5" fill="none" stroke="${a.color}" stroke-width="0.5" vector-effect="non-scaling-stroke"/><circle cx="${a.x}" cy="${a.y}" r="0.55" fill="${a.color}"/></g>`;
+  }).join('');
+  const thumbs = S.works.map((w,i)=>`
+    <div class="result-thumb ${i===idx?'on':''}" data-i="${i}"><img src="${w.src}"><span class="t-ai">AI</span></div>`).join('');
+
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:12;background:#0d120e">
+    <div class="result-topbar">
+      <div class="back-btn" id="back" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.2)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="title">${isMin?'极简坐标':(isPc?'明信片':(isAb?'抽象画':(isCn?(photo.atlasSingle?'单景舆图':'中国风线路图'):'AI 地理标注')))}</span>
+      <span class="tpl-name-tag">${tpl.name} · ${tpl.tagT}</span>
+    </div>
+    <div class="result-photo-wrap">
+      ${isSheet ? `
+      <div class="pc-scroll"><div class="pc-reveal">${isCn ? atlasSheetHTML(photo) : (isAb ? abstractSheetHTML(photo) : postcardSheetHTML(photo))}</div>
+        ${S.works.length>1?`<div class="result-thumbs pc-thumbs">${thumbs}</div>`:''}</div>` : `
+      <div class="photo-fit" style="opacity:0;transition:opacity .45s">
+        <img src="${photo.src}">
+        ${isMin
+          ? buildMinimalOverlay(photo)
+          : `<svg class="anno-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${overlays}</svg>${chips}`}
+      </div>
+      <div class="result-thumbs">${thumbs}</div>
+      ${isMin ? '' : `<div class="anno-summary" id="summary">
+        <span class="s-icon"><span style="width:17px;height:17px;color:#fff;display:block">${ICONS.mountain}</span></span>
+        <span class="s-text">${photo.summary}</span>
+      </div>`}`}
+    </div>
+    <div class="result-actions">
+      <button class="btn-green" id="save-btn" style="width:100%"><span style="width:18px;height:18px;display:inline-block">${ICONS.bookmark}</span>保存到我的图鉴</button>
+      <div class="result-sub-row">
+        <button class="btn-ghost" id="share-btn">分享朋友圈</button>
+        <button class="btn-ghost" id="pub-btn">发布到广场</button>
+      </div>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = ()=>{ popPage(); };
+  p.querySelectorAll('.result-thumb').forEach(t=>t.onclick=()=>{ replacePage(renderResult(+t.dataset.i)); });
+  p.querySelector('#save-btn').onclick = ()=>{
+    if(!S.saved.includes(photo)){ S.saved.push(photo); S.stats.photos += 1;
+      S.recent.unshift({name:photo.name, meta:'1 张照片 · 刚刚', photo});
+      toast('已存入我的图鉴'); } else toast('这张已在图鉴里');
+  };
+  p.querySelector('#share-btn').onclick = ()=>openPoster(photo, artOf(photo));
+  p.querySelector('#pub-btn').onclick = ()=>openPublish(photo, artOf(photo));
+  const rw = p.querySelector('.result-photo-wrap');
+  setTimeout(()=>fitPhoto(rw), 30);
+  setTimeout(()=>fitPhoto(rw), 300);
+  const pf = p.querySelector('.photo-fit');
+  const zimg = p.querySelector(isAb ? '.ab-base, .cl-cut img' : (isPc ? '.pc-photo img' : '.photo-fit > img'));
+  if(zimg) zimg.onclick = ()=>openZoom(photo.src, photo.name + ' · ' + tpl.name);
+  if(!isMin && !isSheet) bindAnnoChips(pf);
+  setTimeout(()=>{ if(pf) pf.style.opacity='1'; }, 40);
+  setTimeout(()=>layoutAnnoChips(pf), 380);   // 等淡入与图片尺寸稳定后再排一次
+
+  if(isMin){
+    /* 地图淡入后落下唯一的拍摄地红点，不添加额外装饰动画 */
+    setTimeout(()=>{ p.querySelectorAll('.min-dot').forEach(d=>d.classList.add('on')); }, 720);
+  }
+  /* 标注依次浮现 */
+  setTimeout(()=>{
+    const chipsEls = p.querySelectorAll('.anno-chip'), shapes = p.querySelectorAll('.anno-shape');
+    chipsEls.forEach((c,i)=>setTimeout(()=>{
+      c.classList.add('show');
+      shapes.forEach(s=>{ if(+s.dataset.i===i) s.style.opacity='1'; });
+    }, 450 + i*620));
+    const sumEl = p.querySelector('#summary');
+    setTimeout(()=>{ if(sumEl) sumEl.classList.add('show'); }, 450 + chipsEls.length*620 + 150);
+  },300);
+  return p;
+}
+
+/* ================================================================
+   页面：作品详情（广场 / 最近上传点开）
+================================================================ */
+function renderWorkDetail({photo, author, time, loc, art}){
+  const artHTML = art ? sheetFor(art, photo) : '';
+  const chips = (photo.annotations||[]).map((a,i)=>`
+    <div class="anno-chip show" data-i="${i}" data-cx="${a.cx}" data-cy="${a.cy}" style="left:${a.cx}%;top:${a.cy}%;--c:${a.color}">
+      <div class="a-title">${a.title}</div>
+      <span class="a-term">${a.term}</span>
+      <div class="a-detail">${a.detail}</div>
+    </div>`).join('');
+  const overlays = (photo.annotations||[]).map((a,i)=>{
+    if(a.type==='box') return `<rect data-i="${i}" x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="1.2" fill="none" stroke="${a.color}" stroke-width="0.9" stroke-dasharray="2.4 1.6" vector-effect="non-scaling-stroke" opacity=".95"/>`;
+    if(a.type==='arrow'){ const x2=a.x, y2=a.y, rad=(a.angle||0)*Math.PI/180, len=13, x1=x2-Math.cos(rad)*len, y1=y2-Math.sin(rad)*len;
+      return `<g data-i="${i}" opacity=".95"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${a.color}" stroke-width="0.7" vector-effect="non-scaling-stroke" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="0.9" fill="${a.color}"/></g>`;
+    }
+    return `<g data-i="${i}" opacity=".95"><circle cx="${a.x}" cy="${a.y}" r="1.5" fill="none" stroke="${a.color}" stroke-width="0.5" vector-effect="non-scaling-stroke"/><circle cx="${a.x}" cy="${a.y}" r="0.55" fill="${a.color}"/></g>`;
+  }).join('');
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:14;background:#0d120e">
+    <div class="result-topbar">
+      <div class="back-btn" id="back" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.2)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="title">${photo.name}</span>
+    </div>
+    <div class="workdetail-body">
+      ${artHTML ? `<div class="workdetail-art">${artHTML}</div>` : `
+      <div class="result-photo-wrap" style="flex:1">
+        <div class="photo-fit">
+          <img src="${photo.src}">
+          <svg class="anno-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${overlays}</svg>
+          ${chips}
+        </div>
+        <div class="anno-summary show">
+          <span class="s-icon"><span style="width:17px;height:17px;color:#fff;display:block">${ICONS.mountain}</span></span>
+          <span class="s-text">${photo.summary}</span>
+        </div>
+      </div>`}
+      <div class="workdetail-meta">
+        <div class="feed-avatar">${author[0]}</div>
+        <div class="feed-who"><div class="feed-name">${author}</div><div class="feed-time">${time}</div></div>
+        <div class="feed-loc" style="margin-left:auto">${ICONS.pin}${loc||photo.loc}</div>
+      </div>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  const pf2 = p.querySelector('.photo-fit');
+  if(pf2){
+    const zimg2 = p.querySelector('.photo-fit > img');
+    if(zimg2) zimg2.onclick = ()=>openZoom(photo.src, photo.name);
+    bindAnnoChips(pf2);
+    const rw2 = p.querySelector('.result-photo-wrap');
+    setTimeout(()=>fitPhoto(rw2), 30);
+    setTimeout(()=>fitPhoto(rw2), 300);
+    setTimeout(()=>layoutAnnoChips(pf2), 360);
+  }
+  return p;
+}
+
+/* ================================================================
+   页面：广场
+================================================================ */
+/* ================================================================
+   点赞 / 评论（演示数据：localStorage 无持久化，刷新重置）
+================================================================ */
+/* key：路线用 r<id>，帖子用 p:<名称> */
+const SOCIAL = {
+  r0:{likes:112, cmts:18}, r1:{likes:86, cmts:12}, r2:{likes:54, cmts:7},
+  'p:这一年走过的山野':{likes:128, cmts:23},
+  'p:把六样东西剪下来贴在纸上':{likes:57, cmts:11},
+  'p:把两张照片拆成了色块':{likes:34, cmts:6},
+  'p:上半天光，下半张纸':{likes:21, cmts:4},
+  'p:灯、海与高原':{likes:16, cmts:3},
+  'p:晨昏与四季':{likes:9, cmts:3},
+  'p:把三张照片画成了明信片':{likes:12, cmts:3},
+  'p:红崖峡谷':{likes:64, cmts:9},
+  'p:雾锁云台':{likes:41, cmts:5},
+  'p:雪线之上':{likes:37, cmts:6}
+};
+const CMT_SEED = [
+  {u:'山风',  t:'2 小时前', c:'上周刚走过，秋色正好，路上基本没人。'},
+  {u:'阿灿',  t:'昨天',    c:'这段看着不陡，实际挺费腿，记得带够水。'},
+  {u:'北纬 39°', t:'3 天前', c:'收藏了，等哪天天气好去走一趟。'}
+];
+function socialOf(key){
+  if(!SOCIAL[key]) SOCIAL[key] = {likes:0, cmts:0};
+  if(!SOCIAL[key].list) SOCIAL[key].list = CMT_SEED.map(x=>({...x}));
+  return SOCIAL[key];
+}
+function socialBarHTML(key){
+  const s = socialOf(key);
+  const liked = !!S.liked[key];
+  return `<div class="social-bar" data-key="${key}">
+      <button class="soc-btn like ${liked?'on':''}" data-act="like">${ICONS.heart}<span class="soc-like-n">${s.likes + (liked?1:0)}</span></button>
+      <button class="soc-btn" data-act="cmt">${ICONS.cmt}<span class="soc-cmt-n">${s.cmts}</span></button>
+    </div>`;
+}
+function bindSocial(root){
+  root.querySelectorAll('.social-bar').forEach(bar=>{
+    const key = bar.dataset.key;
+    const likeBtn = bar.querySelector('[data-act="like"]');
+    const cmtBtn = bar.querySelector('[data-act="cmt"]');
+    if(likeBtn) likeBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      S.liked[key] = !S.liked[key];
+      likeBtn.classList.toggle('on', S.liked[key]);
+      likeBtn.querySelector('.soc-like-n').textContent = socialOf(key).likes + (S.liked[key]?1:0);
+      if(S.liked[key]) toast('已点赞');
+    });
+    if(cmtBtn) cmtBtn.addEventListener('click', e=>{ e.stopPropagation(); openComments(key); });
+  });
+}
+function syncCmtCount(key){
+  const s = socialOf(key);
+  document.querySelectorAll('.social-bar').forEach(bar=>{
+    if(bar.dataset.key === key){
+      const n = bar.querySelector('.soc-cmt-n');
+      if(n) n.textContent = s.cmts;
+    }
+  });
+}
+function openComments(key){
+  const s = socialOf(key);
+  const mask = el(`<div class="sheet-mask" id="cmt-mask">
+    <div class="sheet">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><b>评论</b><span class="n" id="cmt-total">${s.cmts}</span><button class="sheet-x" id="cmt-x">关闭</button></div>
+      <div class="sheet-list" id="cmt-list"></div>
+      <div class="sheet-bar">
+        <input id="cmt-in" maxlength="80" placeholder="说点什么…">
+        <button id="cmt-send" disabled>发送</button>
+      </div>
+    </div>
+  </div>`);
+  const listEl = mask.querySelector('#cmt-list');
+  const renderList = ()=>{
+    listEl.innerHTML = s.list.length
+      ? s.list.map(c=>`<div class="cmt-item">
+          <div class="cmt-av ${c.mine?'me':''}">${c.u[0]}</div>
+          <div class="cmt-main">
+            <div class="cmt-top"><span class="cmt-u">${c.u}</span><span class="cmt-t">${c.t}</span></div>
+            <div class="cmt-c">${c.c}</div>
+          </div>
+        </div>`).join('')
+      : '<div class="cmt-empty">还没有评论，来说第一句</div>';
+  };
+  renderList();
+  screen.appendChild(mask);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>mask.classList.add('show')));
+  /* 评论抽屉也进返回栈：返回键先收抽屉，再退上一层 */
+  layerPush({el:mask, close:()=>{
+    mask.classList.remove('show');
+    setTimeout(()=>{ if(mask.parentNode) mask.remove(); }, 280);
+  }});
+
+  const close = ()=>closeMask(mask);
+  mask.querySelector('#cmt-x').onclick = close;
+  mask.addEventListener('click', e=>{ if(e.target === mask) close(); });
+
+  const inp = mask.querySelector('#cmt-in');
+  const send = mask.querySelector('#cmt-send');
+  inp.addEventListener('input', ()=>{ send.disabled = !inp.value.trim(); });
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter') send.click(); });
+  send.onclick = ()=>{
+    const v = inp.value.trim();
+    if(!v) return;
+    s.list.unshift({u:'山野里的我', t:'刚刚', c:v, mine:true});
+    s.cmts += 1;
+    renderList();
+    mask.querySelector('#cmt-total').textContent = s.cmts;
+    inp.value = ''; send.disabled = true;
+    syncCmtCount(key);
+    toast('评论已发布');
+  };
+}
+
+/* 广场 / 精选共用的帖子卡片流 */
+/* 成图快照：发布 / 分享时把「这次选中的效果」一起带走，
+   否则广场里只剩原片（用户 11-01 反馈的核心问题） */
+function artOf(photo){
+  const t = S.template;
+  return {tpl:t, style:S.styleBy[t] || '', prompt:S.prompts[t] || '', single:!!(photo && photo.atlasSingle)};
+}
+/* 按快照重放版式；非版式类效果（原图 / 地理科普 / 极简坐标）返回空串，仍展示原片 */
+function sheetFor(art, photo){
+  if(!art) return '';
+  const t = art.tpl;
+  if(t !== 'postcard' && t !== 'abstract' && t !== 'china') return '';
+  const oldStyle = S.styleBy[t], oldNote = S.prompts[t];
+  if(art.style) S.styleBy[t] = art.style;
+  if(art.prompt) S.prompts[t] = art.prompt;
+  let html = '';
+  try{
+    if(t === 'postcard') html = postcardSheetHTML(photo);
+    else if(t === 'abstract') html = abstractSheetHTML(photo);
+    else html = atlasSheetHTML(Object.assign({}, photo, art.single ? {atlasSingle:true} : {}));
+  } finally {
+    if(art.style) S.styleBy[t] = oldStyle;
+    if(art.prompt) S.prompts[t] = oldNote;
+  }
+  return html;
+}
+function artLabel(art){
+  if(!art) return '';
+  const t = TEMPLATES.find(x=>x.id===art.tpl);
+  if(!t) return '';
+  return t.name + (art.style ? ' · ' + art.style : '');
+}
+
+function feedCardsHTML(feed){
+  return feed.map(f=>{
+    const imgs = (f.images && f.images.length) ? f.images : [f.photo.src];
+    const art = f.art ? sheetFor(f.art, f.photo) : '';
+    const chips = (f.photo.annotations||[]).slice(0,3).map(a=>`<span class="fchip">${a.term.split(' ')[0].split('（')[0]}</span>`).join('');
+    const photoHtml = art
+      ? `<div class="feed-art">${art}</div>`
+      : imgs.length > 1
+      ? `<div class="feed-photo feed-multi">
+           <div class="fm-track">${imgs.map((s,i)=>`<img src="${s}"${i===0&&f.coverPos?` style="object-position:${f.coverPos}"`:''}>`).join('')}</div>
+           <div class="fm-count">1/${imgs.length}</div>
+           <div class="feed-chips">${chips}</div>
+         </div>`
+      : `<div class="feed-photo"><img src="${f.photo.src}"><div class="feed-chips">${chips}</div></div>`;
+    return `
+    <div class="feed-item" data-name="${f.photo.name}">
+      <div class="feed-head">
+        <div class="feed-avatar">${f.author[0]}</div>
+        <div class="feed-who"><div class="feed-name">${f.author}</div><div class="feed-time">${f.time}${imgs.length>1?' · '+imgs.length+' 张':''}</div></div>
+        ${f.isAI?`<span class="chip green" style="margin-left:auto">${art?'AI 成图':'AI 标注'}</span>`:''}
+      </div>
+      ${photoHtml}
+      <div class="feed-body">
+        <div class="feed-summary">${f.photo.summary}</div>
+        <div class="feed-loc">${ICONS.pin}${f.photo.loc}</div>
+        <div class="feed-social">${socialBarHTML('p:'+f.photo.name)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+/* 帖子流数据：我发布的在前，其余为广场种子 */
+function feedData(){
+  return [...S.published.map(w=>({photo:w.photo, art:w.art, author:'我', time:'刚刚', isAI:true})), ...FEED_SEED];
+}
+/* 横向翻图：鼠标拖拽 + 滚轮 + 左右键（触摸走原生横向滚动） */
+function bindSwipeTrack(track, opts){
+  if(!track) return;
+  opts = opts || {};
+  const pageW = ()=> track.clientWidth || 1;
+  const curIdx = ()=> Math.round(track.scrollLeft / pageW());
+  const snapTo = (i)=>{
+    const w = pageW();
+    const n = track.children.length;
+    const t = Math.max(0, Math.min(n - 1, i)) * w;
+    track.scrollTo({left:t, behavior:'smooth'});
+    /* 兜底：部分环境（无头/禁用动画）平滑滚动不推进，强制落位 */
+    setTimeout(()=>{ if(Math.abs(track.scrollLeft - t) > 2) track.scrollLeft = t; }, 420);
+  };
+  let dragging = false, startX = 0, startScroll = 0, moved = false, pid = null;
+
+  track.addEventListener('pointerdown', e=>{
+    if(e.pointerType === 'touch') return;      // 触摸交给原生横向滚动
+    dragging = true; moved = false; pid = e.pointerId;
+    startX = e.clientX; startScroll = track.scrollLeft;
+    track.style.scrollSnapType = 'none';
+    track.style.cursor = 'grabbing';
+    try{ track.setPointerCapture(pid); }catch(_){}
+  });
+  track.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx = e.clientX - startX;
+    if(Math.abs(dx) > 4) moved = true;
+    track.scrollLeft = startScroll - dx;
+    if(moved) e.preventDefault();
+  });
+  const finish = ()=>{
+    if(!dragging) return;
+    dragging = false;
+    track.style.scrollSnapType = '';
+    track.style.cursor = '';
+    snapTo(curIdx());
+  };
+  track.addEventListener('pointerup', finish);
+  track.addEventListener('pointercancel', finish);
+  /* 拖拽结束后不要误触卡片点击 */
+  track.addEventListener('click', e=>{
+    if(moved){ e.stopPropagation(); e.preventDefault(); moved = false; }
+  }, true);
+
+  if(opts.wheel){
+    let wt = null;
+    track.addEventListener('wheel', e=>{
+      if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      track.style.scrollSnapType = 'none';
+      track.scrollLeft += e.deltaY;
+      clearTimeout(wt);
+      wt = setTimeout(()=>{ track.style.scrollSnapType = ''; snapTo(curIdx()); }, 130);
+    }, {passive:false});
+  }
+  if(opts.prev) opts.prev.onclick = ()=>snapTo(curIdx() - 1);
+  if(opts.next) opts.next.onclick = ()=>snapTo(curIdx() + 1);
+  return {snapTo, curIdx};
+}
+
+/* 绑定卡片点击 → 作品详情；多图帖进全屏右滑浏览 */
+function bindFeedCards(root){
+  root.querySelectorAll('.feed-multi .fm-track').forEach(tr=>{
+    const sync = ()=>{
+      const total = tr.children.length;
+      const i = Math.min(total, Math.round(tr.scrollLeft / Math.max(1,tr.clientWidth)) + 1);
+      const c = tr.parentElement.querySelector('.fm-count');
+      if(c) c.textContent = i + '/' + total;
+    };
+    tr.addEventListener('scroll', sync, {passive:true});
+    bindSwipeTrack(tr);
+    sync();
+  });
+  root.querySelectorAll('.feed-item').forEach(c=>c.onclick=()=>{
+    const f = feedData().find(x=>x.photo.name===c.dataset.name);
+    if(!f) return;
+    if(f.images && f.images.length>1) pushPage(renderFeedViewer(f));
+    else pushPage(renderWorkDetail({photo:f.photo, art:f.art, author:f.author, time:f.time, loc:f.photo.loc}));
+  });
+  bindSocial(root);
+}
+
+/* 多图帖全屏浏览：左右滑动翻图 */
+function renderFeedViewer(f){
+  const imgs = f.images;
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:14;background:#0b100d">
+    <div class="fv-head">
+      <div class="back-btn" id="back" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.2)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="fv-name">${f.author}</div><div class="fv-time">${f.time} · ${imgs.length} 张</div></div>
+    </div>
+    <div class="fv-track" id="fv-track">
+      ${imgs.map(s=>`<div class="fv-slide"><img src="${s}" draggable="false"></div>`).join('')}
+    </div>
+    <button class="fv-nav fv-prev" id="fv-prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="fv-nav fv-next" id="fv-next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="fv-bar">
+      <div class="fv-hint" id="fv-hint">拖动或左右滑动，看更多</div>
+      <div class="fv-row">
+        <div class="fv-cap">${f.photo.summary}</div>
+        <div class="fv-count" id="fv-count">1 / ${imgs.length}</div>
+      </div>
+    </div>
+  </div>`);
+  const tr = p.querySelector('#fv-track');
+  const cnt = p.querySelector('#fv-count');
+  const hint = p.querySelector('#fv-hint');
+  bindSwipeTrack(tr, {wheel:true, prev:p.querySelector('#fv-prev'), next:p.querySelector('#fv-next')});
+  tr.addEventListener('scroll', ()=>{
+    const total = tr.children.length;
+    const i = Math.min(total, Math.round(tr.scrollLeft / Math.max(1,tr.clientWidth)) + 1);
+    cnt.textContent = i + ' / ' + total;
+    hint.style.opacity = i > 1 ? '0' : '1';
+  }, {passive:true});
+  p.querySelector('#back').onclick = popPage;
+  /* 轻点图片放大；左右拖动翻页时不要误触发 */
+  let tsx = 0, tsy = 0, tmoved = false;
+  tr.addEventListener('touchstart', e=>{
+    if(e.touches.length === 1){ tsx = e.touches[0].clientX; tsy = e.touches[0].clientY; tmoved = false; }
+  }, {passive:true});
+  tr.addEventListener('touchmove', e=>{
+    if(e.touches.length === 1 && (Math.abs(e.touches[0].clientX - tsx) > 8 || Math.abs(e.touches[0].clientY - tsy) > 8)) tmoved = true;
+  }, {passive:true});
+  p.querySelectorAll('.fv-slide img').forEach((im,i)=>{
+    im.onclick = ()=>{ if(tmoved){ tmoved = false; return; } openZoom(im.getAttribute('src'), f.photo.name + ' · ' + (i+1) + '/' + imgs.length); };
+  });
+  return p;
+}
+
+function openSquare(){
+  const feed = feedData();
+  const cards = feedCardsHTML(feed);
+  const p = el(`<div class="page" style="position:absolute;inset:0;z-index:13;background:var(--bg)">
+    <div class="detail-header" style="padding-top:58px">
+      <div class="back-btn" id="back">${ICONS.back}</div>
+      <h2>广场</h2><span style="width:36px"></span>
+    </div>
+    <div style="padding:0 22px;font-size:12.5px;color:var(--gray)">我镜头里的山野 · 按时间倒序</div>
+    <div class="page-body" style="padding-bottom:36px">
+      <div style="height:12px"></div>
+      ${cards}
+      <div style="height:20px"></div>
+    </div>
+  </div>`);
+  p.querySelector('#back').onclick = popPage;
+  bindFeedCards(p);
+  pushPage(p);
+}
+
+/* ================================================================
+   弹层：分享海报 / 发布到广场
+================================================================ */
+function openPoster(photo, art){
+  const pvArt = art ? sheetFor(art, photo) : '';
+  const m = el(`<div class="mask poster-mask">
+    <div class="poster-card">
+      ${pvArt
+        ? `<div class="poster-photo pv-art">${pvArt}</div>`
+        : `<div class="poster-photo"><img src="${photo.src}">
+        <div class="poster-terms">${(photo.annotations||[]).map(a=>`<span>${a.term.split(' ')[0].split('（')[0]}</span>`).join('')}</div>
+      </div>`}
+      <div class="poster-footer">
+        <div class="pf-logo"><span style="width:18px;height:18px;color:#fff;display:block">${ICONS.mountain}</span></div>
+        <div><div class="pf-name">徒步图鉴</div><div class="pf-slogan">看见山野，也读懂山野</div></div>
+        <div class="pf-qr">长按识别小程序<br>把山野收进图鉴</div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:44px;left:0;right:0;display:flex;justify-content:center;gap:12px;padding:0 36px">
+      <button class="btn-ghost" id="poster-cancel" style="flex:1;height:46px;background:rgba(255,255,255,.92)">取消</button>
+      <button class="btn-green" id="poster-save" style="flex:1;height:46px">保存成图</button>
+    </div>
+  </div>`);
+  m.querySelector('#poster-cancel').onclick = ()=>closeMask(m);
+  m.querySelector('#poster-save').onclick = ()=>{ closeMask(m); toast('成图已保存，去朋友圈晒图吧'); };
+  m.onclick = e=>{ if(e.target===m) closeMask(m); };
+  screen.appendChild(m);
+  openMaskLayer(m);
+  if(pvArt) requestAnimationFrame(()=>{
+    /* 整张海报卡按可用高度等比缩，成图版式内部完全不动 */
+    const card = m.querySelector('.poster-card');
+    const avail = (window.innerHeight || 760) * 0.72;
+    const h = card.offsetHeight;
+    if(h > avail) card.style.transform = `scale(${(avail / h).toFixed(3)})`;
+  });
+}
+function openPublish(photo, art){
+  const pvArt = art ? sheetFor(art, photo) : '';
+  const m = el(`<div class="mask">
+    <div class="sheet">
+      <h3>发布到广场</h3>
+      <div class="sheet-sub">${pvArt ? '发布的是这张成图，不是原始照片' : '让更多人看见你镜头里的山野'}</div>
+      <div class="sheet-preview${pvArt?' pv-art':''}">${pvArt ? pvArt : `<img src="${photo.src}">`}<span class="sp-tag">${pvArt ? '成图预览 · ' + artLabel(art) : photo.name + ' · AI 标注'}</span></div>
+      <div class="publish-choice">
+        <span class="pc-check"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div style="font-size:13px;line-height:1.6;color:var(--ink2)">同时匿名展示大概位置（省 / 市），帮助同好找到同款山野</div>
+      </div>
+      <div class="sheet-btns">
+        <button class="btn-green" id="pub-ok" style="width:100%;height:50px;font-size:16px">确认发布</button>
+        <button class="btn-ghost" id="pub-cancel" style="width:100%;height:46px">再想想</button>
+      </div>
+      <div class="sheet-note">广场为公开作品流，不含评论 / 点赞 / 关注（最小 MVP）</div>
+    </div>
+  </div>`);
+  m.querySelector('#pub-cancel').onclick = ()=>closeMask(m);
+  m.querySelector('#pub-ok').onclick = ()=>{
+    layerSilentClose(m);   /* 紧接着要弹「发布成功」，这一层不再单独占一条历史 */
+    const old = S.published.find(x=>x.photo===photo);
+    if(old){ old.art = art; }                  /* 同一张重发，换成这次的成图 */
+    else { S.published.unshift({photo, art}); S.stats.posts+=1; }
+    setTimeout(()=>{
+      const m2 = el(`<div class="mask poster-mask">
+        <div class="poster-card" style="padding:30px 24px;text-align:center">
+          <div style="width:60px;height:60px;border-radius:50%;background:#E3F2EA;margin:0 auto;display:flex;align-items:center;justify-content:center">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6.5" stroke="#1D9E75" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="font-size:18px;font-weight:800;margin-top:16px">发布成功</div>
+          <div style="font-size:13px;color:var(--gray);margin-top:8px;line-height:1.6">你的作品已出现在广场<br>同好们可以看到它了</div>
+          <button class="btn-green" id="go-square" style="width:100%;height:48px;margin-top:20px;font-size:15.5px">去广场看看</button>
+          <button class="btn-ghost" id="stay" style="width:100%;height:44px;margin-top:10px">继续编辑</button>
+        </div>
+      </div>`);
+      m2.querySelector('#go-square').onclick = ()=>{ layerSilentClose(m2); openSquare(); };
+      m2.querySelector('#stay').onclick = ()=>closeMask(m2);
+      screen.appendChild(m2);
+      openMaskLayer(m2);
+    },300);
+  };
+  screen.appendChild(m);
+  openMaskLayer(m);
+}
+function doCloseMask(m){ m.classList.remove('show'); setTimeout(()=>{ if(m.parentNode) m.remove(); },340); }
+/* 弹层也进返回栈：手机返回键先关弹层，再退页面 */
+function openMaskLayer(m){
+  layerPush({el:m, close:()=>doCloseMask(m)});
+  requestAnimationFrame(()=>m.classList.add('show'));
+}
+function closeMask(m){
+  const i = LAYERS.findIndex(l=>l.el === m);
+  if(i >= 0){ goBack(LAYERS.length - i); return; }
+  doCloseMask(m);
+}
+
+/* ================================================================
+   Tab：我的
+================================================================ */
+function renderMine(){
+  const s = S.stats;
+  const month = [3,5,4,8,6,9,7];
+  const chartPts = month.map((v,i)=>`${i*14},${36-v*3.4}`).join(' ');
+  const p = el(`<div class="page" style="position:absolute;inset:0">
+    <div class="page-body">
+      <div class="mine-header" id="profile">
+        <div class="mine-avatar"><span style="width:28px;height:28px;display:block">${ICONS.person}</span></div>
+        <div><div class="mine-name">山野里的我</div><div class="mine-sub">已记录 ${s.days} 天 · ${s.tracks} 条轨迹</div></div>
+        <span class="mine-arrow">›</span>
+      </div>
+      <div class="mine-cards">
+        <div class="mine-card">
+          <div class="mc-head">我的记录 <span class="mc-link" id="mc-rec">记录›</span></div>
+          <div class="mc-body">累计记录 <b>${s.days} 天</b><br>最近一次 <b>4.2 km</b></div>
+          <div class="mine-chart"><svg viewBox="0 0 88 40" preserveAspectRatio="none">
+            <polyline points="${chartPts}" fill="none" stroke="#22A06B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polygon points="0,40 ${chartPts} 84,40" fill="#22A06B" opacity=".12"/>
+          </svg></div>
+        </div>
+        <div class="mine-card">
+          <div class="mc-head">我的空间 <span class="mc-link" id="mc-manage">管理›</span></div>
+          <div class="mc-body">已用 <b>${s.space}M / 2G</b><br>照片 ${s.photos} · 轨迹 ${s.tracks}</div>
+          <div class="space-progress"><i id="space-bar" style="width:${Math.min(96,s.space/2048*100+6)}%"></i></div>
+        </div>
+      </div>
+      <div class="mine-sec">
+        <div class="mine-sec-title"><span style="width:17px;height:17px;color:var(--green2);display:inline-block">${ICONS.mountain}</span>户外足迹</div>
+        <div class="mine-grid">
+          <div class="mg" id="mg-1"><span class="mg-icon">${ICONS.route}</span><span class="mg-label">轨迹</span><span class="mg-num">${s.tracks} 条</span></div>
+          <div class="mg" id="mg-2"><span class="mg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="15" rx="2.5"/><circle cx="12" cy="12.5" r="3.6"/><path d="M8 5l1.5-2h5L16 5"/></svg></span><span class="mg-label">照片</span><span class="mg-num">${s.photos} 张</span></div>
+          <div class="mg" id="mg-3"><span class="mg-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12.5h6M9 16.5h3.5"/></svg></span><span class="mg-label">帖子</span><span class="mg-num">${s.posts} 篇</span></div>
+          <div class="mg" id="mg-4"><span class="mg-icon">${ICONS.bookmark}</span><span class="mg-label">收藏</span><span class="mg-num">${s.favs} 项</span></div>
+        </div>
+      </div>
+      <div class="mine-sec">
+        <div class="mine-sec-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>户外工具</div>
+        <div class="mine-grid" style="margin-top:16px">
+          <div class="mg" data-tool="经纬度换算"><span class="mg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.3 3.9 5.1 3.9 8.5s-1.3 6.2-3.9 8.5c-2.6-2.3-3.9-5.1-3.9-8.5S9.4 5.8 12 3.5z"/></svg></span><span class="mg-label">经纬度换算</span></div>
+          <div class="mg" data-tool="配速换算"><span class="mg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 13.5 15 9"/><circle cx="12" cy="14" r="1.4" fill="currentColor"/></svg></span><span class="mg-label">配速换算</span></div>
+          <div class="mg" data-tool="户外清单"><span class="mg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01" stroke-width="2.6"/></svg></span><span class="mg-label">户外清单</span></div>
+        </div>
+      </div>
+      <div class="mine-rows">
+        <div class="mine-row" id="row-set">设置<span class="mr-arrow">›</span></div>
+        <div class="mine-row" id="row-about">关于与意见反馈<span class="mr-arrow">›</span></div>
+      </div>
+      <div style="height:26px"></div>
+    </div>
+  </div>`);
+  p.querySelector('#profile').onclick = ()=>toast(S.logged ? '编辑个人资料（演示）' : '游客模式，登录后同步数据');
+  p.querySelector('#mc-rec').onclick = e=>{e.stopPropagation();switchTab('depart')};
+  p.querySelector('#mc-manage').onclick = e=>{e.stopPropagation();toast('空间管理（演示）')};
+  ['mg-1','mg-2','mg-3','mg-4'].forEach((id,i)=>{
+    p.querySelector('#'+id).onclick = ()=>{
+      if(i===1) pushPage(renderMyPhotos());
+      else if(i===2) openSquare();
+      else toast(['我的轨迹列表（演示）','','我的帖子（演示）','我的收藏（演示）'][i]);
+    };
+  });
+  p.querySelectorAll('[data-tool]').forEach(g=>g.onclick=()=>toast(g.dataset.tool+'（演示）'));
+  p.querySelector('#row-set').onclick = ()=>toast('设置（演示）');
+  p.querySelector('#row-about').onclick = ()=>toast('关于徒步图鉴 v0.1（演示）');
+  return p;
+}
+
+/* ================================================================
+   导航栈
+================================================================ */
+/* ================================================================
+   导航栈 + 浏览器返回（移动端逐级退，不再一次退到底）
+   每个「页面」与「弹层」都对应一条 history 记录：
+   手机返回键 / 侧滑 → popstate → 只关最上面那一层。
+================================================================ */
+const LAYERS = [];              // [{el, close}]，栈顶在最后
+let HIST_MODE = 'state';        // pushState 被拦（部分 file:// 环境）时降级为 hash
+let backTimer = null;
+
+function histPush(){
+  if(HIST_MODE === 'state'){
+    try{ history.pushState({d: LAYERS.length}, ''); return; }
+    catch(e){ HIST_MODE = 'hash'; }
+  }
+  try{ location.hash = 'l' + LAYERS.length; }catch(e){}
+}
+function histReplace(){
+  const d = LAYERS.length;
+  if(HIST_MODE === 'state'){
+    try{ history.replaceState({d}, ''); return; }
+    catch(e){ HIST_MODE = 'hash'; }
+  }
+  try{ history.replaceState(null, '', '#l' + d); }
+  catch(e){ try{ location.replace('#l' + d); }catch(_){} }
+}
+function depthOf(e){
+  if(e && e.state && typeof e.state.d === 'number') return e.state.d;
+  const m = /^#l(\d+)$/.exec(location.hash || '');
+  return m ? parseInt(m[1], 10) : 0;
+}
+function flushToDepth(d){
+  while(LAYERS.length > d){
+    const l = LAYERS.pop();
+    try{ if(l && l.close) l.close(); }catch(err){ console.warn(err); }
+  }
+}
+function layerPush(layer){
+  LAYERS.push(layer);
+  histPush();
+  return layer;
+}
+function layerTop(){ return LAYERS[LAYERS.length-1]; }
+/* UI 上的「返回 / 关闭」统一走这里：交给浏览器回退，由 popstate 真正出栈 */
+function goBack(n){
+  if(!LAYERS.length) return false;
+  n = Math.min(Math.max(1, n || 1), LAYERS.length);
+  const target = LAYERS.length - n;
+  let ok = true;
+  try{ history.go(-n); }catch(e){ ok = false; }
+  clearTimeout(backTimer);
+  /* 兜底：个别 WebView 不回抛 popstate，超时后强制出栈 */
+  backTimer = setTimeout(()=>{ if(LAYERS.length > target) flushToDepth(target); }, 380);
+  if(!ok) flushToDepth(target);
+  return true;
+}
+/* 程序流程里「先关掉某层、紧接着打开别的界面」用它：不出栈，只把当前记录深度改小 */
+function layerSilentClose(el){
+  const i = LAYERS.findIndex(l=>l.el === el);
+  if(i < 0) return false;
+  const removed = LAYERS.splice(i).reverse();
+  removed.forEach(l=>{ try{ if(l.close) l.close(); }catch(e){} });
+  histReplace();
+  return true;
+}
+window.addEventListener('popstate', e=>{
+  clearTimeout(backTimer);
+  flushToDepth(depthOf(e));
+});
+window.addEventListener('hashchange', ()=>{
+  if(HIST_MODE !== 'hash') return;
+  clearTimeout(backTimer);
+  flushToDepth(depthOf(null));
+});
+try{ history.replaceState({d:0}, ''); }catch(e){ HIST_MODE = 'hash'; }
+
+function pushPage(page){
+  const prev = navStack[navStack.length-1] || document.getElementById('page-main');
+  if(prev){ prev.classList.add('behind-left'); }
+  page.style.position='absolute'; page.style.inset='0'; page.style.zIndex = 45 + navStack.length;
+  page.style.transform='translateX(100%)';
+  screen.appendChild(page);
+  navStack.push(page);
+  layerPush({el:page, close:()=>closePageNode(page)});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ page.style.transform='translateX(0)'; }));
+}
+function closePageNode(page){
+  if(!page) return;
+  const i = navStack.indexOf(page);
+  if(i >= 0) navStack.splice(i, 1);
+  const prev = navStack[navStack.length-1] || document.getElementById('page-main');
+  if(prev) prev.classList.remove('behind-left');
+  page.style.transform='translateX(100%)';
+  setTimeout(()=>{ if(page.parentNode) page.remove(); }, 420);
+}
+function replacePage(page){
+  const cur = navStack[navStack.length-1];
+  page.style.position='absolute'; page.style.inset='0'; page.style.zIndex = 45 + Math.max(0, navStack.length-1);
+  page.style.transform='translateX(100%)';
+  screen.appendChild(page);
+  if(cur){
+    cur.style.transition='transform .3s,opacity .3s';
+    cur.style.opacity='0';
+    cur.style.transform='translateX(-18%)';
+    setTimeout(()=>{ if(cur.parentNode) cur.remove(); }, 320);
+    navStack.pop();
+  }
+  navStack.push(page);
+  /* 同一层记录改成指向新页面，返回时仍然只退一层 */
+  const top = LAYERS[LAYERS.length-1];
+  if(top){ top.el = page; top.close = ()=>closePageNode(page); }
+  else { layerPush({el:page, close:()=>closePageNode(page)}); }
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ page.style.transform='translateX(0)'; }));
+}
+function popPage(){
+  /* 旧的直接调用入口：统一改成让浏览器退一步 */
+  return goBack(1);
+}
+
+/* ================================================================
+   照片全屏缩放：双指捏合 / 双击放大 / 放大后拖动平移
+================================================================ */
+function openZoom(src, caption){
+  if(!src) return;
+  if(document.getElementById('zoom-layer')) return;
+  const z = el(`<div class="zoom-layer" id="zoom-layer">
+    <div class="zoom-stage"><img class="zoom-img" id="zoom-img" src="${src}" draggable="false" alt=""></div>
+    <div class="zoom-top">
+      <button class="zoom-x" id="zoom-x">关闭</button>
+      <div class="zoom-cap">${caption||''}</div>
+    </div>
+    <div class="zoom-hint" id="zoom-hint">双指放大 · 双击放大 · 拖动查看</div>
+    <div class="zoom-scale" id="zoom-scale">1.0×</div>
+  </div>`);
+  screen.appendChild(z);
+  const img = z.querySelector('#zoom-img');
+  const hint = z.querySelector('#zoom-hint');
+  const badge = z.querySelector('#zoom-scale');
+  const MAXS = 4;
+  let s = 1, tx = 0, ty = 0;
+  let start = null, lastTap = 0, mdown = null, gestureUsed = false;
+
+  const box = ()=>{ const r = z.getBoundingClientRect(); return {w:r.width || 1, h:r.height || 1}; };
+  const rel = (x, y)=>{ const r = z.getBoundingClientRect(); return {x:x-r.left, y:y-r.top}; };
+  const dist = (a, b)=>Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY);
+  const relMid = (a, b)=>rel((a.clientX+b.clientX)/2, (a.clientY+b.clientY)/2);
+
+  const apply = (animate)=>{
+    img.classList.toggle('dragging', !animate);
+    img.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${s})`;
+    badge.textContent = s.toFixed(1)+'×';
+    badge.classList.toggle('on', s > 1.02);
+    hint.style.opacity = s > 1.02 ? '0' : '1';
+  };
+  const clampT = ()=>{
+    const b = box();
+    const iw = img.offsetWidth || b.w, ih = img.offsetHeight || b.h;
+    const mx = Math.max(0, (iw*s - b.w)/2);
+    const my = Math.max(0, (ih*s - b.h)/2);
+    tx = Math.max(-mx, Math.min(mx, tx));
+    ty = Math.max(-my, Math.min(my, ty));
+  };
+  /* 以 base 变换为起点，把 A0 处的画面钉在 A 处并缩放到 ns */
+  const zoomFrom = (base, A0, A, ns)=>{
+    const b = box(), cx = b.w/2, cy = b.h/2;
+    const ax = (A0.x - cx - base.tx)/base.s;
+    const ay = (A0.y - cy - base.ty)/base.s;
+    s = Math.max(1, Math.min(MAXS, ns));
+    if(s <= 1.001){ s = 1; tx = 0; ty = 0; }
+    else {
+      tx = A.x - cx - ax*s;
+      ty = A.y - cy - ay*s;
+      clampT();
+    }
+    apply(false);
+  };
+
+  z.addEventListener('touchstart', e=>{
+    if(e.touches.length === 2){
+      const a = e.touches[0], b = e.touches[1];
+      start = {mode:'pinch', d:Math.max(1, dist(a,b)), base:{s,tx,ty}, m:relMid(a,b)};
+      img.classList.add('dragging');
+    } else if(e.touches.length === 1){
+      const p = rel(e.touches[0].clientX, e.touches[0].clientY);
+      start = {mode:'single', x:p.x, y:p.y, base:{s,tx,ty}, moved:false};
+      img.classList.add('dragging');
+    }
+  }, {passive:false});
+
+  z.addEventListener('touchmove', e=>{
+    if(!start) return;
+    if(e.touches.length === 2){
+      if(start.mode !== 'pinch'){
+        const a0 = e.touches[0], b0 = e.touches[1];
+        start = {mode:'pinch', d:Math.max(1, dist(a0,b0)), base:{s,tx,ty}, m:relMid(a0,b0)};
+      }
+      e.preventDefault();
+      gestureUsed = true;
+      const a = e.touches[0], b = e.touches[1];
+      zoomFrom(start.base, start.m, relMid(a,b), start.base.s * (dist(a,b)/start.d));
+      return;
+    }
+    if(start.mode === 'single'){
+      const p = rel(e.touches[0].clientX, e.touches[0].clientY);
+      const dx = p.x - start.x, dy = p.y - start.y;
+      if(Math.abs(dx) + Math.abs(dy) > 6) { start.moved = true; gestureUsed = true; }
+      if(start.base.s > 1.02){
+        e.preventDefault();
+        s = start.base.s;
+        tx = start.base.tx + dx;
+        ty = start.base.ty + dy;
+        clampT(); apply(false);
+      }
+    }
+  }, {passive:false});
+
+  z.addEventListener('touchend', e=>{
+    if(!start) return;
+    if(start.mode === 'single' && !start.moved && e.touches.length === 0){
+      const now = Date.now();
+      if(now - lastTap < 320){
+        lastTap = 0;
+        const A = {x:start.x, y:start.y};
+        zoomFrom({s,tx,ty}, A, A, s > 1.2 ? 1 : 2.4);
+      } else { lastTap = now; }
+    }
+    if(e.touches.length === 0){
+      start = null;
+      if(s < 1.02){ s = 1; tx = 0; ty = 0; }
+      clampT(); apply(true);
+    }
+  });
+
+  /* 桌面演示：滚轮缩放 / 拖拽 / 双击 */
+  z.addEventListener('wheel', e=>{
+    e.preventDefault();
+    const A = rel(e.clientX, e.clientY);
+    zoomFrom({s,tx,ty}, A, A, s * (e.deltaY > 0 ? 0.88 : 1.14));
+  }, {passive:false});
+  z.addEventListener('mousedown', e=>{
+    if(e.button !== 0) return;
+    const p = rel(e.clientX, e.clientY);
+    mdown = {x:p.x, y:p.y, base:{s,tx,ty}};
+    img.classList.add('dragging');
+  });
+  z.addEventListener('mousemove', e=>{
+    if(!mdown || mdown.base.s <= 1.02) return;
+    const p = rel(e.clientX, e.clientY);
+    s = mdown.base.s;
+    tx = mdown.base.tx + (p.x - mdown.x);
+    ty = mdown.base.ty + (p.y - mdown.y);
+    clampT(); apply(false);
+  });
+  z.addEventListener('mouseup', ()=>{ mdown = null; apply(true); });
+  z.addEventListener('mouseleave', ()=>{ mdown = null; apply(true); });
+  z.addEventListener('dblclick', e=>{
+    const A = rel(e.clientX, e.clientY);
+    zoomFrom({s,tx,ty}, A, A, s > 1.2 ? 1 : 2.4);
+  });
+  z.addEventListener('click', e=>{
+    /* 捏合 / 拖动之后浏览器可能补一个 click，别把放大层顺手关掉 */
+    if(gestureUsed){ gestureUsed = false; return; }
+    if(e.target === z || e.target.classList.contains('zoom-stage')) closeMask(z);
+  });
+
+  z.querySelector('#zoom-x').onclick = ()=>closeMask(z);
+  layerPush({el:z, close:()=>{
+    z.classList.remove('show');
+    setTimeout(()=>{ if(z.parentNode) z.remove(); }, 220);
+  }});
+  const onKey = e=>{ if((e.key === 'Escape' || e.key === 'Backspace') && document.getElementById('zoom-layer')) closeMask(z); };
+  document.addEventListener('keydown', onKey);
+  const mo = new MutationObserver(()=>{ if(!z.isConnected){ document.removeEventListener('keydown', onKey); mo.disconnect(); } });
+  mo.observe(screen, {childList:true});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>z.classList.add('show')));
+}
+
+/* ================================================================
+   启动
+================================================================ */
+screen.appendChild(renderSplash());
+</script>
+</body>
+</html>
